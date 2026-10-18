@@ -4,6 +4,7 @@
   "package": "com.spiritform.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "LivingEntityMixin",
     "PlayerMixin"
   ],
   "client": [

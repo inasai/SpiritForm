@@ -126,6 +126,7 @@ key_key.spirit_form.open_upgrades:key.keyboard.h
 key_key.spirit_form.invisibility:key.keyboard.n
 key_key.spirit_form.teleport:key.keyboard.b
 key_key.spirit_form.toggle_highlight:key.keyboard.v
+key_key.spirit_form.possess:key.keyboard.o
 soundCategory_master:1.0
 soundCategory_music:1.0
 soundCategory_record:1.0

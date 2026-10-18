@@ -111,11 +111,18 @@ public final class SpiritForm {
         player.onUpdateAbilities();
     }
 
+    public static MobEffectInstance nightVision(int ticks) {
+        return new MobEffectInstance(MobEffects.NIGHT_VISION, ticks, 0, false, false, false);
+    }
+
     public static MobEffectInstance darkness(int ticks) {
         return new MobEffectInstance(MobEffects.DARKNESS, ticks, 0, false, false, false);
     }
 
     private static void leaveForm(ServerPlayer player) {
+        SpiritPossession.release(player);
+        player.removeEffect(MobEffects.NIGHT_VISION);
+
         SpiritFormState.setActive(player, false);
 
         AttributeInstance flight = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);

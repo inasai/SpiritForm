@@ -69,5 +69,10 @@
   "button.spirit_form.reset_branch": "Reset (+%s)",
   "spirit_form.configuration.levelCosts": "Upgrade level costs",
   "spirit_form.configuration.levelCosts.tooltip": "15 numbers: experience level cost of upgrade levels 1-15. The first is unlocking the form (level 1), the rest are levels 2-15 of every branch.",
-  "message.spirit_form.exhausted": "You are too hungry to remain a Spirit."
+  "message.spirit_form.exhausted": "You are too hungry to remain a Spirit.",
+  "key.spirit_form.possess": "Possess a mob",
+  "message.spirit_form.possess.on": "You possessed: %s. Shift or O to leave.",
+  "message.spirit_form.possess.off": "You left the mob's body.",
+  "message.spirit_form.possess.locked": "You can possess mobs only in Spirit Form.",
+  "message.spirit_form.possess.failed": "There is nothing to possess here."
 }

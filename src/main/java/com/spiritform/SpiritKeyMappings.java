@@ -56,6 +56,13 @@ public class SpiritKeyMappings {
             "key.categories.spirit_form"
     );
 
+    public static final KeyMapping POSSESS = new KeyMapping(
+            "key.spirit_form.possess",
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_O,
+            "key.categories.spirit_form"
+    );
+
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(TOGGLE_SPIRIT);
@@ -63,6 +70,7 @@ public class SpiritKeyMappings {
         event.register(INVISIBILITY);
         event.register(TELEPORT);
         event.register(TOGGLE_HIGHLIGHT);
+        event.register(POSSESS);
     }
 
     @EventBusSubscriber(
@@ -98,6 +106,12 @@ public class SpiritKeyMappings {
             while (TELEPORT.consumeClick()) {
                 if (player != null) {
                     PacketDistributor.sendToServer(new TeleportPayload());
+                }
+            }
+
+            while (POSSESS.consumeClick()) {
+                if (player != null && minecraft.screen == null) {
+                    PacketDistributor.sendToServer(new PossessPayload());
                 }
             }
 

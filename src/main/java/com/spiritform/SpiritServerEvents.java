@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -48,6 +49,12 @@ public class SpiritServerEvents {
             player.clearFire();
         }
         player.setAirSupply(player.getMaxAirSupply());
+
+        // Нічне бачення: поновлюємо з запасом, щоб воно не мигало перед завершенням
+        MobEffectInstance nightVision = player.getEffect(MobEffects.NIGHT_VISION);
+        if (nightVision == null || nightVision.getDuration() < 300) {
+            player.addEffect(SpiritForm.nightVision(400));
+        }
 
         // Голод залежить від пройденої відстані
         Vec3 now = player.position();

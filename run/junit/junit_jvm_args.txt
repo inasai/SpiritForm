@@ -13,8 +13,3 @@ jdk.naming.dns/com.sun.jndi.dns=java.naming
 -XstartOnFirstThread
 -Xss1M
 -XstartOnFirstThread
--Dforge.logging.markers=REGISTRIES
--Dforge.logging.console.level=debug
--DlegacyClassPath.file=/Users/hafl/Documents/[content]/[games]/Minecraft/Mods/Spirit Form/SpiritForm/build/neoForm/neoFormJoined1.21.1-20240808.144430/steps/writeMinecraftClasspathJunit/classpath.txt
--DignoreList=mixinextras-neoforge-0.5.3.jar,client-extra,neoforge-
--Djava.net.preferIPv6Addresses=system

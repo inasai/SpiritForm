@@ -69,5 +69,10 @@
   "button.spirit_form.reset_branch": "Скинути (+%s)",
   "spirit_form.configuration.levelCosts": "Вартість рівнів прокачки",
   "spirit_form.configuration.levelCosts.tooltip": "15 чисел: вартість у рівнях досвіду для рівнів 1-15. Перше число це відкриття форми (рівень 1), решта це рівні 2-15 кожної гілки.",
-  "message.spirit_form.exhausted": "Ти надто голодний, щоб лишатися Привидом."
+  "message.spirit_form.exhausted": "Ти надто голодний, щоб лишатися Привидом.",
+  "key.spirit_form.possess": "Вселитися в моба",
+  "message.spirit_form.possess.on": "Ти вселився: %s. Shift або O: вийти.",
+  "message.spirit_form.possess.off": "Ти залишив тіло моба.",
+  "message.spirit_form.possess.locked": "Вселятися можна лише у формі Привида.",
+  "message.spirit_form.possess.failed": "Тут немає в кого вселитися."
 }
