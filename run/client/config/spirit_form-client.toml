@@ -1,0 +1,4 @@
+#Radius (in blocks) in which mobs are highlighted at Darkness level 15.
+# Default: 30.0
+# Range: 1.0 ~ 128.0
+highlightRadius = 30.0

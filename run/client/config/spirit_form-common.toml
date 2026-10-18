@@ -1,0 +1,20 @@
+#Experience levels charged for each upgrade level (15 values).
+#The 1st value is the shared Spirit Form unlock (level 1),
+#the 2nd-15th values are the cost of levels 2-15 of every branch.
+levelCosts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+#How long invisibility lasts, in seconds.
+# Default: 60
+# Range: 1 ~ 3600
+invisibilityDurationSeconds = 60
+#How many hunger points invisibility and teleportation cost per use.
+# Default: 6
+# Range: 0 ~ 20
+abilityHungerCost = 6
+#Maximum teleportation range, in blocks.
+# Default: 64.0
+# Range: 1.0 ~ 256.0
+teleportRange = 256.0
+#Cooldown of invisibility and teleportation, in seconds.
+# Default: 5
+# Range: 0 ~ 3600
+abilityCooldownSeconds = 1

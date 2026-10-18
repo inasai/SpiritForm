@@ -1,0 +1,11 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+build/
+.gradle/
+bin/
+
+# macOS system files
+.DS_Store
+Thumbs.db
