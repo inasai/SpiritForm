@@ -1,0 +1,31 @@
+{
+  "parent": "spirit_form:expand",
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 10
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.first_step.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.first_step.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ]
+}

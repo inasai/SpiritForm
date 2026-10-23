@@ -1,0 +1,12 @@
+{
+  "name": "Spirit Immunity",
+  "icon": "minecraft:milk_bucket",
+  "category": "spirit_form:abilities",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Hunger Path 10.$(br)$(thing)Type$(): active.$(br2)Removes all effects from you, both positive and negative. Consumes hunger and has a cooldown."
+    }
+  ]
+}

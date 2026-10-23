@@ -12,6 +12,12 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * Клавіші мода. G і H працюють завжди. R вмикає режим активних здібностей, у якому працюють
+ * цифри (панель активних здібностей) та гарячі клавіші основних (V, B, N, Z, X).
+ * T показує колесо пасивних здібностей, поки утримується.
+ * Решту обробляє SpiritAbilityMode.
+ */
 @EventBusSubscriber(
         modid = SpiritFormMod.MODID,
         value = Dist.CLIENT,
@@ -19,58 +25,35 @@ import org.lwjgl.glfw.GLFW;
 )
 public class SpiritKeyMappings {
 
-    public static final KeyMapping TOGGLE_SPIRIT = new KeyMapping(
-            "key.spirit_form.toggle_spirit",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_G,
-            "key.categories.spirit_form"
-    );
+    private static KeyMapping key(String name, int code) {
+        return new KeyMapping(name, InputConstants.Type.KEYSYM, code, "key.categories.spirit_form");
+    }
 
-    public static final KeyMapping OPEN_UPGRADES = new KeyMapping(
-            "key.spirit_form.open_upgrades",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_H,
-            "key.categories.spirit_form"
-    );
+    public static final KeyMapping TOGGLE_SPIRIT = key("key.spirit_form.toggle_spirit", GLFW.GLFW_KEY_G);
+    public static final KeyMapping OPEN_UPGRADES = key("key.spirit_form.open_upgrades", GLFW.GLFW_KEY_H);
 
-    public static final KeyMapping INVISIBILITY = new KeyMapping(
-            "key.spirit_form.invisibility",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_N,
-            "key.categories.spirit_form"
-    );
+    /** Режим активних здібностей: замінює хотбар панеллю здібностей. */
+    public static final KeyMapping ABILITY_MODE = key("key.spirit_form.ability_mode", GLFW.GLFW_KEY_R);
 
-    public static final KeyMapping TELEPORT = new KeyMapping(
-            "key.spirit_form.teleport",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_B,
-            "key.categories.spirit_form"
-    );
+    /** Утримувати: колесо пасивних здібностей. */
+    public static final KeyMapping PASSIVE_WHEEL = key("key.spirit_form.passive_wheel", GLFW.GLFW_KEY_T);
 
-    // G уже зайнята перемикачем форми, тому підсвічування мобів стоїть на V.
-    // Клавішу можна змінити в налаштуваннях керування гри.
-    public static final KeyMapping TOGGLE_HIGHLIGHT = new KeyMapping(
-            "key.spirit_form.toggle_highlight",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_V,
-            "key.categories.spirit_form"
-    );
-
-    public static final KeyMapping POSSESS = new KeyMapping(
-            "key.spirit_form.possess",
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_O,
-            "key.categories.spirit_form"
-    );
+    /** Гарячі клавіші основних здібностей (справа внизу, працюють у режимі активних здібностей). */
+    public static final KeyMapping[] MAIN = {
+            key("key.spirit_form.main_1", GLFW.GLFW_KEY_V),
+            key("key.spirit_form.main_2", GLFW.GLFW_KEY_B),
+            key("key.spirit_form.main_3", GLFW.GLFW_KEY_N)
+    };
 
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(TOGGLE_SPIRIT);
         event.register(OPEN_UPGRADES);
-        event.register(INVISIBILITY);
-        event.register(TELEPORT);
-        event.register(TOGGLE_HIGHLIGHT);
-        event.register(POSSESS);
+        event.register(ABILITY_MODE);
+        event.register(PASSIVE_WHEEL);
+        for (KeyMapping mapping : MAIN) {
+            event.register(mapping);
+        }
     }
 
     @EventBusSubscriber(
@@ -94,30 +77,6 @@ public class SpiritKeyMappings {
             while (OPEN_UPGRADES.consumeClick()) {
                 if (player != null && minecraft.screen == null) {
                     minecraft.setScreen(new SpiritUpgradeScreen());
-                }
-            }
-
-            while (INVISIBILITY.consumeClick()) {
-                if (player != null) {
-                    PacketDistributor.sendToServer(new InvisibilityPayload());
-                }
-            }
-
-            while (TELEPORT.consumeClick()) {
-                if (player != null) {
-                    PacketDistributor.sendToServer(new TeleportPayload());
-                }
-            }
-
-            while (POSSESS.consumeClick()) {
-                if (player != null && minecraft.screen == null) {
-                    PacketDistributor.sendToServer(new PossessPayload());
-                }
-            }
-
-            while (TOGGLE_HIGHLIGHT.consumeClick()) {
-                if (player != null) {
-                    SpiritClientHighlight.toggle();
                 }
             }
         }

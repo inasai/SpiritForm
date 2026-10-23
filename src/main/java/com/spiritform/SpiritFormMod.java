@@ -12,6 +12,11 @@ public class SpiritFormMod {
 
     public SpiritFormMod(IEventBus modEventBus, ModContainer modContainer) {
         SpiritAttachments.ATTACHMENT_TYPES.register(modEventBus);
+        SpiritBlocks.BLOCKS.register(modEventBus);
+        SpiritBlocks.BLOCK_ENTITIES.register(modEventBus);
+        SpiritItems.ITEMS.register(modEventBus);
+        SpiritEntities.ENTITY_TYPES.register(modEventBus);
+        SpiritItems.CREATIVE_TABS.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);
         modContainer.registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_SPEC);

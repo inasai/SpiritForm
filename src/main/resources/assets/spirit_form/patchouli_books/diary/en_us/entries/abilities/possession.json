@@ -1,0 +1,16 @@
+{
+  "name": "Possession",
+  "icon": "minecraft:skeleton_skull",
+  "category": "spirit_form:abilities",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): all Paths 15.$(br)$(thing)Type$(): active.$(br2)Possesses you into the mob you are looking at, and you control their body. The mob's attacks (fireballs, creeper explosions) and flying mobs work."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You can exit by using the ability again or exiting the form ($(thing)G$()). In the latter case, you take the mob's health (as much as you need, the rest becomes hunger), and the mob dies if their health is too low.$(br2)After this, the form has a cooldown."
+    }
+  ]
+}

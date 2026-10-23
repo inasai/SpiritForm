@@ -1,0 +1,31 @@
+{
+  "parent": "spirit_form:soul_bottle",
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 3
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.behind_bars.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.behind_bars.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ]
+}

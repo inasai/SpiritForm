@@ -1,0 +1,12 @@
+{
+  "name": "Імунітет Привида",
+  "icon": "minecraft:milk_bucket",
+  "category": "spirit_form:abilities",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Вимога$(): Шлях Голоду 10.$(br)$(thing)Тип$(): активна.$(br2)Знімає з тебе всі ефекти, і позитивні, і негативні. Витрачає голод і має перезарядку."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "parent": "spirit_form:root",
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 19
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.hunger_retreats.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.hunger_retreats.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:necklace_of_the_beyond"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has"
+    ]
+  ]
+}

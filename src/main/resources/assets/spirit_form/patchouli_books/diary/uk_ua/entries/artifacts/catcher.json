@@ -1,0 +1,19 @@
+{
+  "name": "Ловець Душ",
+  "icon": "spirit_form:soul_catcher",
+  "category": "spirit_form:artifacts",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:soul_catcher",
+      "text": "$(thing)Артефакт Шляху Руху.$(br2)ПКМ по мобу ловить його. Короткий клац ПКМ випускає моба туди, куди дивишся, а утримання ПКМ 5 секунд поглинає його: здоров'я йде тобі, залишок стає голодом.",
+      "title": "Ловець Душ"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:soul_catcher_recipe",
+      "text": "Босів і мобів, у яких понад 50 сердечок, ловити не можна.$(br2)Shift + ПКМ по блоку ставить Ловець Душ. Зі спійманим мобом він світиться. Зламаний ловець повертається разом із мобом."
+    }
+  ]
+}

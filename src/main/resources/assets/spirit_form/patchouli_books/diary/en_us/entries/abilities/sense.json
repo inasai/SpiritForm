@@ -1,0 +1,12 @@
+{
+  "name": "Spirit Sense",
+  "icon": "minecraft:ender_eye",
+  "category": "spirit_form:abilities",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Shadow Path 5.$(br)$(thing)Type$(): active.$(br2)Illuminates mobs around you, making them visible through walls. Can be toggled on and off from the ability panel, works in both form and human shape."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Spirit Form",
+  "icon": "minecraft:phantom_membrane",
+  "category": "spirit_form:basics",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Spirit Form is unlocked in the skill tree (key $(thing)H$()) at 1 level of experience.$(br2)You can enable or disable the form with the $(thing)G$() key. While in the form, you fly, pass through blocks, take no damage, and see in the dark."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The form consumes hunger based on the distance traveled. When hunger reaches zero, the form turns off.$(br2)After exiting the form inside a mob, there is a cooldown for the form (its duration is in the config)."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Spirit Instinct",
+  "icon": "minecraft:totem_of_undying",
+  "category": "spirit_form:basics",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Spirit Instinct is enabled on the $(thing)T$() wheel. When you have one heart remaining or a hit would be fatal, the form activates automatically, and you are left with half a heart.$(br2)The instinct costs 3 hunger points and will not activate if you don't have enough. If you exit the form after using it and take damage again, you will die."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "When you exit a mob's body while taking its health, and the instinct is enabled, the disappearance effect activates immediately."
+    }
+  ]
+}

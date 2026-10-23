@@ -1,0 +1,12 @@
+{
+  "name": "Зникнення",
+  "icon": "minecraft:glass",
+  "category": "spirit_form:abilities",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Вимога$(): Шлях Голоду 5.$(br)$(thing)Тип$(): активна.$(br2)Моби перестають помічати тебе, твоя модель стає напівпрозорою. Витрачає голод і має перезарядку."
+    }
+  ]
+}

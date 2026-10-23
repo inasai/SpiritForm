@@ -10,12 +10,17 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
  * Клієнт просить сервер про дію у вікні прокачки.
- * 0 = відкрити форму (рівень 1), 1..3 = підвищити гілку, 10..12 = скинути гілку.
+ * 0 = відкрити форму (рівень 1), 1..3 = підвищити гілку, 10..12 = скинути гілку, 20..23 = відкрити здібність.
  */
 public record UpgradeSpiritPayload(int action) implements CustomPacketPayload {
 
     public static final int UNLOCK = 0;
     public static final int RESET_BASE = 10;
+    public static final int ABILITY_BASE = 20;
+    public static final int TOGGLE_INSTINCT = 50;
+    public static final int TOGGLE_ICY = 51;
+    public static final int TOGGLE_PRESENCE = 52;
+    public static final int TOGGLE_GAZE = 53;
 
     public static final Type<UpgradeSpiritPayload> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(
@@ -43,6 +48,16 @@ public record UpgradeSpiritPayload(int action) implements CustomPacketPayload {
 
     public static SpiritBranch resetBranchFor(int action) {
         return branchAt(action - RESET_BASE);
+    }
+
+    public static int abilityActionFor(SpiritAbility ability) {
+        return ABILITY_BASE + ability.ordinal();
+    }
+
+    public static SpiritAbility abilityFor(int action) {
+        int index = action - ABILITY_BASE;
+        SpiritAbility[] abilities = SpiritAbility.values();
+        return index >= 0 && index < abilities.length ? abilities[index] : null;
     }
 
     private static SpiritBranch branchAt(int index) {

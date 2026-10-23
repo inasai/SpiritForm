@@ -1,11 +1,66 @@
-# IntelliJ IDEA
+# eclipse
+*.launch
+.metadata
+.classpath
+.project
+.settings/
+bin/
+tmp/
+
+# idea
 .idea/
 *.iml
+*.ipr
+*.iws
 out/
-build/
-.gradle/
-bin/
+*.log
+/out/
+/classes/
 
-# macOS system files
+# gradle
+.gradle/
+/build/
+/.gradle/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*.tar.gz
+!gradle-wrapper.jar
+!gradlew
+!gradlew.bat
+
+# OS generated files
 .DS_Store
+.localized
 Thumbs.db
+*/.DS_Store
+*/Thumbs.db
+
+# Minecraft Forge specific
+/run/
+/eclipse/
+/natives/
+/.project
+/.classpath
+/.settings/
+.idea_modules/
+.factorypath
+.metadata/
+local/
+logs/
+crash-reports/
+debug.log
+latest.log
+
+# other
+eclipse
+run
+
+# General
+*.lock
+*.bak
+*.swp
+*.swo
+*.tmp

@@ -1,0 +1,20 @@
+{
+  "name": "Стигмат Фантома",
+  "icon": "spirit_form:fentons_bracelet",
+  "category": "spirit_form:artifacts",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:fentons_bracelet",
+      "text": "$(thing)Артефакт Шляху Темряви.$(br2)У руці або в слоті Curios «браслет»: швидкість і сила удвічі більші, здібності відновлюються удвічі швидше, а кольори твого скіна інвертуються.",
+      "title": "Стигмат Фантома"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:fentons_bracelet_recipe",
+      "text": "Кілька стигматів діють як один. Якщо в Curios вимкнути «око», предмет не видно на персонажі й кольори не інвертуються, але ефекти лишаються."
+
+    }
+  ]
+}

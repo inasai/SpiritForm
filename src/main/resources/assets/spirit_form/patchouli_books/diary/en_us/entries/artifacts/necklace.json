@@ -1,0 +1,19 @@
+{
+  "name": "Necklace of the Beyond",
+  "icon": "spirit_form:necklace_of_the_beyond",
+  "category": "spirit_form:artifacts",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:necklace_of_the_beyond",
+      "text": "$(thing)Artifact of the Hunger Path.$(br2)Worn as a chestplate (Right-click) or in the Curios «necklace» slot. While equipped, hunger is not consumed: neither for abilities, nor for Instincts, nor for movement in Spirit Form.",
+      "title": "Necklace of the Beyond"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:necklace_recipe",
+      "text": "If «eye» is disabled in Curios, the necklace is not rendered on the character, but still functions."
+    }
+  ]
+}

@@ -9,12 +9,31 @@ import net.minecraft.network.codec.StreamCodec;
 /**
  * Усі дані гравця про форму Привида.
  *
- * unlocked - куплено спільний рівень 1 (форма відкрита);
- * active   - гравець зараз у формі Привида;
- * hunger, movement, darkness - рівні гілок (від 1 до 15, 1 = базовий).
+ * unlocked  - куплено спільний рівень 1 (форма відкрита);
+ * active    - гравець зараз у формі Привида;
+ * invisible - увімкнена здібність Зникнення;
+ * hunger, movement, darkness - рівні гілок (від 1 до 15, 1 = базовий);
+ * abilities - бітова маска відкритих здібностей (SpiritAbility);
+ * instinct  - увімкнений "Інстинкт Привида": форма вмикається сама, коли лишається одне сердечко;
+ * icy       - увімкнений "Крижаний Доторк";
+ * presence  - увімкнена "Присутність";
+ * gaze      - увімкнений "Погляд Привида".
  */
-public record SpiritData(boolean unlocked, boolean active, boolean invisible, int hunger, int movement, int darkness) {
-    public static final SpiritData DEFAULT = new SpiritData(false, false, false, 1, 1, 1);
+public record SpiritData(
+        boolean unlocked,
+        boolean active,
+        boolean invisible,
+        int hunger,
+        int movement,
+        int darkness,
+        int abilities,
+        boolean instinct,
+        boolean icy,
+        boolean presence,
+        boolean gaze
+) {
+    public static final SpiritData DEFAULT =
+            new SpiritData(false, false, false, 1, 1, 1, 0, false, false, false, false);
 
     public static final Codec<SpiritData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("unlocked", false).forGetter(SpiritData::unlocked),
@@ -22,17 +41,41 @@ public record SpiritData(boolean unlocked, boolean active, boolean invisible, in
             Codec.BOOL.optionalFieldOf("invisible", false).forGetter(SpiritData::invisible),
             Codec.INT.optionalFieldOf("hunger", 1).forGetter(SpiritData::hunger),
             Codec.INT.optionalFieldOf("movement", 1).forGetter(SpiritData::movement),
-            Codec.INT.optionalFieldOf("darkness", 1).forGetter(SpiritData::darkness)
+            Codec.INT.optionalFieldOf("darkness", 1).forGetter(SpiritData::darkness),
+            Codec.INT.optionalFieldOf("abilities", 0).forGetter(SpiritData::abilities),
+            Codec.BOOL.optionalFieldOf("instinct", false).forGetter(SpiritData::instinct),
+            Codec.BOOL.optionalFieldOf("icy", false).forGetter(SpiritData::icy),
+            Codec.BOOL.optionalFieldOf("presence", false).forGetter(SpiritData::presence),
+            Codec.BOOL.optionalFieldOf("gaze", false).forGetter(SpiritData::gaze)
     ).apply(instance, SpiritData::new));
 
-    public static final StreamCodec<ByteBuf, SpiritData> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, SpiritData::unlocked,
-            ByteBufCodecs.BOOL, SpiritData::active,
-            ByteBufCodecs.BOOL, SpiritData::invisible,
-            ByteBufCodecs.VAR_INT, SpiritData::hunger,
-            ByteBufCodecs.VAR_INT, SpiritData::movement,
-            ByteBufCodecs.VAR_INT, SpiritData::darkness,
-            SpiritData::new
+    public static final StreamCodec<ByteBuf, SpiritData> STREAM_CODEC = StreamCodec.of(
+            (buf, data) -> {
+                buf.writeBoolean(data.unlocked);
+                buf.writeBoolean(data.active);
+                buf.writeBoolean(data.invisible);
+                ByteBufCodecs.VAR_INT.encode(buf, data.hunger);
+                ByteBufCodecs.VAR_INT.encode(buf, data.movement);
+                ByteBufCodecs.VAR_INT.encode(buf, data.darkness);
+                ByteBufCodecs.VAR_INT.encode(buf, data.abilities);
+                buf.writeBoolean(data.instinct);
+                buf.writeBoolean(data.icy);
+                buf.writeBoolean(data.presence);
+                buf.writeBoolean(data.gaze);
+            },
+            buf -> new SpiritData(
+                    buf.readBoolean(),
+                    buf.readBoolean(),
+                    buf.readBoolean(),
+                    ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.VAR_INT.decode(buf),
+                    buf.readBoolean(),
+                    buf.readBoolean(),
+                    buf.readBoolean(),
+                    buf.readBoolean()
+            )
     );
 
     public SpiritData {
@@ -53,27 +96,52 @@ public record SpiritData(boolean unlocked, boolean active, boolean invisible, in
         };
     }
 
+    public boolean hasAbility(SpiritAbility ability) {
+        return (abilities & ability.bit()) != 0;
+    }
+
     public SpiritData withUnlocked(boolean value) {
-        return new SpiritData(value, active, invisible, hunger, movement, darkness);
+        return new SpiritData(value, active, invisible, hunger, movement, darkness, abilities, instinct, icy, presence, gaze);
     }
 
     public SpiritData withActive(boolean value) {
-        return new SpiritData(unlocked, value, invisible, hunger, movement, darkness);
+        return new SpiritData(unlocked, value, invisible, hunger, movement, darkness, abilities, instinct, icy, presence, gaze);
     }
 
     public SpiritData withInvisible(boolean value) {
-        return new SpiritData(unlocked, active, value, hunger, movement, darkness);
+        return new SpiritData(unlocked, active, value, hunger, movement, darkness, abilities, instinct, icy, presence, gaze);
+    }
+
+    public SpiritData withAbility(SpiritAbility ability, boolean value) {
+        int mask = value ? (abilities | ability.bit()) : (abilities & ~ability.bit());
+        return new SpiritData(unlocked, active, invisible, hunger, movement, darkness, mask, instinct, icy, presence, gaze);
     }
 
     public SpiritData withLevel(SpiritBranch branch, int level) {
         return switch (branch) {
-            case HUNGER -> new SpiritData(unlocked, active, invisible, level, movement, darkness);
-            case MOVEMENT -> new SpiritData(unlocked, active, invisible, hunger, level, darkness);
-            case DARKNESS -> new SpiritData(unlocked, active, invisible, hunger, movement, level);
+            case HUNGER -> new SpiritData(unlocked, active, invisible, level, movement, darkness, abilities, instinct, icy, presence, gaze);
+            case MOVEMENT -> new SpiritData(unlocked, active, invisible, hunger, level, darkness, abilities, instinct, icy, presence, gaze);
+            case DARKNESS -> new SpiritData(unlocked, active, invisible, hunger, movement, level, abilities, instinct, icy, presence, gaze);
         };
     }
 
+    public SpiritData withInstinct(boolean value) {
+        return new SpiritData(unlocked, active, invisible, hunger, movement, darkness, abilities, value, icy, presence, gaze);
+    }
+
+    public SpiritData withIcy(boolean value) {
+        return new SpiritData(unlocked, active, invisible, hunger, movement, darkness, abilities, instinct, value, presence, gaze);
+    }
+
+    public SpiritData withPresence(boolean value) {
+        return new SpiritData(unlocked, active, invisible, hunger, movement, darkness, abilities, instinct, icy, value, gaze);
+    }
+
+    public SpiritData withGaze(boolean value) {
+        return new SpiritData(unlocked, active, invisible, hunger, movement, darkness, abilities, instinct, icy, presence, value);
+    }
+
     public SpiritData withAllBranchesReset() {
-        return new SpiritData(unlocked, active, invisible, 1, 1, 1);
+        return new SpiritData(unlocked, active, invisible, 1, 1, 1, abilities, instinct, icy, presence, gaze);
     }
 }

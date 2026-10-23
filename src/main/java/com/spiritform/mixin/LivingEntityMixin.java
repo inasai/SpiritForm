@@ -25,16 +25,21 @@ public abstract class LivingEntityMixin {
         }
 
         SpiritPossession.Control control = SpiritPossession.controlFor(mob);
-        if (control == null) {
-            return original;
+        if (control == null || control.flying()) {
+            return original; // літуни рухаються окремо (SpiritPossession.onEntityTick)
         }
 
         float yaw = control.yaw();
         mob.setYRot(yaw);
         mob.setYHeadRot(yaw);
         mob.setYBodyRot(yaw);
-        mob.setSpeed(SpiritPossession.speedOf(mob));
 
-        return new Vec3(control.strafe(), original.y, control.forward());
+        // Так само, як у ванільного ШІ: швидкість моба береться з його характеристики,
+        // а вхідний напрямок руху масштабується тією ж характеристикою (Mob.setSpeed задає і zza).
+        float speed = SpiritPossession.speedOf(mob);
+        mob.setSpeed(speed);
+
+        float scale = speed * SpiritPossession.speedMultiplier();
+        return new Vec3(control.strafe() * scale, original.y, control.forward() * scale);
     }
 }

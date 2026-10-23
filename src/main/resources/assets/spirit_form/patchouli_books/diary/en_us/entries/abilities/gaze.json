@@ -1,0 +1,12 @@
+{
+  "name": "Spirit Gaze",
+  "icon": "minecraft:spider_eye",
+  "category": "spirit_form:abilities",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): all Paths 10.$(br)$(thing)Type$(): passive (wheel $(thing)T$()).$(br2)All aggressive mobs run from you, while neutral and peaceful mobs are drawn to you. Bosses do not react. If both Presence and Gaze are enabled, Gaze takes effect."
+    }
+  ]
+}

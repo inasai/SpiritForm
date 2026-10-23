@@ -8,6 +8,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -58,6 +59,27 @@ public final class SpiritPossessionClient {
         camera.setXRot(pitch);
         camera.yRotO = yaw;
         camera.xRotO = pitch;
+    }
+
+    /**
+     * Ванільні атака й використання беруть ціль з погляду камери і б'ють по власному тілу гравця,
+     * через що сервер розриває з'єднання. Тому під час вселення скасовуємо їх і надсилаємо
+     * власний пакет: удар або використання виконує сам моб.
+     */
+    @SubscribeEvent
+    public static void onInteraction(InputEvent.InteractionKeyMappingTriggered event) {
+        if (!isControllingOther(Minecraft.getInstance())) {
+            return;
+        }
+
+        event.setCanceled(true);
+        event.setSwingHand(false);
+
+        if (event.isAttack()) {
+            PacketDistributor.sendToServer(new PossessActionPayload(SpiritPossession.ACTION_ATTACK));
+        } else if (event.isUseItem()) {
+            PacketDistributor.sendToServer(new PossessActionPayload(SpiritPossession.ACTION_USE));
+        }
     }
 
     @SubscribeEvent

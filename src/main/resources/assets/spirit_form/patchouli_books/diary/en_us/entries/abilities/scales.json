@@ -1,0 +1,12 @@
+{
+  "name": "Scales",
+  "icon": "minecraft:wither_rose",
+  "category": "spirit_form:abilities",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Shadow Path 15.$(br)$(thing)Type$(): active, hold.$(br2)Charges like the Gift of Life: each charge costs a heart. Release the key, and a black mist flies forward. Hitting a mob with it removes as much health from them as was in the charge."
+    }
+  ]
+}

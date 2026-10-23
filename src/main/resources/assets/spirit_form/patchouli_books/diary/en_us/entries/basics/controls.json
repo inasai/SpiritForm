@@ -1,0 +1,21 @@
+{
+  "name": "Controls",
+  "icon": "minecraft:compass",
+  "category": "spirit_form:basics",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)G$(): enable or disable the form.$(br)$(thing)H$(): skill tree menu.$(br)$(thing)R$(): ability mode. The hotbar replaces the ability panel.$(br)$(thing)T$() (hold): wheel of passive abilities.",
+      "title": "Controls"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "In $(thing)R$() mode, abilities from the «Active» panel are triggered by numbers $(thing)1-9$(), and the three main abilities are triggered by hotkeys $(thing)V$(), $(thing)B$(), $(thing)N$().$(br2)All keys can be changed in the control settings."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "In the skill tree menu, there are buttons for «Passive», «Active», and «Primary» abilities. There, you can change the order of abilities, remove them from the panel, and put them back."
+    }
+  ]
+}

@@ -1,228 +1,125 @@
 package com.spiritform;
 
-import java.util.Locale;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
- * Вікно прокачки форми Привида (клавіша H).
+ * Головне вікно прокачки (клавіша H).
+ * Поки форма закрита, у ньому лише кнопка відкриття. Після відкриття: три шляхи
+ * в один ряд і широка кнопка "Здібності Привида".
  */
-public class SpiritUpgradeScreen extends Screen {
+public class SpiritUpgradeScreen extends SpiritScreenBase {
 
-    private static final int PANEL_W = 400;
-    private static final int PANEL_H = 214;
-    private static final int ROW_START = 46;
-    private static final int ROW_STEP = 34;
-    private static final int MARGIN = 10;
-    private static final int GAP = 4;
-    private static final int UPGRADE_W = 100;
-    private static final int RESET_W = 72;
+    private static final int PATH_GAP = 8;
+    private static final int PATH_W = (PANEL_W - 2 * MARGIN - 2 * PATH_GAP) / 3;
 
-    private int left;
-    private int top;
-
+    private boolean builtUnlocked;
     private Button unlockButton;
-    private final Button[] branchButtons = new Button[SpiritBranch.values().length];
-    private final Button[] resetButtons = new Button[SpiritBranch.values().length];
-    private Button closeButton;
 
     public SpiritUpgradeScreen() {
-        super(Component.translatable("screen.spirit_form.title"));
+        super(Component.translatable("screen.spirit_form.title"), null);
     }
 
     @Override
-    protected void init() {
-        left = (width - PANEL_W) / 2;
-        top = (height - PANEL_H) / 2;
+    protected boolean showSettings() {
+        return data().unlocked();
+    }
 
-        int resetX = left + PANEL_W - MARGIN - RESET_W;
-        int upgradeX = resetX - GAP - UPGRADE_W;
+    @Override
+    protected void buildContent() {
+        builtUnlocked = data().unlocked();
+        unlockButton = null;
 
-        unlockButton = addRenderableWidget(
-                Button.builder(Component.empty(), b -> send(UpgradeSpiritPayload.UNLOCK))
-                        .bounds(upgradeX, rowY(0), UPGRADE_W, 20)
-                        .build()
-        );
-
-        for (SpiritBranch branch : SpiritBranch.values()) {
-            int upgradeAction = UpgradeSpiritPayload.actionFor(branch);
-            int resetAction = UpgradeSpiritPayload.resetActionFor(branch);
-            int row = rowY(branch.ordinal() + 1);
-
-            branchButtons[branch.ordinal()] = addRenderableWidget(
-                    Button.builder(Component.empty(), b -> send(upgradeAction))
-                            .bounds(upgradeX, row, UPGRADE_W, 20)
+        if (!builtUnlocked) {
+            unlockButton = addRenderableWidget(
+                    Button.builder(Component.empty(), b -> send(UpgradeSpiritPayload.UNLOCK))
+                            .bounds(left + (PANEL_W - 180) / 2, top + 110, 180, 20)
                             .build()
             );
-
-            resetButtons[branch.ordinal()] = addRenderableWidget(
-                    Button.builder(Component.empty(), b -> send(resetAction))
-                            .bounds(resetX, row, RESET_W, 20)
-                            .build()
-            );
-        }
-
-        closeButton = addRenderableWidget(
-                Button.builder(Component.translatable("button.spirit_form.close"), b -> onClose())
-                        .bounds(left + (PANEL_W - 140) / 2, top + PANEL_H - 28, 140, 20)
-                        .build()
-        );
-
-        refreshButtons();
-    }
-
-    @Override
-    public void tick() {
-        refreshButtons();
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (SpiritKeyMappings.OPEN_UPGRADES.matches(keyCode, scanCode)) {
-            onClose();
-            return true;
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(graphics, mouseX, mouseY, partialTick);
-        graphics.fill(left, top, left + PANEL_W, top + PANEL_H, 0xD0101018);
-        graphics.renderOutline(left, top, PANEL_W, PANEL_H, 0xFF8888AA);
-    }
-
-    @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.render(graphics, mouseX, mouseY, partialTick);
-
-        LocalPlayer player = minecraft == null ? null : minecraft.player;
-        if (player == null) {
             return;
         }
-        SpiritData data = SpiritFormState.get(player);
 
-        int textX = left + MARGIN;
-        int textWidth = left + PANEL_W - MARGIN - RESET_W - GAP - UPGRADE_W - GAP - textX;
+        for (SpiritBranch branch : SpiritBranch.values()) {
+            int x = left + MARGIN + branch.ordinal() * (PATH_W + PATH_GAP);
+            addRenderableWidget(
+                    Button.builder(
+                                    Component.translatable("path.spirit_form." + branch.id),
+                                    b -> minecraft.setScreen(new SpiritBranchScreen(this, branch))
+                            )
+                            .bounds(x, top + 70, PATH_W, 24)
+                            .build()
+            );
+        }
 
-        graphics.drawCenteredString(font, title, width / 2, top + 10, 0xFFFFFF);
+        addRenderableWidget(
+                Button.builder(
+                                Component.translatable("button.spirit_form.abilities"),
+                                b -> minecraft.setScreen(new SpiritAbilitiesScreen(this))
+                        )
+                        .bounds(left + MARGIN, top + 130, PANEL_W - 2 * MARGIN, 24)
+                        .build()
+        );
+
+        // Три панелі здібностей: пасивні (колесо T), активні (цифри) й основні (гарячі клавіші)
+        int barGap = 6;
+        int barW = (PANEL_W - 2 * MARGIN - 2 * barGap) / 3;
+        SpiritLoadout.Bar[] bars = {SpiritLoadout.Bar.PASSIVE, SpiritLoadout.Bar.AUX, SpiritLoadout.Bar.MAIN};
+        for (int i = 0; i < bars.length; i++) {
+            SpiritLoadout.Bar bar = bars[i];
+            addRenderableWidget(
+                    Button.builder(
+                                    Component.translatable("button.spirit_form.bar." + bar.key()),
+                                    b -> minecraft.setScreen(new SpiritLoadoutScreen(this, bar))
+                            )
+                            .bounds(left + MARGIN + i * (barW + barGap), top + 176, barW, 24)
+                            .build()
+            );
+        }
+    }
+
+    @Override
+    protected void refresh() {
+        if (data().unlocked() != builtUnlocked) {
+            rebuildWidgets();
+            return;
+        }
+
+        if (unlockButton != null) {
+            LocalPlayer player = minecraft == null ? null : minecraft.player;
+            int cost = SpiritBalance.cost(1);
+            unlockButton.setMessage(Component.translatable("button.spirit_form.unlock", cost));
+            unlockButton.active = player != null && canAfford(player, cost);
+        }
+    }
+
+    @Override
+    protected void renderContent(GuiGraphics graphics, int mouseX, int mouseY) {
+        SpiritData data = data();
+
+        if (!data.unlocked()) {
+            graphics.drawCenteredString(
+                    font, Component.translatable("screen.spirit_form.base"), width / 2, top + 70, 0xFFFFFF);
+            graphics.drawCenteredString(
+                    font, Component.translatable("screen.spirit_form.base.closed"), width / 2, top + 84, 0xAAAAAA);
+            return;
+        }
+
         graphics.drawCenteredString(
-                font,
-                Component.translatable("screen.spirit_form.xp", player.experienceLevel),
-                width / 2, top + 24, 0xA0FF70
-        );
+                font, Component.translatable("screen.spirit_form.bars"), width / 2, top + 164, 0xAAAAAA);
 
-        // Спільний рівень 1
-        int y = rowY(0);
-        graphics.drawString(font, Component.translatable("screen.spirit_form.base"), textX, y, 0xFFFFFF);
-        graphics.drawWordWrap(
-                font,
-                Component.translatable(data.unlocked()
-                        ? "screen.spirit_form.base.opened"
-                        : "screen.spirit_form.base.closed"),
-                textX, y + 11, textWidth, 0xAAAAAA
-        );
+        graphics.drawCenteredString(
+                font, Component.translatable(
+                        "screen.spirit_form.base.opened", Component.keybind("key.spirit_form.toggle_spirit")), width / 2, top + 44, 0xAAAAAA);
 
-        // Гілки
         for (SpiritBranch branch : SpiritBranch.values()) {
-            int level = data.level(branch);
-            int rowY = rowY(branch.ordinal() + 1);
-
-            Component name = Component.translatable("branch.spirit_form." + branch.id)
-                    .append(Component.literal("  " + level + "/" + SpiritBalance.MAX_LEVEL));
-            graphics.drawString(font, name, textX, rowY, 0xFFFFFF);
-            graphics.drawWordWrap(font, statLine(branch, level), textX, rowY + 11, textWidth, 0xAAAAAA);
-        }
-    }
-
-    private void refreshButtons() {
-        LocalPlayer player = minecraft == null ? null : minecraft.player;
-        if (player == null || unlockButton == null) {
-            return;
-        }
-        SpiritData data = SpiritFormState.get(player);
-
-        // Спільний рівень 1
-        if (data.unlocked()) {
-            unlockButton.setMessage(Component.translatable("button.spirit_form.opened"));
-            unlockButton.active = false;
-        } else {
-            unlockButton.setMessage(Component.translatable("button.spirit_form.unlock", SpiritBalance.cost(1)));
-            unlockButton.active = canAfford(player, SpiritBalance.cost(1));
-        }
-
-        // Гілки
-        for (SpiritBranch branch : SpiritBranch.values()) {
-            Button upgradeButton = branchButtons[branch.ordinal()];
-            Button resetButton = resetButtons[branch.ordinal()];
-            int level = data.level(branch);
-
-            if (!data.unlocked()) {
-                upgradeButton.setMessage(Component.translatable("button.spirit_form.locked"));
-                upgradeButton.active = false;
-            } else if (level >= SpiritBalance.MAX_LEVEL) {
-                upgradeButton.setMessage(Component.translatable("button.spirit_form.max"));
-                upgradeButton.active = false;
-            } else {
-                int next = level + 1;
-                int cost = SpiritBalance.cost(next);
-                upgradeButton.setMessage(Component.translatable("button.spirit_form.upgrade", next, cost));
-                upgradeButton.active = canAfford(player, cost);
-            }
-
-            resetButton.setMessage(
-                    Component.translatable("button.spirit_form.reset_branch", SpiritBalance.branchSpent(level))
+            int x = left + MARGIN + branch.ordinal() * (PATH_W + PATH_GAP);
+            graphics.drawCenteredString(
+                    font,
+                    Component.literal(data.level(branch) + "/" + SpiritBalance.MAX_LEVEL),
+                    x + PATH_W / 2, top + 98, 0xAAAAAA
             );
-            resetButton.active = level > 1;
         }
-    }
-
-    private static boolean canAfford(LocalPlayer player, int cost) {
-        return player.getAbilities().instabuild || player.experienceLevel >= cost;
-    }
-
-    private Component statLine(SpiritBranch branch, int level) {
-        return switch (branch) {
-            case MOVEMENT -> Component.translatable(
-                    "stat.spirit_form.speed",
-                    String.format(Locale.ROOT, "%.1f", SpiritBalance.speedBlocksPerSecond(level))
-            );
-            case HUNGER -> Component.translatable(
-                    "stat.spirit_form.hunger",
-                    String.format(Locale.ROOT, "%.3f", SpiritBalance.exhaustionPerBlock(level))
-            );
-            case DARKNESS -> darknessLine(level);
-        };
-    }
-
-    private Component darknessLine(int level) {
-        if (SpiritBalance.highlightsMobs(level)) {
-            return Component.translatable("stat.spirit_form.darkness.highlight", Config.HIGHLIGHT_RADIUS.get().intValue());
-        }
-        if (SpiritBalance.darknessConstantInForm(level)) {
-            int after = SpiritBalance.darknessAfterSeconds(level);
-            return after > 0
-                    ? Component.translatable("stat.spirit_form.darkness.constant", after)
-                    : Component.translatable("stat.spirit_form.darkness.constant_none");
-        }
-        return Component.translatable("stat.spirit_form.darkness.temp", SpiritBalance.darknessInFormSeconds(level));
-    }
-
-    private int rowY(int index) {
-        return top + ROW_START + index * ROW_STEP;
-    }
-
-    private static void send(int action) {
-        PacketDistributor.sendToServer(new UpgradeSpiritPayload(action));
     }
 }

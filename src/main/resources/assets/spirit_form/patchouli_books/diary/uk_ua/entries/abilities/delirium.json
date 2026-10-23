@@ -1,0 +1,18 @@
+{
+  "name": "Марення",
+  "icon": "minecraft:armor_stand",
+  "category": "spirit_form:abilities",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Вимога$(): Шлях Голоду 15.$(br)$(thing)Тип$(): активна.$(br2)Лишає на місці подобу з диму, на яку реагують моби, а ти стаєш невидимим і можеш тікати. Витрачає голод."
+    },
+    {
+      "type": "patchouli:image",
+        "images": [
+          "assets/spirit_form/textures/gui/ability/delirium.png"
+        ]
+    }
+  ]
+}

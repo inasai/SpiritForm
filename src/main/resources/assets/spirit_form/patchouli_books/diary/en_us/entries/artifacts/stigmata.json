@@ -1,0 +1,19 @@
+{
+  "name": "Phantom's Stigma",
+  "icon": "spirit_form:fentons_bracelet",
+  "category": "spirit_form:artifacts",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:fentons_bracelet",
+      "text": "$(thing)Artifact of the Darkness Path.$(br2)Worn in the hand or in the Curios «bracelet» slot: speed and strength are doubled, abilities regenerate twice as fast, and your skin colors are inverted.",
+      "title": "Phantom's Stigma"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:fentons_bracelet_recipe",
+      "text": "Multiple stigmata work as one. If «eye» is disabled in Curios, the item is not rendered on the character, and skin colors are not inverted, but the effects remain."
+    }
+  ]
+}

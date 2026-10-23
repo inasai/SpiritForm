@@ -1,0 +1,12 @@
+{
+  "name": "Icy Touch",
+  "icon": "minecraft:blue_ice",
+  "category": "spirit_form:abilities",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Movement Path 10.$(br)$(thing)Type$(): passive (wheel $(thing)T$()).$(br2)Mobs you hit (or mobs you are riding) freeze. Water around you turns into ice, and lava turns into magmatic block, which doesn't cause damage. Outside the effect radius, the block becomes lava again."
+    }
+  ]
+}
