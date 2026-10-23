@@ -1,0 +1,17 @@
+{
+  "name": "Paths",
+  "icon": "minecraft:experience_bottle",
+  "category": "spirit_form:basics",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "There are three paths: Hunger, Movement, and Darkness. Each can be leveled up to 15 levels based on experience points: level N costs N experience points. The first level is shared and unlocks the form.",
+      "title": "Three Paths"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Hunger$(): the form consumes less hunger.$(br)$(thing)Movement$(): increased speed while in the form.$(br)$(thing)Darkness$(): improvement of the gaze while in the form.$(br2)The levels of the paths affect abilities: see the «Abilities» section."
+    }
+  ]
+}

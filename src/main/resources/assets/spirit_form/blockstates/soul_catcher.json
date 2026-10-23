@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "spirit_form:block/soul_catcher_off"
+    },
+    "lit=true": {
+      "model": "spirit_form:block/soul_catcher_on"
+    }
+  }
+}

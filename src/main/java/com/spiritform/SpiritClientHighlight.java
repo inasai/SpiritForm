@@ -2,14 +2,17 @@ package com.spiritform;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 
 /**
- * Підсвічування мобів лише для самого гравця (рівень 15 гілки Темряви).
+ * Підсвічування мобів лише для самого гравця (здібність Чуття).
+ * Працює і у формі Привида, і у формі людини.
  * Працює тільки на клієнті, тому інші гравці підсвічування не бачать.
- * Клавіша підсвічування вмикає й вимикає здібність; після перезапуску гри вона знову ввімкнена.
+ * Клавіша підсвічування вмикає й вимикає здібність; за замовчуванням підсвічування вимкнене.
  */
 public final class SpiritClientHighlight {
 
@@ -18,9 +21,11 @@ public final class SpiritClientHighlight {
     private SpiritClientHighlight() {
     }
 
-    /**
-     * Викликається клавішею перемикання підсвічування.
-     */
+    public static boolean isEnabled() {
+        return enabled;
+    }
+
+    /** Викликається клавішею перемикання підсвічування. */
     public static void toggle() {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) {
@@ -28,12 +33,16 @@ public final class SpiritClientHighlight {
         }
 
         SpiritData data = SpiritFormState.get(player);
-        if (!SpiritBalance.highlightsMobs(data.darkness())) {
+        if (!data.hasAbility(SpiritAbility.SENSE)) {
             player.displayClientMessage(Component.translatable("message.spirit_form.highlight.locked"), true);
             return;
         }
 
         enabled = !enabled;
+
+        // Посадка Вітрюка: вище при вмиканні, нижче при вимиканні
+        Minecraft.getInstance().getSoundManager().play(
+                SimpleSoundInstance.forUI(SoundEvents.BREEZE_LAND, enabled ? 1.0F : 0.8F, 0.8F));
         player.displayClientMessage(
                 Component.translatable(enabled
                         ? "message.spirit_form.highlight.on"
@@ -53,7 +62,7 @@ public final class SpiritClientHighlight {
         }
 
         SpiritData data = SpiritFormState.get(player);
-        if (!data.active() || !SpiritBalance.highlightsMobs(data.darkness())) {
+        if (!data.hasAbility(SpiritAbility.SENSE)) {
             return false;
         }
 

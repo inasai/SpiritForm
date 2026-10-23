@@ -1,0 +1,12 @@
+{
+  "name": "Vanish",
+  "icon": "minecraft:glass",
+  "category": "spirit_form:abilities",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Hunger Path 5.$(br)$(thing)Type$(): active.$(br2)Mobs stop noticing you, your model becomes semi-transparent. Consumes hunger and has a cooldown."
+    }
+  ]
+}

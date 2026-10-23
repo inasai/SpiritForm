@@ -1,0 +1,9 @@
+{
+  "name": "spirit_form.curios.book.tittle",
+  "landing_text": "spirit_form.curios.book.desc",
+  "version": 1,
+  "creative_tab": "spirit_form:spirit_form",
+  "use_resource_pack": true,
+  "show_progress": false,
+  "subtitle": "Spirit Form"
+}

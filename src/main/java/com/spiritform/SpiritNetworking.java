@@ -37,5 +37,35 @@ public class SpiritNetworking {
                 TeleportPayload.STREAM_CODEC,
                 TeleportPayload::handleData
         );
+
+        registrar.playToServer(
+                PossessPayload.TYPE,
+                PossessPayload.STREAM_CODEC,
+                PossessPayload::handleData
+        );
+
+        registrar.playToServer(
+                PossessInputPayload.TYPE,
+                PossessInputPayload.STREAM_CODEC,
+                PossessInputPayload::handleData
+        );
+
+        registrar.playToServer(
+                AbilityPayload.TYPE,
+                AbilityPayload.STREAM_CODEC,
+                AbilityPayload::handleData
+        );
+
+        registrar.playToServer(
+                TouchDistancePayload.TYPE,
+                TouchDistancePayload.STREAM_CODEC,
+                TouchDistancePayload::handleData
+        );
+
+        registrar.playToServer(
+                PossessActionPayload.TYPE,
+                PossessActionPayload.STREAM_CODEC,
+                PossessActionPayload::handleData
+        );
     }
 }

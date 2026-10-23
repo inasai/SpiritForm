@@ -1,0 +1,122 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spirit_form:item/advancement/root"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "spirit_form:item/advancement/root"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 2
+      },
+      "model": "spirit_form:item/advancement/begin"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 3
+      },
+      "model": "spirit_form:item/advancement/behind_bars"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 4
+      },
+      "model": "spirit_form:item/advancement/death_eyes"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 5
+      },
+      "model": "spirit_form:item/advancement/death_felt"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 6
+      },
+      "model": "spirit_form:item/advancement/death_stronger"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 7
+      },
+      "model": "spirit_form:item/advancement/dominion"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 8
+      },
+      "model": "spirit_form:item/advancement/expand"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 9
+      },
+      "model": "spirit_form:item/advancement/fenton"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 10
+      },
+      "model": "spirit_form:item/advancement/first_step"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 11
+      },
+      "model": "spirit_form:item/advancement/half_way"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 12
+      },
+      "model": "spirit_form:item/advancement/instinct"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 13
+      },
+      "model": "spirit_form:item/advancement/king"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 14
+      },
+      "model": "spirit_form:item/advancement/phase"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 15
+      },
+      "model": "spirit_form:item/advancement/puppet"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 16
+      },
+      "model": "spirit_form:item/advancement/shard"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 17
+      },
+      "model": "spirit_form:item/advancement/soul_bottle"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 18
+      },
+      "model": "spirit_form:item/advancement/soul_light"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 19
+      },
+      "model": "spirit_form:item/advancement/hunger_retreats"
+    }
+  ]
+}

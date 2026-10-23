@@ -1,0 +1,12 @@
+{
+  "name": "Presence",
+  "icon": "minecraft:campfire",
+  "category": "spirit_form:abilities",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): all Paths 5.$(br)$(thing)Type$(): passive (wheel $(thing)T$()).$(br2)Peaceful and neutral mobs run from you, while aggressive mobs attack. Particles of campfire surround you."
+    }
+  ]
+}

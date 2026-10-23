@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 1
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.root.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.root.desc"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ]
+}

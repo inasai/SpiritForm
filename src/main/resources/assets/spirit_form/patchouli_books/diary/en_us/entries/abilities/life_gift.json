@@ -1,0 +1,16 @@
+{
+  "name": "Gift of Life",
+  "icon": "minecraft:golden_apple",
+  "category": "spirit_form:abilities",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Shadow Path 10.$(br)$(thing)Type$(): active, hold.$(br2)Hold the key to charge: each charge removes a heart from you (one remains always), and the hearts look like the effect of Hunger."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Release the key, and a white mist flies forward. Hitting a mob with it restores to them as much health as was in the charge."
+    }
+  ]
+}

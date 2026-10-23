@@ -1,0 +1,12 @@
+{
+  "name": "Spirit Touch",
+  "icon": "minecraft:phantom_membrane",
+  "category": "spirit_form:abilities",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Movement Path 15.$(br)$(thing)Type$(): active, hold.$(br2)Hold the key while looking at a mob: it will be lifted into the air. Scroll the mouse wheel to move it closer. Release the key, and the mob will be thrown, dealing damage to it upon hitting a block."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Soul Catcher",
+  "icon": "spirit_form:soul_catcher",
+  "category": "spirit_form:artifacts",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:soul_catcher",
+      "text": "$(thing)Artifact of the Movement Path.$(br2)Right-click on a mob to catch it. A short right-click releases the mob where you are looking, while holding right-click for 5 seconds absorbs it: health goes to you, the remainder becomes hunger.",
+      "title": "Soul Catcher"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:soul_catcher_recipe",
+      "text": "You cannot catch bosses and mobs with over 50 hearts.$(br2)Shift + Right-click on a block to place the Soul Catcher. With a caught mob, it glows. A broken catcher returns the item along with the mob."
+    }
+  ]
+}

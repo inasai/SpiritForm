@@ -1,0 +1,12 @@
+{
+  "name": "Присутність",
+  "icon": "minecraft:campfire",
+  "category": "spirit_form:abilities",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Вимога$(): усі Шляхи 5.$(br)$(thing)Тип$(): пасивна (колесо $(thing)T$()).$(br2)Мирні й нейтральні моби тікають від тебе, а агресивні нападають. Навколо тебе частинки багаття."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Soul Shard",
+  "icon": "minecraft:coal",
+  "category": "spirit_form:basics",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "If you die with the Spirit Instincts enabled, a black smoke will appear at the location of your death, preserving all your items along with their positions.$(br2)Right-click the smoke: your items will return to their original positions, and if the position is occupied, they will be shifted."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Only one Soul Shard can exist at a time (the quantity is configured). A new death will remove the previous one. Only the owner can retrieve the items."
+    }
+  ]
+}

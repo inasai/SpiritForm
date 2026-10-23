@@ -1,0 +1,19 @@
+{
+  "name": "Намисто Потойбіччя",
+  "icon": "spirit_form:necklace_of_the_beyond",
+  "category": "spirit_form:artifacts",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:necklace_of_the_beyond",
+      "text": "$(thing)Артефакт Шляху Голоду.$(br2)Одягається як нагрудник (ПКМ) або в слот Curios «намисто». Поки воно одягнене, голод не витрачається: ні на здібності, ні на Інстинкти, ні на рух у формі Привида.",
+      "title": "Намисто Потойбіччя"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:necklace_recipe",
+      "text": "Якщо в Curios вимкнути «око», намисто не малюється на персонажі, але діє."
+    }
+  ]
+}

@@ -5,8 +5,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -26,13 +30,39 @@ public final class SpiritTeleport {
     /** Наскільки далеко можна відступити від стіни в пошуках вільного місця. */
     private static final double MAX_RETREAT = 6.0;
 
+    private static final Map<UUID, Long> SMOKE_UNTIL = new HashMap<>();
+
     private SpiritTeleport() {
+    }
+
+    /** Щотіку: додатковий дим навколо гравця кілька секунд після телепортації. */
+    public static void tickSmoke(ServerPlayer player) {
+        Long until = SMOKE_UNTIL.get(player.getUUID());
+        if (until == null) {
+            return;
+        }
+        if (player.level().getGameTime() >= until) {
+            SMOKE_UNTIL.remove(player.getUUID());
+            return;
+        }
+        if (player.level() instanceof ServerLevel level) {
+            level.sendParticles(ParticleTypes.SMOKE,
+                    player.getX(), player.getY() + 0.9, player.getZ(),
+                    6, 0.35, 0.7, 0.35, 0.02);
+        }
+    }
+
+    private static void puff(ServerPlayer player, double x, double y, double z) {
+        player.level().playSound(null, x, y, z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+        if (player.level() instanceof ServerLevel level) {
+            level.sendParticles(ParticleTypes.SMOKE, x, y + 0.9, z, 40, 0.4, 0.8, 0.4, 0.05);
+        }
     }
 
     public static void activate(ServerPlayer player) {
         SpiritData data = SpiritFormState.get(player);
 
-        if (data.movement() < SpiritBalance.MAX_LEVEL) {
+        if (!data.hasAbility(SpiritAbility.STEP)) {
             player.displayClientMessage(
                     Component.translatable("message.spirit_form.teleport.locked"),
                     true
@@ -44,10 +74,7 @@ public final class SpiritTeleport {
         long now = player.level().getGameTime();
 
         if (COOLDOWN_UNTIL.getOrDefault(id, 0L) > now) {
-            player.displayClientMessage(
-                    Component.translatable("message.spirit_form.ability.cooldown"),
-                    true
-            );
+            SpiritCooldowns.notifyTired(player, COOLDOWN_UNTIL.getOrDefault(id, 0L));
             return;
         }
 
@@ -61,7 +88,7 @@ public final class SpiritTeleport {
             return;
         }
 
-        int cost = Config.ABILITY_HUNGER_COST.get();
+        int cost = FentonBracelet.cost(player, Config.ABILITY_HUNGER_COST.get());
         int food = player.getFoodData().getFoodLevel();
 
         if (food < cost) {
@@ -72,15 +99,20 @@ public final class SpiritTeleport {
             return;
         }
 
+        puff(player, player.getX(), player.getY(), player.getZ());
+
         player.teleportTo(
                 destination.x,
                 destination.y,
                 destination.z
         );
 
+        puff(player, destination.x, destination.y, destination.z);
+        SMOKE_UNTIL.put(id, now + Config.TELEPORT_SMOKE_SECONDS.get() * 20L);
+
         player.getFoodData().setFoodLevel(food - cost);
 
-        long cooldown = Config.ABILITY_COOLDOWN_SECONDS.get() * 20L;
+        long cooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
         COOLDOWN_UNTIL.put(id, now + cooldown);
 
         player.displayClientMessage(

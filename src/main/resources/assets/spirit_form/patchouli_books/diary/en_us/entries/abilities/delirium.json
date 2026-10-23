@@ -1,0 +1,12 @@
+{
+  "name": "Delirium",
+  "icon": "minecraft:armor_stand",
+  "category": "spirit_form:abilities",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Hunger Path 15.$(br)$(thing)Type$(): active.$(br2)Leaves a smoky apparition in place that mobs react to, while you become invisible and can run. Consumes hunger."
+    }
+  ]
+}

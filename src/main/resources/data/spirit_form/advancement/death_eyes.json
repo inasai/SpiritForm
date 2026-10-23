@@ -1,0 +1,31 @@
+{
+  "parent": "spirit_form:death_felt",
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 4
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.death_eyes.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.death_eyes.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ]
+}

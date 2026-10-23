@@ -1,0 +1,38 @@
+{
+  "parent": "spirit_form:root",
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 9
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.fenton.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.fenton.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:fentons_bracelet"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has"
+    ]
+  ]
+}
