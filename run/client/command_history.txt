@@ -1,2 +1,0 @@
-/xp add Dev 99999
-/time set day
