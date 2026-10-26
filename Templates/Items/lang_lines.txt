@@ -1,0 +1,13 @@
+uk_ua.json:
+  "item.spirit_form.my_weapon": "Назва зброї",
+  "item.spirit_form.my_armor_helmet": "Шолом",
+  "item.spirit_form.my_armor_chestplate": "Нагрудник",
+  "item.spirit_form.my_armor_leggings": "Штани",
+  "item.spirit_form.my_armor_boots": "Чоботи"
+
+en_us.json:
+  "item.spirit_form.my_weapon": "Weapon Name",
+  "item.spirit_form.my_armor_helmet": "Helmet",
+  "item.spirit_form.my_armor_chestplate": "Chestplate",
+  "item.spirit_form.my_armor_leggings": "Leggings",
+  "item.spirit_form.my_armor_boots": "Boots"

@@ -14,7 +14,9 @@ public class SpiritFormMod {
         SpiritAttachments.ATTACHMENT_TYPES.register(modEventBus);
         SpiritBlocks.BLOCKS.register(modEventBus);
         SpiritBlocks.BLOCK_ENTITIES.register(modEventBus);
+        SpiritArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
         SpiritItems.ITEMS.register(modEventBus);
+        SpiritCreatures.init();
         SpiritEntities.ENTITY_TYPES.register(modEventBus);
         SpiritItems.CREATIVE_TABS.register(modEventBus);
 

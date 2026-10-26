@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "spirit_form:my_armor_helmet",
+    "spirit_form:my_armor_chestplate",
+    "spirit_form:my_armor_leggings",
+    "spirit_form:my_armor_boots"
+  ]
+}

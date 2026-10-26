@@ -1,0 +1,24 @@
+{
+  "name": "Army of the Beyond",
+  "icon": "minecraft:soul_lantern",
+  "category": "spirit_form:abilities",
+  "sortnum": 30,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Obtain the 'King of the Afterlife' achievement. The ability unlocks automatically and cannot be purchased.$(br2)When you kill a creature, there is a chance (guaranteed with bosses) that mint-colored smoke will appear in its place. It lasts for about 20 seconds. Right-click $(thing)RMB$() on it: the soul will be added to your army storage, and you will see the message 'Soul saved.' If the storage is full, the soul will not be absorbed."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Army Menu$(): In ability mode, select \"Army of the Afterlife,\" and the hotbar will change.$(br)$(thing)1$(): Soul wheel. Click on a soul to summon it (click again to dismiss), or click the center to summon all of them.$(br)$(thing)2$(): Commands.$(br)$(thing)3$(): Retreat; all souls return to storage.$(br)$(thing)4$(): Wheel where a soul can be released.$(br)$(thing)R$(): Return to the ability panel."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Commands$(): $(br)Guard: The souls stay close and strike anyone who harms you.$(br)Attack: They strike anyone you attack.$(br)Hold Position: They remain in place and attack anyone who approaches.$(br)Fury: Combines Guard and Attack; the soul will not abandon its target as long as it is alive.$(br)$(br)A summoned soul is a copy of the slain creature, retaining its original stats and name. If it is destroyed, the soul remains in the repository."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Storage$(): Initially, there is only one slot. New slots can be purchased in the abilities menu (under \"Army Storage\"); the cost for each new slot equals the number of slots you already possess. The maximum limit is defined by the $(thing)armyMaxSlots$() configuration setting (10).$(br2)If your storage is full and you wish to capture a new soul (for example, an Ender Dragon), you must release an existing one using the $(thing)4$() radial menu."
+    }
+  ]
+}

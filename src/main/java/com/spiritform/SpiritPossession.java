@@ -596,6 +596,14 @@ public final class SpiritPossession {
         mob.resetFallDistance();
     }
 
+    /** Позицію одержимого моба розсилаємо клієнтам щотіку, щоб камера на ньому рухалася плавніше. */
+    @SubscribeEvent
+    public static void onControlledTick(EntityTickEvent.Post event) {
+        if (event.getEntity() instanceof Mob mob && !mob.level().isClientSide && controlFor(mob) != null) {
+            mob.hasImpulse = true;
+        }
+    }
+
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Pre event) {
         if (BY_PLAYER.isEmpty()) {

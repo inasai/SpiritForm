@@ -1,0 +1,16 @@
+{
+  "name": "Spirit Scream",
+  "icon": "minecraft:goat_horn",
+  "category": "spirit_form:abilities",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Path of Hunger 3, costs 3 levels.$(br)$(thing)Type$(): active.$(br2)All mobs within a radius of 3 blocks (in config $(thing)screamRadius$()), both peaceful and hostile, will join your side: they will not attack you and will attack those who have harmed you."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The effect lasts for 60 seconds (in config $(thing)screamDurationSeconds$()). Bosses are unaffected. Peaceful mobs without the ability to attack will only stop being a threat. Consumes hunger and has a cooldown."
+    }
+  ]
+}

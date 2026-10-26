@@ -2,6 +2,8 @@ package com.spiritform.mixin;
 
 import com.spiritform.SpiritFormState;
 import com.spiritform.SpiritTransparency;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -9,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.spiritform.SpiritData;
 
@@ -37,6 +40,25 @@ public abstract class LivingEntityRendererMixin {
 
         if (spirit) {
             cir.setReturnValue(false);
+        }
+    }
+
+    /**
+     * Поки гравець сидить у мобі (сервер робить його невидимим під час форми Привида), на місці, де він
+     * активував Одержимість, не малюємо нічого: ні тіла, ні броні, ні предметів, ні плаща, ні ніка.
+     * Ванільна невидимість ховає лише тіло, а броня й предмети лишаються.
+     */
+    @Inject(
+            method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At("HEAD"),
+            cancellable = true,
+            require = 0
+    )
+    private void spiritForm$hidePossessingPlayer(LivingEntity entity, float entityYaw, float partialTick,
+                                                 PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+                                                 CallbackInfo ci) {
+        if (entity instanceof Player player && player.isInvisible() && SpiritFormState.get(player).active()) {
+            ci.cancel();
         }
     }
 

@@ -1,0 +1,16 @@
+{
+  "name": "Beyond",
+  "icon": "minecraft:ender_eye",
+  "category": "spirit_form:basics",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The new dimension $(thing)The Beyond$(). You can only enter it if you have the advancement \"The King of the Beyond\", your Death Realm is enabled, and you right-click the \"Beyond Threshold\" block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To return to the Overworld, deactivate \"Echo of Death ability\"."
+    }
+  ]
+}

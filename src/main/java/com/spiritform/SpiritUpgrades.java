@@ -32,6 +32,21 @@ public final class SpiritUpgrades {
             return;
         }
 
+        if (action == UpgradeSpiritPayload.TOGGLE_ECHO) {
+            SpiritEcho.toggle(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.BUY_SHARD) {
+            buyShard(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.BUY_ARMY_SLOT) {
+            buyArmySlot(player);
+            return;
+        }
+
         if (action == UpgradeSpiritPayload.UNLOCK) {
             unlock(player);
             return;
@@ -46,6 +61,12 @@ public final class SpiritUpgrades {
         SpiritBranch resetBranch = UpgradeSpiritPayload.resetBranchFor(action);
         if (resetBranch != null) {
             resetBranch(player, resetBranch);
+            return;
+        }
+
+        SpiritAbility resetAbility = UpgradeSpiritPayload.resetAbilityFor(action);
+        if (resetAbility != null) {
+            resetAbility(player, resetAbility);
             return;
         }
 
@@ -85,8 +106,84 @@ public final class SpiritUpgrades {
                 true);
     }
 
+    /** Скидає здібність і повертає її вартість у рівнях досвіду (у творчому режимі нічого не повертається). */
+    private static void resetAbility(ServerPlayer player, SpiritAbility ability) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.hasAbility(ability) || ability.rewardOnly()) {
+            return;
+        }
+        if (SpiritPossession.isPossessing(player)) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.ability.reset_busy"), true);
+            return;
+        }
+
+        // Пасивну здібність спершу вимикаємо (Відлуння ще й повертає гравця до блока)
+        if (ability == SpiritAbility.ECHO && data.echo()) {
+            SpiritEcho.toggle(player);
+            data = SpiritFormState.get(player);
+        }
+        SpiritData updated = data.withAbility(ability, false);
+        switch (ability) {
+            case ICY_TOUCH -> updated = updated.withIcy(false);
+            case PRESENCE -> updated = updated.withPresence(false);
+            case GAZE -> updated = updated.withGaze(false);
+            case VANISH -> updated = updated.withInvisible(false);
+            default -> {
+            }
+        }
+        SpiritFormState.set(player, updated);
+
+        int refund = ability.cost();
+        if (!player.getAbilities().instabuild) {
+            player.giveExperienceLevels(refund);
+        }
+        player.displayClientMessage(
+                Component.translatable("message.spirit_form.ability.reset", ability.displayName(), refund), true);
+    }
+
+    /** Збільшує кількість Уламків Душі на один: N-й Уламок коштує N рівнів досвіду. */
+    private static void buyShard(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.unlocked()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.need_unlock"), true);
+            return;
+        }
+        int owned = data.shards();
+        if (owned >= Config.SOUL_SHARD_LIMIT.get()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.shard.max"), true);
+            return;
+        }
+        if (!pay(player, owned + 1)) {
+            return;
+        }
+        SpiritFormState.set(player, data.withShards(owned + 1));
+        player.displayClientMessage(Component.translatable("message.spirit_form.shard.bought", owned + 1), true);
+    }
+
+    /** Збільшує сховище Армії Потойбіччя на одне місце: вартість у рівнях дорівнює кількості місць, що вже є. */
+    private static void buyArmySlot(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.hasAbility(SpiritAbility.ARMY)) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.army.locked"), true);
+            return;
+        }
+        int slots = data.armySlots();
+        if (slots >= Config.ARMY_MAX_SLOTS.get()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.army.slot_max"), true);
+            return;
+        }
+        if (!pay(player, slots)) {
+            return;
+        }
+        SpiritFormState.set(player, data.withArmySlots(slots + 1));
+        player.displayClientMessage(Component.translatable("message.spirit_form.army.slot_bought", slots + 1), true);
+    }
+
     private static void unlockAbility(ServerPlayer player, SpiritAbility ability) {
         SpiritData data = SpiritFormState.get(player);
+        if (ability.rewardOnly()) {
+            return;
+        }
 
         if (!data.unlocked()) {
             player.displayClientMessage(Component.translatable("message.spirit_form.need_unlock"), true);
@@ -106,7 +203,7 @@ public final class SpiritUpgrades {
             return;
         }
 
-        if (pay(player, ability.cost())) {
+        if (!pay(player, ability.cost())) {
             return;
         }
 
@@ -150,7 +247,7 @@ public final class SpiritUpgrades {
             player.displayClientMessage(Component.translatable("message.spirit_form.already_unlocked"), true);
             return;
         }
-        if (pay(player, SpiritBalance.cost(1))) {
+        if (!pay(player, SpiritBalance.cost(1))) {
             return;
         }
         SpiritFormState.set(player, data.withUnlocked(true));
@@ -174,7 +271,7 @@ public final class SpiritUpgrades {
         }
 
         int next = current + 1;
-        if (pay(player, SpiritBalance.cost(next))) {
+        if (!pay(player, SpiritBalance.cost(next))) {
             return;
         }
 
@@ -221,13 +318,13 @@ public final class SpiritUpgrades {
 
     private static boolean pay(ServerPlayer player, int cost) {
         if (player.getAbilities().instabuild) {
-            return false; // у творчому режимі безкоштовно
+            return true; // у творчому режимі безкоштовно
         }
         if (player.experienceLevel < cost) {
             player.displayClientMessage(Component.translatable("message.spirit_form.not_enough_xp", cost), true);
-            return true;
+            return false;
         }
         player.giveExperienceLevels(-cost);
-        return false;
+        return true;
     }
 }

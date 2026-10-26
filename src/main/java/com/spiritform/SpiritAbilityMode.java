@@ -86,7 +86,14 @@ public final class SpiritAbilityMode {
     }
 
     private static void trigger(SpiritAbility ability) {
-        if (ability == SpiritAbility.SENSE) {
+        if (ability == SpiritAbility.ARMY) {
+            LocalPlayer self = Minecraft.getInstance().player;
+            if (self != null && SpiritFormState.get(self).hasAbility(SpiritAbility.ARMY)) {
+                SpiritArmyMode.open();
+            } else if (self != null) {
+                self.displayClientMessage(Component.translatable("message.spirit_form.army.locked"), true);
+            }
+        } else if (ability == SpiritAbility.SENSE) {
             SpiritClientHighlight.toggle();
         } else {
             send(ability, true);
@@ -158,12 +165,20 @@ public final class SpiritAbilityMode {
 
         if (!active || !SpiritFormState.get(player).unlocked()) {
             releaseAll();
+            SpiritArmyMode.close();
             for (KeyMapping key : SpiritKeyMappings.MAIN) {
                 drain(key);
             }
             if (!SpiritFormState.get(player).unlocked()) {
                 active = false;
             }
+            return;
+        }
+
+        // Меню армії: цифри 1-3 мають власні дії
+        if (SpiritArmyMode.isOpen()) {
+            releaseAll();
+            SpiritArmyMode.tick(minecraft, noScreen);
             return;
         }
 
@@ -201,10 +216,15 @@ public final class SpiritAbilityMode {
         }
     }
 
-    /** Поки тримається Доторк, колесико миші відсуває й наближає моба (хотбар не гортається). */
+    /** Поки тримається Доторк (моб чи блок), колесико миші відсуває й наближає ціль (хотбар не гортається). */
     @SubscribeEvent
     public static void onScroll(InputEvent.MouseScrollingEvent event) {
-        if (!active || !isHolding(SpiritAbility.TOUCH) || Minecraft.getInstance().screen != null) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!active || minecraft.screen != null || minecraft.player == null) {
+            return;
+        }
+        // Колесо двигає ціль (моба чи блок), поки її тримає Доторк
+        if (!SpiritFormState.get(minecraft.player).blockGrab()) {
             return;
         }
         double delta = event.getScrollDeltaY();
@@ -221,6 +241,13 @@ public final class SpiritAbilityMode {
                     Component.translatable("message.spirit_form.mode.locked",
                             Component.keybind("key.spirit_form.open_upgrades")),
                     true);
+            return;
+        }
+
+        if (SpiritArmyMode.isOpen()) {
+            // З меню армії R повертає до панелі здібностей
+            SpiritArmyMode.close();
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 0.9F));
             return;
         }
 
@@ -288,6 +315,10 @@ public final class SpiritAbilityMode {
     }
 
     private static void draw(GuiGraphics graphics, Minecraft minecraft, LocalPlayer player) {
+        if (SpiritArmyMode.isOpen()) {
+            SpiritArmyMode.draw(graphics, minecraft, player);
+            return;
+        }
         SpiritData data = SpiritFormState.get(player);
         int width = graphics.guiWidth();
         int height = graphics.guiHeight();

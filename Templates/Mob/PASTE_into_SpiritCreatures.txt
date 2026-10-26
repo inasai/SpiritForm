@@ -1,0 +1,37 @@
+Вставте кожен блок у файл SpiritCreatures.java, у відповідне місце (імпорти IntelliJ додасть сам: Option+Enter).
+
+==== 1. До розділу "РЕЄСТРАЦІЯ" ====
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MyCreature>> MY_CREATURE =
+            SpiritEntities.ENTITY_TYPES.register("my_creature", () -> EntityType.Builder
+                    .of(MyCreature::new, MobCategory.MONSTER)   // MobCategory.CREATURE для мирних істот
+                    .sized(0.6F, 1.8F)                           // ширина і висота хітбокса
+                    .clientTrackingRange(8)
+                    .build("my_creature"));
+
+    public static final DeferredItem<Item> MY_CREATURE_EGG = SpiritItems.ITEMS.registerItem(
+            "my_creature_spawn_egg",
+            properties -> new DeferredSpawnEggItem(MY_CREATURE, 0x8CFFC8, 0x203C32, properties),   // два кольори яйця
+            new Item.Properties());
+
+==== 2. До методу onAttributes ====
+
+        event.put(MY_CREATURE.get(), MyCreature.createAttributes().build());
+
+==== 3. До методу onSpawnPlacements ====
+
+        event.register(MY_CREATURE.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.OR);
+
+==== 4. До SpiritCreaturesClient.java, у метод onLayers ====
+
+        event.registerLayerDefinition(MyCreatureModel.LAYER, MyCreatureModel::createBodyLayer);
+
+==== 5. До SpiritCreaturesClient.java, у метод onRenderers ====
+
+        event.registerEntityRenderer(SpiritCreatures.MY_CREATURE.get(), MyCreatureRenderer::new);
+
+==== 6. До SpiritItems.java, у displayItems (щоб яйце було у творчій вкладці) ====
+
+                        output.accept(SpiritCreatures.MY_CREATURE_EGG.get());

@@ -1,0 +1,6 @@
+{
+  "type": "spirit_form:my_creature",
+  "weight": 8,
+  "minCount": 1,
+  "maxCount": 2
+}

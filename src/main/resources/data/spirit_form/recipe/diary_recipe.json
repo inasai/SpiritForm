@@ -24,7 +24,10 @@
     }
   },
   "result": {
+    "id": "patchouli:guide_book",
     "count": 1,
-    "id": "spirit_form:diary"
+    "components": {
+      "patchouli:book": "spirit_form:diary"
+    }
   }
 }

@@ -28,9 +28,10 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 /**
- * Доторк Привида: поки тримається клавіша, моб, на якого дивиться гравець, висить у повітрі
+ * Доторк Привида. Коротке натискання: моб, на якого дивиться гравець, на якого дивиться гравець, висить у повітрі
  * перед ним (навколо нього дим). Коли клавішу відпущено, моба відкидає вперед, і якщо він
  * вдариться об блок, то отримає шкоду залежно від швидкості удару.
+ * Довге натискання: так само керуємо блоком (див. SpiritTouchBlock).
  */
 @EventBusSubscriber(modid = SpiritFormMod.MODID)
 public final class SpiritTouch {
@@ -74,12 +75,59 @@ public final class SpiritTouch {
         return !BY_MOB.isEmpty() && BY_MOB.containsKey(entity.getUUID());
     }
 
-    /** Клавіша Доторку: true = натиснуто (схопити), false = відпущено (відкинути). */
+    /** Скільки тіків треба тримати клавішу, щоб це було "довге натискання" (блок), а не "коротке" (моб). */
+    private static final long HOLD_TICKS = 6;
+
+    /** Гравці, які натиснули клавішу й ще не вирішено: коротке чи довге натискання (тік початку). */
+    private static final Map<UUID, Long> PRESSED = new ConcurrentHashMap<>();
+
+    /** Довге натискання вже підняло блок: відпускання клавіші нічого не означає. */
+    private static final java.util.Set<UUID> LONG_PRESS = ConcurrentHashMap.newKeySet();
+
+    /** Натискання кинуло ціль: наступне відпускання клавіші нічого не означає. */
+    private static final java.util.Set<UUID> IGNORE_RELEASE = ConcurrentHashMap.newKeySet();
+
+    /**
+     * Клавіша Доторку. Тримати її постійно не треба.
+     * Коротке натискання піднімає моба, на якого дивишся; довге (довше за третину секунди) піднімає блок.
+     * Поки ціль висить, колесо миші наближає й віддаляє її, а наступне натискання кидає її вперед.
+     */
     public static void set(ServerPlayer player, boolean pressed) {
+        UUID id = player.getUUID();
         if (pressed) {
+            if (!SpiritFormState.get(player).hasAbility(SpiritAbility.TOUCH)) {
+                player.displayClientMessage(Component.translatable("message.spirit_form.touch.locked"), true);
+                return;
+            }
+            if (SpiritPossession.isPossessing(player)) {
+                return;
+            }
+            if (BY_PLAYER.containsKey(id)) {
+                release(player, true);
+                IGNORE_RELEASE.add(id);
+                return;
+            }
+            if (SpiritTouchBlock.isHolding(player)) {
+                SpiritTouchBlock.throwBlock(player);
+                IGNORE_RELEASE.add(id);
+                return;
+            }
+            PRESSED.put(id, player.serverLevel().getServer().getTickCount() + 0L);
+            return;
+        }
+
+        if (IGNORE_RELEASE.remove(id) || LONG_PRESS.remove(id)) {
+            return;
+        }
+        if (PRESSED.remove(id) != null) {
             start(player);
-        } else {
-            release(player, true);
+            return;
+        }
+        // Відпускання без натискання (наприклад, вимкнули режим здібностей): просто опускаємо ціль
+        if (BY_PLAYER.containsKey(id)) {
+            release(player, false);
+        } else if (SpiritTouchBlock.isHolding(player)) {
+            SpiritTouchBlock.drop(player);
         }
     }
 
@@ -117,6 +165,7 @@ public final class SpiritTouch {
         THROWN.remove(mob.getUUID());
         BY_PLAYER.put(player.getUUID(), grab);
         BY_MOB.put(mob.getUUID(), grab);
+        SpiritTouchBlock.setFlag(player, true);
 
         mob.setNoGravity(true);
         mob.getNavigation().stop();
@@ -125,10 +174,11 @@ public final class SpiritTouch {
                 SoundEvents.BREEZE_CHARGE, SoundSource.PLAYERS, 0.6F, 1.4F);
     }
 
-    /** Колесико миші: відсуває (steps > 0) або наближає (steps < 0) схопленого моба. */
+    /** Колесико миші: відсуває (steps > 0) або наближає (steps < 0) схопленого моба чи блок. */
     public static void adjustDistance(ServerPlayer player, int steps) {
         Grab grab = BY_PLAYER.get(player.getUUID());
         if (grab == null) {
+            SpiritTouchBlock.adjustDistance(player, steps);
             return;
         }
         int clamped = Mth.clamp(steps, -3, 3);
@@ -142,6 +192,7 @@ public final class SpiritTouch {
             return;
         }
         BY_MOB.remove(grab.mob.getUUID());
+        SpiritTouchBlock.setFlag(player, false);
 
         Mob mob = grab.mob;
         mob.setNoGravity(grab.wasNoGravity);
@@ -165,6 +216,21 @@ public final class SpiritTouch {
 
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Pre event) {
+        if (!PRESSED.isEmpty()) {
+            long tick = event.getServer().getTickCount();
+            for (Map.Entry<UUID, Long> entry : new ArrayList<>(PRESSED.entrySet())) {
+                if (tick - entry.getValue() < HOLD_TICKS) {
+                    continue;
+                }
+                PRESSED.remove(entry.getKey());
+                ServerPlayer player = event.getServer().getPlayerList().getPlayer(entry.getKey());
+                if (player != null) {
+                    LONG_PRESS.add(entry.getKey());
+                    SpiritTouchBlock.grab(player);
+                }
+            }
+        }
+
         if (!THROWN.isEmpty()) {
             long now = event.getServer().getTickCount();
             THROWN.values().removeIf(thrown -> thrown.expires <= now);
@@ -278,6 +344,9 @@ public final class SpiritTouch {
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
+            PRESSED.remove(player.getUUID());
+            LONG_PRESS.remove(player.getUUID());
+            IGNORE_RELEASE.remove(player.getUUID());
             release(player, false);
         }
     }

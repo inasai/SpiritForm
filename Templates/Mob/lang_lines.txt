@@ -1,0 +1,9 @@
+Додайте в uk_ua.json (не забудьте кому перед першим рядком):
+
+  "entity.spirit_form.my_creature": "Назва істоти",
+  "item.spirit_form.my_creature_spawn_egg": "Яйце виклику: Назва істоти"
+
+Додайте в en_us.json:
+
+  "entity.spirit_form.my_creature": "Creature Name",
+  "item.spirit_form.my_creature_spawn_egg": "Creature Name Spawn Egg"

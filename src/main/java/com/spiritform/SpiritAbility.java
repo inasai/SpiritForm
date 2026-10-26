@@ -20,13 +20,21 @@ public enum SpiritAbility {
     IMMUNITY("immunity", SpiritBranch.HUNGER, Tier.ADVANCED, Kind.ACTIVE, false, Items.MILK_BUCKET),
     LIFE_GIFT("life_gift", SpiritBranch.DARKNESS, Tier.ADVANCED, Kind.ACTIVE, true, Items.GOLDEN_APPLE),
     SCALES("scales", SpiritBranch.DARKNESS, Tier.MASTER, Kind.ACTIVE, true, Items.WITHER_ROSE),
-    GAZE("gaze", null, Tier.ADVANCED, Kind.PASSIVE, false, Items.SPIDER_EYE);
+    GAZE("gaze", null, Tier.ADVANCED, Kind.PASSIVE, false, Items.SPIDER_EYE),
+    ECHO("echo", SpiritBranch.DARKNESS, Tier.NOVICE, Kind.PASSIVE, false, Items.ECHO_SHARD),
+    SCREAM("scream", SpiritBranch.HUNGER, Tier.NOVICE, Kind.ACTIVE, false, Items.GOAT_HORN),
+    SUMMON("summon", SpiritBranch.MOVEMENT, Tier.NOVICE, Kind.ACTIVE, false, Items.LEAD),
+    /** Нагорода за досягнення "Король Потойбіччя": не купується й не скидається. */
+    ARMY("army", null, Tier.SPECIAL, Kind.ACTIVE, false, Items.SOUL_LANTERN);
 
     /** Яка вимога до рівня шляху: початкова (5 за замовчуванням) чи висока (10). Обидві задаються в конфігу. */
     public enum Tier {
+        NOVICE,
         BASIC,
         ADVANCED,
-        MASTER
+        MASTER,
+        /** Здібність-нагорода: рівні й вартість не потрібні. */
+        SPECIAL
     }
 
     /** Активні здібності стоять на панелях (цифри й гарячі клавіші), пасивні вмикаються колесом. */
@@ -64,6 +72,7 @@ public enum SpiritAbility {
     /** Здібності, відсортовані за потрібним рівнем (від меншого до більшого), далі за порядком. */
     public static java.util.List<SpiritAbility> sorted() {
         java.util.List<SpiritAbility> list = new java.util.ArrayList<>(java.util.List.of(values()));
+        list.removeIf(SpiritAbility::rewardOnly);
         list.sort(java.util.Comparator.comparingInt(SpiritAbility::requiredLevel));
         return list;
     }
@@ -84,22 +93,34 @@ public enum SpiritAbility {
     /** Потрібний рівень шляху (шляхів) для відкриття здібності. */
     public int requiredLevel() {
         return switch (tier) {
+            case NOVICE -> Config.ABILITY_REQUIRED_LEVEL_NOVICE.get();
             case BASIC -> Config.ABILITY_REQUIRED_LEVEL_BASIC.get();
             case ADVANCED -> Config.ABILITY_REQUIRED_LEVEL_ADVANCED.get();
             case MASTER -> Config.ABILITY_REQUIRED_LEVEL_MASTER.get();
+            case SPECIAL -> 0;
         };
     }
 
     /** Вартість відкриття здібності в рівнях досвіду (за рівнем здібності). */
     public int cost() {
         return switch (tier) {
+            case NOVICE -> Config.ABILITY_COST_NOVICE.get();
             case BASIC -> Config.ABILITY_COST_BASIC.get();
             case ADVANCED -> Config.ABILITY_COST_ADVANCED.get();
             case MASTER -> Config.ABILITY_COST_MASTER.get();
+            case SPECIAL -> 0;
         };
     }
 
+    /** Здібність видається за досягнення, її не можна купити чи скинути. */
+    public boolean rewardOnly() {
+        return this == ARMY;
+    }
+
     public boolean isAvailable(SpiritData data) {
+        if (rewardOnly()) {
+            return false;
+        }
         int requiredLevel = requiredLevel();
         if (branch != null) {
             return data.level(branch) >= requiredLevel;
@@ -126,6 +147,9 @@ public enum SpiritAbility {
 
     /** Вимога до рівня: один рядок. */
     public Component requirement() {
+        if (rewardOnly()) {
+            return Component.translatable("screen.spirit_form.ability.requirement_reward");
+        }
         if (branch != null) {
             return Component.translatable(
                     "screen.spirit_form.ability.requirement",

@@ -22,6 +22,16 @@ public final class SpiritEntities {
                     .updateInterval(20)
                     .build("soul_shard"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<SoulWispEntity>> SOUL_WISP =
+            ENTITY_TYPES.register("soul_wisp", () -> EntityType.Builder
+                    .<SoulWispEntity>of(SoulWispEntity::new, MobCategory.MISC)
+                    .sized(0.8F, 1.4F)
+                    .fireImmune()
+                    .noSummon()
+                    .clientTrackingRange(10)
+                    .updateInterval(20)
+                    .build("soul_wisp"));
+
     private SpiritEntities() {
     }
 }

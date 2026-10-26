@@ -1,0 +1,11 @@
+{
+  "type": "spirit_form:beyond",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "minecraft:overworld",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "spirit_form:beyond"
+    }
+  }
+}

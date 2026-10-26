@@ -1,6 +1,7 @@
 package com.spiritform.mixin;
 
 import com.spiritform.SpiritFormState;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,6 +37,19 @@ public abstract class PlayerMixin {
             // увімкненим. Тоді рух рахується за формулою ходьби, а не польоту, і привид
             // виявлявся повільним. Так само робить режим спостерігача.
             self.setOnGround(false);
+        }
+    }
+
+    /**
+     * У формі Привида гравець завжди стоїть у повний зріст. Інакше в проході заввишки один блок (або всередині
+     * блока) гра переводила його в позу повзання чи плавання, а це робило привида дуже повільним.
+     */
+    @Inject(method = "updatePlayerPose", at = @At("HEAD"), cancellable = true, require = 0)
+    private void spiritForm$alwaysStanding(CallbackInfo ci) {
+        Player self = (Player) (Object) this;
+        if (SpiritFormState.isActive(self)) {
+            self.setPose(Pose.STANDING);
+            ci.cancel();
         }
     }
 }

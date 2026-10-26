@@ -56,6 +56,12 @@ public final class SpiritForm {
     public static void activate(ServerPlayer player, boolean ignoreCooldown) {
         SpiritData data = SpiritFormState.get(player);
 
+        // З Косою Потойбіччя в руках Привидом бути не можна
+        if (SpiritReaper.holdsScythe(player)) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.scythe.no_form"), true);
+            return;
+        }
+
         if (!data.unlocked()) {
             player.displayClientMessage(
                     Component.translatable("message.spirit_form.locked", Component.keybind("key.spirit_form.open_upgrades")),
@@ -103,6 +109,7 @@ public final class SpiritForm {
             }
         }
 
+        SpiritReaper.onFormEntered(player);
         player.displayClientMessage(Component.translatable("message.spirit_form.activated"), true);
         playSound(player, 1.0F);
     }
@@ -135,6 +142,13 @@ public final class SpiritForm {
 
         player.displayClientMessage(Component.translatable(messageKey), true);
         playSound(player, 0.8F);
+        SpiritReaper.onFormLeft(player);
+    }
+
+    /** Подовжує перезарядку форми щонайменше на вказану кількість тіків від зараз (Накидка Потойбіччя). */
+    public static void extendCooldown(ServerPlayer player, long ticks) {
+        long until = player.level().getGameTime() + ticks;
+        FORM_COOLDOWN_UNTIL.merge(player.getUUID(), until, Math::max);
     }
 
     /** Тихий вихід з форми (вхід у світ, смерть): без ефектів і повідомлень. */
