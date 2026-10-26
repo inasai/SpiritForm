@@ -1,5 +1,6 @@
 package com.spiritform;
 
+import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.player.LocalPlayer;
@@ -10,6 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
@@ -59,6 +61,28 @@ public final class SpiritPossessionClient {
         camera.setXRot(pitch);
         camera.yRotO = yaw;
         camera.xRotO = pitch;
+    }
+
+    /**
+     * Погляд камери береться з гравця щокадру, а не раз на тік (20 разів на секунду). Інакше, поки камера на мобі,
+     * поворот миші оновлювався б зависаннями, бо повертаємо моба лише в onClientTick.
+     */
+    @SubscribeEvent
+    public static void onCameraAngles(ViewportEvent.ComputeCameraAngles event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!isControllingOther(minecraft)) {
+            return;
+        }
+        LocalPlayer player = minecraft.player;
+        float partial = (float) event.getPartialTick();
+        float yaw = player.getViewYRot(partial);
+        float pitch = player.getViewXRot(partial);
+        if (minecraft.options.getCameraType() == CameraType.THIRD_PERSON_FRONT) {
+            yaw += 180.0F;
+            pitch = -pitch;
+        }
+        event.setYaw(yaw);
+        event.setPitch(pitch);
     }
 
     /**

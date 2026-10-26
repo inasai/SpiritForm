@@ -30,6 +30,19 @@ public final class SpiritBlocks {
                     .pushReaction(PushReaction.DESTROY)
                     .lightLevel(state -> state.getValue(SoulCatcherBlock.LIT) ? 10 : 0));
 
+    /** Відлуння Потойбіччя: лишається там, де ввімкнено Відлуння Смерті. Крізь нього можна проходити, зламати не можна. */
+    public static final DeferredBlock<EchoBlock> ECHO_BLOCK = BLOCKS.registerBlock(
+            "echo_of_the_beyond",
+            EchoBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(-1.0F, 3600000.0F)
+                    .noCollission()
+                    .noOcclusion()
+                    .sound(SoundType.AMETHYST)
+                    .pushReaction(PushReaction.BLOCK)
+                    .lightLevel(state -> 10));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SoulCatcherBlockEntity>> SOUL_CATCHER_BE =
             BLOCK_ENTITIES.register("soul_catcher", () ->
                     BlockEntityType.Builder.of(SoulCatcherBlockEntity::new, SOUL_CATCHER.get()).build(null));

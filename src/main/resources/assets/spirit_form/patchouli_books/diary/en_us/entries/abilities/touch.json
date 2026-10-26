@@ -6,7 +6,12 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Requirement$(): Movement Path 15.$(br)$(thing)Type$(): active, hold.$(br2)Hold the key while looking at a mob: it will be lifted into the air. Scroll the mouse wheel to move it closer. Release the key, and the mob will be thrown, dealing damage to it upon hitting a block."
+      "text": "$(thing)Requirement$(): Movement Path 15.$(br)$(thing)Type$(): active.$(br2)$(thing)Click$() the key while looking at a mob: it will be lifted into the air. Scroll the mouse wheel to move it closer. Release the key, and the mob will be thrown, dealing damage to it upon hitting a block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Hold$() lifts a block you are looking at. Scroll the mouse wheel to move it closer or further away. A subsequent press throws the block forward: hitting a mob will deal damage to it.$(br2)Blocks with internal storage (chests, furnaces) and those that are too hard (threshold in config $(thing)touchBlockMaxHardness$()) cannot be lifted.",
+      "title": "Blocks"
     }
   ]
 }

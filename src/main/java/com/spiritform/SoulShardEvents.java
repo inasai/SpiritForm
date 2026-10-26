@@ -37,6 +37,10 @@ public final class SoulShardEvents {
         if (!data.instinct() || !data.unlocked()) {
             return;
         }
+        // Без купленого Уламка речі не зберігаються
+        if (data.shards() <= 0) {
+            return;
+        }
         // Із keepInventory речі й так лишаються
         if (level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
             return;
@@ -68,7 +72,7 @@ public final class SoulShardEvents {
 
         // Лишається не більше уламків, ніж дозволяє конфіг: найстаріші зникають
         List<UUID> removed = SoulShardIndex.get(level.getServer())
-                .register(player.getUUID(), shard.getUUID(), Config.SOUL_SHARD_LIMIT.get());
+                .register(player.getUUID(), shard.getUUID(), data.shards());
         for (UUID id : removed) {
             for (ServerLevel other : level.getServer().getAllLevels()) {
                 Entity old = other.getEntity(id);

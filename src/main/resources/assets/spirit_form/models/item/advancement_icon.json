@@ -117,6 +117,18 @@
         "custom_model_data": 19
       },
       "model": "spirit_form:item/advancement/hunger_retreats"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 20
+      },
+      "model": "spirit_form:item/advancement/beyond_home"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 21
+      },
+      "model": "spirit_form:item/advancement/retinue"
     }
   ]
 }

@@ -1,0 +1,47 @@
+==== 1. У SpiritArmorMaterials.java: матеріал обладунка (поруч із SPIRIT) ====
+
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> MY_ARMOR = ARMOR_MATERIALS.register("my_armor", () -> {
+        EnumMap<ArmorItem.Type, Integer> defense = new EnumMap<>(ArmorItem.Type.class);
+        defense.put(ArmorItem.Type.BOOTS, 3);
+        defense.put(ArmorItem.Type.LEGGINGS, 6);
+        defense.put(ArmorItem.Type.CHESTPLATE, 8);
+        defense.put(ArmorItem.Type.HELMET, 3);
+        defense.put(ArmorItem.Type.BODY, 11);
+        return new ArmorMaterial(
+                defense,
+                15,                              // зачаровуваність
+                SoundEvents.ARMOR_EQUIP_DIAMOND, // звук надягання
+                () -> Ingredient.EMPTY,          // чим лагодиться
+                List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "my_armor"))),
+                2.0F,                            // toughness
+                0.0F);                           // стійкість до відкидання
+    });
+
+==== 2. У SpiritItems.java: предмети ====
+
+Зброя:
+    public static final DeferredItem<Item> MY_WEAPON = ITEMS.registerItem(
+            "my_weapon", MyWeaponItem::new, new Item.Properties().stacksTo(1));
+
+Обладунок (метод armor(...) у SpiritItems треба зробити універсальним: додати параметр матеріалу):
+
+    private static DeferredItem<Item> armor(String name, Holder<ArmorMaterial> material, ArmorItem.Type type, int durabilityMultiplier) {
+        return ITEMS.registerItem(name,
+                properties -> new ArmorItem(material, type, properties),
+                new Item.Properties().durability(type.getDurability(durabilityMultiplier)));
+    }
+
+    public static final DeferredItem<Item> MY_ARMOR_HELMET = armor("my_armor_helmet", SpiritArmorMaterials.MY_ARMOR, ArmorItem.Type.HELMET, 33);
+    public static final DeferredItem<Item> MY_ARMOR_CHESTPLATE = armor("my_armor_chestplate", SpiritArmorMaterials.MY_ARMOR, ArmorItem.Type.CHESTPLATE, 33);
+    public static final DeferredItem<Item> MY_ARMOR_LEGGINGS = armor("my_armor_leggings", SpiritArmorMaterials.MY_ARMOR, ArmorItem.Type.LEGGINGS, 33);
+    public static final DeferredItem<Item> MY_ARMOR_BOOTS = armor("my_armor_boots", SpiritArmorMaterials.MY_ARMOR, ArmorItem.Type.BOOTS, 33);
+
+(Число 33 це множник міцності: залізо 15, алмаз 33, незерит 37. Існуючі рядки SPIRIT_* змініть на armor("spirit_helmet", SpiritArmorMaterials.SPIRIT, ArmorItem.Type.HELMET, SpiritArmorMaterials.DURABILITY_MULTIPLIER) тощо.)
+
+==== 3. У SpiritItems.java, у displayItems: творча вкладка ====
+
+                        output.accept(MY_WEAPON.get());
+                        output.accept(MY_ARMOR_HELMET.get());
+                        output.accept(MY_ARMOR_CHESTPLATE.get());
+                        output.accept(MY_ARMOR_LEGGINGS.get());
+                        output.accept(MY_ARMOR_BOOTS.get());

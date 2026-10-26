@@ -71,6 +71,13 @@ public final class SpiritAdvancements {
             if (lowest >= 15) {
                 grant(player, "king");
             }
+            // Нагорода за досягнення "Король Потойбіччя"
+            if (!data.hasAbility(SpiritAbility.ARMY) && player.getServer() != null
+                    && SpiritBeyond.hasKing(player, player.getServer())) {
+                SpiritFormState.set(player, data.withAbility(SpiritAbility.ARMY, true));
+                player.displayClientMessage(
+                        net.minecraft.network.chat.Component.translatable("message.spirit_form.army.unlocked"), false);
+            }
         }
     }
 }

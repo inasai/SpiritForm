@@ -193,6 +193,11 @@ public class SpiritServerEvents {
             return;
         }
 
+        // З Косою Потойбіччя в руках невразливість Привида не діє
+        if (SpiritReaper.holdsScythe(player)) {
+            return;
+        }
+
         event.setCanceled(true);
     }
 

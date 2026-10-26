@@ -21,6 +21,10 @@ public record UpgradeSpiritPayload(int action) implements CustomPacketPayload {
     public static final int TOGGLE_ICY = 51;
     public static final int TOGGLE_PRESENCE = 52;
     public static final int TOGGLE_GAZE = 53;
+    public static final int TOGGLE_ECHO = 54;
+    public static final int BUY_SHARD = 60;
+    public static final int BUY_ARMY_SLOT = 61;
+    public static final int RESET_ABILITY_BASE = 100;
 
     public static final Type<UpgradeSpiritPayload> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(
@@ -56,6 +60,16 @@ public record UpgradeSpiritPayload(int action) implements CustomPacketPayload {
 
     public static SpiritAbility abilityFor(int action) {
         int index = action - ABILITY_BASE;
+        SpiritAbility[] abilities = SpiritAbility.values();
+        return index >= 0 && index < abilities.length ? abilities[index] : null;
+    }
+
+    public static int resetAbilityActionFor(SpiritAbility ability) {
+        return RESET_ABILITY_BASE + ability.ordinal();
+    }
+
+    public static SpiritAbility resetAbilityFor(int action) {
+        int index = action - RESET_ABILITY_BASE;
         SpiritAbility[] abilities = SpiritAbility.values();
         return index >= 0 && index < abilities.length ? abilities[index] : null;
     }

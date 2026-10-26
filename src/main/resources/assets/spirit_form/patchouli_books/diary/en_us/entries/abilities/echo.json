@@ -1,0 +1,16 @@
+{
+  "name": "Echo of Death",
+  "icon": "minecraft:echo_shard",
+  "category": "spirit_form:abilities",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Path of Darkness 3, costs 3 levels.$(br)$(thing)Type$(): passive (wheel $(thing)T$()).$(br2)When activated, a block of the Beyond is left behind where you stand. Play as usual. When deactivated, you are teleported to the Echo, and the block disappears."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The block does not break, and you can walk through it. If there is no space for the block, the ability cannot be activated."
+    }
+  ]
+}

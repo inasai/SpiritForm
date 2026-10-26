@@ -30,6 +30,9 @@ public final class SpiritTeleport {
     /** Наскільки далеко можна відступити від стіни в пошуках вільного місця. */
     private static final double MAX_RETREAT = 6.0;
 
+    /** Наскільки далеко (у блоках) шукаємо вільне місце, коли гравець застряг у блоках. */
+    private static final int MAX_ESCAPE = 16;
+
     private static final Map<UUID, Long> SMOKE_UNTIL = new HashMap<>();
 
     private SpiritTeleport() {
@@ -128,6 +131,11 @@ public final class SpiritTeleport {
      * Якщо дивиться в повітря, переносимо вздовж погляду на половину радіуса з налаштувань.
      */
     private static Vec3 findDestination(ServerPlayer player) {
+        // Гравець застряг у блоках: переносимо до найближчого вільного місця
+        if (collidesWithBlocks(player, player.getBoundingBox())) {
+            return nearestFree(player);
+        }
+
         double range = Config.TELEPORT_RANGE.get();
 
         Vec3 eyePosition = player.getEyePosition();
@@ -173,6 +181,37 @@ public final class SpiritTeleport {
             }
         }
 
+        return null;
+    }
+
+    /** Найближче місце без блоків (шукаємо шарами, дедалі далі від гравця). */
+    private static Vec3 nearestFree(ServerPlayer player) {
+        AABB base = player.getBoundingBox();
+        for (int r = 1; r <= MAX_ESCAPE; r++) {
+            Vec3 best = null;
+            double bestDistance = Double.MAX_VALUE;
+            for (int dx = -r; dx <= r; dx++) {
+                for (int dy = -r; dy <= r; dy++) {
+                    for (int dz = -r; dz <= r; dz++) {
+                        if (Math.max(Math.abs(dx), Math.max(Math.abs(dy), Math.abs(dz))) != r) {
+                            continue;
+                        }
+                        double distance = dx * dx + dy * dy + dz * dz;
+                        if (distance >= bestDistance) {
+                            continue;
+                        }
+                        AABB moved = base.move(dx, dy, dz);
+                        if (isInsideWorldHeight(player, moved) && !collidesWithBlocks(player, moved)) {
+                            best = new Vec3(dx, dy, dz);
+                            bestDistance = distance;
+                        }
+                    }
+                }
+            }
+            if (best != null) {
+                return player.position().add(best);
+            }
+        }
         return null;
     }
 

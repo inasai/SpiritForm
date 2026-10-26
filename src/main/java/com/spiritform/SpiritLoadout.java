@@ -72,9 +72,9 @@ public final class SpiritLoadout {
     }
 
     private static void defaults() {
-        SLOTS.put(Bar.PASSIVE, pad(Bar.PASSIVE.size, INSTINCT, "icy_touch", "presence", "gaze"));
-        SLOTS.put(Bar.AUX, pad(Bar.AUX.size, "vanish", "possession", "delirium", "immunity", "life_gift", "scales"));
-        SLOTS.put(Bar.MAIN, pad(Bar.MAIN.size, "touch", "step", "sense"));
+        SLOTS.put(Bar.PASSIVE, pad(Bar.PASSIVE.size, INSTINCT, "icy_touch", "presence", "gaze", "echo"));
+        SLOTS.put(Bar.AUX, pad(Bar.AUX.size, "vanish", "possession", "delirium", "immunity", "life_gift", "scales", "scream", "summon", "sense"));
+        SLOTS.put(Bar.MAIN, pad(Bar.MAIN.size, "touch", "step", "army"));
     }
 
     private static void ensureLoaded() {
@@ -113,15 +113,58 @@ public final class SpiritLoadout {
                 }
                 SLOTS.put(bar, slots);
             }
+
+            // Версія 3: з'явилися нові здібності, їх ставимо у вільні клітинки, решту не чіпаємо
+            if (current && version.getAsInt() < 3) {
+                addMissing("echo", "scream", "summon");
+            }
+            // Версія 4: Армія Потойбіччя
+            if (current && version.getAsInt() < 4) {
+                addMissing("army");
+            }
+            // Версія 5: Армія на N (основна), Чуття на цифрі 9. Лише якщо там ще стоїть старе типове розташування
+            if (current && version.getAsInt() < 5) {
+                String[] main = SLOTS.get(Bar.MAIN);
+                String[] aux = SLOTS.get(Bar.AUX);
+                if ("sense".equals(main[2]) && "army".equals(aux[8])) {
+                    main[2] = "army";
+                    aux[8] = "sense";
+                }
+                save();
+            }
         } catch (Exception e) {
             LOGGER.warn("Spirit Form: could not read the ability loadout, using defaults", e);
             defaults();
         }
     }
 
+    private static void addMissing(String... ids) {
+        for (String id : ids) {
+            Bar bar = candidates(Bar.PASSIVE).contains(id) ? Bar.PASSIVE : Bar.AUX;
+            boolean placed = false;
+            for (Bar other : sameGroup(bar)) {
+                for (String slot : SLOTS.get(other)) {
+                    placed |= slot.equals(id);
+                }
+            }
+            for (Bar other : sameGroup(bar)) {
+                if (placed) {
+                    break;
+                }
+                String[] slots = SLOTS.get(other);
+                for (int i = 0; i < slots.length && !placed; i++) {
+                    if (slots[i].isEmpty()) {
+                        slots[i] = id;
+                        placed = true;
+                    }
+                }
+            }
+        }
+    }
+
     private static void save() {
         JsonObject root = new JsonObject();
-        root.addProperty("version", 2);
+        root.addProperty("version", 5);
         for (Bar bar : Bar.values()) {
             JsonArray array = new JsonArray();
             for (String id : SLOTS.get(bar)) {

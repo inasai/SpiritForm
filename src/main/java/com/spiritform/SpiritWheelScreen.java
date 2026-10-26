@@ -60,6 +60,10 @@ public class SpiritWheelScreen extends Screen {
                 if (data.hasAbility(SpiritAbility.PRESENCE)) {
                     list.add(new Entry(name, icon, data.presence(), UpgradeSpiritPayload.TOGGLE_PRESENCE));
                 }
+            } else if (SpiritAbility.ECHO.id.equals(id)) {
+                if (data.hasAbility(SpiritAbility.ECHO)) {
+                    list.add(new Entry(name, icon, data.echo(), UpgradeSpiritPayload.TOGGLE_ECHO));
+                }
             } else if (SpiritAbility.GAZE.id.equals(id)) {
                 if (data.hasAbility(SpiritAbility.GAZE)) {
                     list.add(new Entry(name, icon, data.gaze(), UpgradeSpiritPayload.TOGGLE_GAZE));

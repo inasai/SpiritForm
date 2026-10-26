@@ -6,11 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "If you die with the Spirit Instincts enabled, a black smoke will appear at the location of your death, preserving all your items along with their positions.$(br2)Right-click the smoke: your items will return to their original positions, and if the position is occupied, they will be shifted."
+      "text": "Soul Fragments are opened in the abilities window (last line of the last page). Initially there are none. The Nth Fragment costs N experience levels. The maximum is set by the config $(thing)soulShardMax$()."
     },
     {
       "type": "patchouli:text",
-      "text": "Only one Soul Shard can exist at a time (the quantity is configured). A new death will remove the previous one. Only the owner can retrieve the items."
+      "text": "If you die while Ghost Instincts are active and possess at least one Shard, black smoke appears at the spot of your death, preserving all your items along with their original positions.$(br2)Right-click the smoke to restore your items to their places. The number of active Shards corresponds to the number you have unlocked; newer Shards replace the oldest ones. Only the owner can retrieve the items."
     }
   ]
 }

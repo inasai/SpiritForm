@@ -69,6 +69,16 @@ public record AbilityPayload(int ability, boolean pressed) implements CustomPack
                         SpiritImmunity.activate(player);
                     }
                 }
+                case SCREAM -> {
+                    if (payload.pressed()) {
+                        SpiritScream.activate(player);
+                    }
+                }
+                case SUMMON -> {
+                    if (payload.pressed()) {
+                        SpiritSummon.activate(player);
+                    }
+                }
                 case LIFE_GIFT, SCALES -> SpiritCharge.set(player, ability, payload.pressed());
                 default -> {
                     // Чуття працює на клієнті, пасивні вмикаються через вікно прокачки

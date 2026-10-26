@@ -67,5 +67,17 @@ public class SpiritNetworking {
                 PossessActionPayload.STREAM_CODEC,
                 PossessActionPayload::handleData
         );
+
+        registrar.playToServer(
+                ArmyActionPayload.TYPE,
+                ArmyActionPayload.STREAM_CODEC,
+                ArmyActionPayload::handleData
+        );
+
+        registrar.playToClient(
+                ArmySyncPayload.TYPE,
+                ArmySyncPayload.STREAM_CODEC,
+                ArmySyncPayload::handleData
+        );
     }
 }

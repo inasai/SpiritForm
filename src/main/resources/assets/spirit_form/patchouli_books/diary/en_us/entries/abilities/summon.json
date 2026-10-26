@@ -1,0 +1,12 @@
+{
+  "name": "Summon",
+  "icon": "minecraft:lead",
+  "category": "spirit_form:abilities",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Requirement$(): Path of Movement 3, costs 3 levels.$(br)$(thing)Type$(): active.$(br2)Teleports the entity you are looking at to your location, within a range of up to 48 blocks (in config $(thing)summonRange$()). If you are not looking at anything, the ability will not work. Players cannot be summoned."
+    }
+  ]
+}
