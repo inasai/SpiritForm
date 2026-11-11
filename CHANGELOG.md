@@ -446,8 +446,4 @@ Beyond – in the Overworld, the duration of the spirit form is limited to 1 min
 ### Added
 - Перший офіційний реліз проєкту!
 
-[Unreleased]: https://github.com/username/repository/compare/v1.1.0...HEAD
-
-
-[1.0.1]: https://github.com/username/repository/compare/v1.0.0...v1.0.1
-[1.0.1]: https://github.com/username/repository/releases/tag/v1.0.0
+[//]: # ([Unreleased]: https://github.com/username/repository/compare/v1.1.0...HEAD)
