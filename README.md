@@ -2,6 +2,8 @@
 
 # Spirit Form
 
+[![CurseForge](https://img.shields.io/badge/CurseForge-Download-orange?logo=curseforge&logoColor=white)](https://www.curseforge.com/minecraft/mc-mods/spirit-form) [![Modrinth](https://img.shields.io/badge/Modrinth-Download-5da545?logo=modrinth&logoColor=white)](https://modrinth.com/mod/spirit-form)
+
 ## 📚 Документація
 
 Детальна документація до проєкту знаходиться в папці [Templates](./Templates/):
