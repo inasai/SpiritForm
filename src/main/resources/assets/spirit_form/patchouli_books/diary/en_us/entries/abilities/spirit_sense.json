@@ -1,0 +1,23 @@
+{
+  "name": "Spirit Sense",
+  "category": "spirit_form:abilities_darkness",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=31]",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Highlights nearby creatures and storages (chests, barrels, shulker boxes, ender chests and containers from other mods), allowing you to see them through walls and other obstacles.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 5."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Use Spirit Sense to scout a dangerous room or detect creatures hiding nearby. It does not damage or stop its targets."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Trail to the Soul Shard",
+      "text": "While Sense is on and your Soul Shard lies where you died, a trail of dark smoke leads to it. The trail points to the shard itself, not to the place of death, so it finds the shard even behind a wall. It fades when you get close. With the Crown of the Beyond on, creatures you look at show health and effects in a subdued panel."
+    }
+  ]
+}

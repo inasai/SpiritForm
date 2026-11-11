@@ -1,0 +1,18 @@
+{
+  "name": "Ghost Touch",
+  "category": "spirit_form:abilities_movement",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=35]",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Lets you lift creatures and blocks at a distance, change their distance from you, and throw them.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 15."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Look at a creature or block and hold the ability key to lift it; use the mouse wheel to change distance. Release or press the key again to throw it. Creatures take damage when they hit blocks. Blocks with inventories or hardness above $(thing)touchBlockMaxHardness$() cannot be lifted."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Forest of the Beyond",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:oak_sapling",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_forest.png"
+      ],
+      "title": "Among the trees",
+      "text": "The forest hides more than it seems.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What is here",
+      "text": "$(li)$(l:forest/mavka_tree)Mavka Trees$(/l) and $(l:forest/titan_tree)Titan Trees$(/l);$(li)$(l:forest/roots)Roots$(/l) that point toward a Titan Tree;$(li)the $(l:forest/mavka_flower)Mavka Flower$(/l) atop a Titan Tree;$(li)creatures: $(l:forest/mavka)Mavka$(/l), $(l:forest/chugaister)Chuhaister$(/l), $(l:forest/hukha)Hukha$(/l), $(l:forest/zlyden)Zlydeny$(/l), $(l:forest/bisyk)Bisyk$(/l), $(l:forest/skarbnyk)Skarbnyk$(/l).$(br2)If you see a huge tree, do not rush past. It may lead you to something interesting. Or to someone who dislikes guests."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_forest",
+  "secret": true
+}

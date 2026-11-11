@@ -1,0 +1,7 @@
+{
+  "name": "Weapons of the Beyond",
+  "description": "Weapons made for those who have crossed the boundary of life.",
+  "icon": "spirit_form:scythe",
+  "sortnum": 5,
+  "parent": "spirit_form:resources"
+}

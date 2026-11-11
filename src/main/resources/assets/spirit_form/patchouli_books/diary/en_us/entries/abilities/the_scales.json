@@ -1,0 +1,18 @@
+{
+  "name": "The Scales",
+  "category": "spirit_form:abilities_darkness",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=41]",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Turns your own health into power that removes the same amount of health from a target.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 15."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Hold the ability key to charge it. Each charge costs one heart, but leaves you with at least half a heart. Release the key to attack a target at range."
+    }
+  ]
+}

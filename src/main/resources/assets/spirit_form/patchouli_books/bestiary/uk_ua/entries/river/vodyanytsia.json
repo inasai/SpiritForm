@@ -1,0 +1,27 @@
+{
+  "name": "Водяниця",
+  "category": "spirit_form:river",
+  "icon": "minecraft:nautilus_shell",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:vodianytsia",
+      "name": "Водяниця",
+      "text": "Мешканка річки, схожа на маленьку русалку. Не вір її вигляду.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Спів",
+      "text": "Спів Водяниць накладає ефект $(thing)Заманювання$(): ти не можеш стрибати, а тебе тягне до води. Радіус дії — $(thing)32 блоки$().$(br2)У воді ти не здатен випливти: тебе притискає до дна."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Як діяти",
+      "text": "$(#2E7D4F)Найкращий спосіб втекти — Форма Привида.$() Вмикай її, щойно відчуєш тягу до води.$(br2)Водяниці лякливі та слабкі, але чверть із них — сміливі: вони підпливають і нападають, коли ти вже тонеш."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/vodianytsia",
+  "secret": true
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Mavka",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:rose_bush",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:mavka",
+      "name": "Mavka",
+      "text": "A spirit that keeps to the Mavka Trees. She lets no one close without reason.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "$(li)$(#A33B3B)Poisonous touch:$() her blow poisons you.$(li)Attacks hostile creatures, the Chuhaister and the Zlydeny.$(li)Leaves peaceful animals, hukhas, bisyks and skarbnyks alone.$(li)There are three at a Mavka Tree and ten at a Titan Tree."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What to do",
+      "text": "$(#2E7D4F)Become a friend:$() help them defeat the Chuhaister, their sworn enemy. Details in $(l:general/affection)“Favour of Creatures”$(/l).$(br2)They like $(item)Wither Roses$(). But strike a Mavka and the friendship is gone."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/mavka",
+  "secret": true
+}

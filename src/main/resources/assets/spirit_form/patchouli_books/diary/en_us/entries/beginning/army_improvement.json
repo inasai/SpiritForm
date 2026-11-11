@@ -1,0 +1,28 @@
+{
+  "name": "Soul Improvement",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:crystal_soul",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Soul Forge",
+      "text": "“A soul that wins does not stay the same.”$(br2)The Army of the Beyond wheel has an $(thing)Improvement$() entry. It opens a window where each stored soul can be developed separately: raise its rank, improve health, damage and speed, and equip armor."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Ranks",
+      "text": "A soul's rank grows from the kills made by that very soul (including arrows and fireballs). Ranks: $(thing)Page, Squire, Knight, Banneret, Marshal$().$(br2)Kills per rank: $(thing)10, 30, 70, 150$().$(br2)Promotions: the first doubles health, the second doubles damage, the third raises speed by half again, the fourth doubles health and damage once more."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Upgrades",
+      "text": "Health, damage and speed can be upgraded up to $(thing)10 levels$() each. Level N costs $(thing)N$() $(l:resources/beyond/crystal_soul)Crystallized Souls$(/l).$(br2)Health and damage grow by $(thing)10%$() per level, speed more slowly. Everything multiplies with the rank bonuses."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Armor",
+      "text": "Each soul has four slots: helmet, chestplate, leggings and boots. Click an armor piece in your inventory, then a slot ($(thing)Shift+click$() equips at once); clicking a slot removes it.$(br2)Armor is not drawn on the creature, but the item's defense and toughness are added to it. Releasing a soul returns its armor to you."
+    }
+  ]
+}

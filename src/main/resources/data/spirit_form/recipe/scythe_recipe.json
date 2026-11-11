@@ -2,23 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    "IIC",
-    " S ",
-    "S  "
+    "NNC",
+    " B ",
+    "B  "
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
+    "N": {
+      "item": "minecraft:netherite_ingot"
     },
     "C": {
-      "type": "spirit_form:soul_catcher"
+      "item": "spirit_form:crystal_soul"
     },
-    "S": {
-      "item": "minecraft:stick"
+    "B": {
+      "item": "minecraft:breeze_rod"
     }
   },
   "result": {
-    "count": 1,
-    "id": "spirit_form:scythe"
+    "id": "spirit_form:scythe",
+    "count": 1
   }
 }

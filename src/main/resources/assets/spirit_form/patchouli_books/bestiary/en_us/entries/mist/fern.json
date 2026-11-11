@@ -1,0 +1,22 @@
+{
+  "name": "Glowing Fern",
+  "category": "spirit_form:mist",
+  "icon": "minecraft:glow_berries",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:glow_fern",
+      "title": "A glowing plant",
+      "text": "Uncommon. Glows like Glow Berries, so it can be seen even through the fog."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:fern_pearl",
+      "title": "Fern Pearl",
+      "text": "A broken Fern drops a $(item)Fern Pearl$(). Eaten, it fully restores health and hunger.$(br2)$(#7952A6)Save it for a Herald fight.$()"
+    }
+  ],
+  "advancement": "spirit_form:bestiary/fern",
+  "secret": true
+}

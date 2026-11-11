@@ -1,0 +1,7 @@
+{
+  "name": "Реліквії Потойбіччя",
+  "description": "Реліквії, що допомагають зміцнити зв’язок із Потойбіччям і розкрити нові можливості.",
+  "icon": "spirit_form:soul_catcher",
+  "sortnum": 1,
+  "parent": "spirit_form:resources"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Mavka Flower",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:flowering_azalea",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:mavka_flower",
+      "title": "Flower at the top",
+      "text": "Grows in a pot in the house atop a $(l:forest/titan_tree)Titan Tree$(/l). It is found nowhere else."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Faster growth",
+      "text": "Planted on the ground, the flower speeds up the growth of every plant within $(thing)20 blocks$(): crops, saplings, stalks, berry bushes.$(br2)If you break it, it drops as an item. You need not leave it where you found it."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/mavka_flower",
+  "secret": true
+}

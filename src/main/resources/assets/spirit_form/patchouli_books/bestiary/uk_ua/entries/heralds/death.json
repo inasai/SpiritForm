@@ -1,0 +1,39 @@
+{
+  "name": "Вісник Смерті",
+  "category": "spirit_form:heralds",
+  "icon": "minecraft:wither_skeleton_skull",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:death_herald",
+      "name": "Вісник Смерті",
+      "text": "Той, хто приходить, коли життя добігає кінця.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поклик",
+      "text": "Сам не з’являється. Його можна викликати лише особливим ритуалом: об’єднай три серця Вісників у $(item)Доказ сили$() і натисни ПКМ з ним по блоку $(item)Відлуння Потойбіччя$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:proof_of_strength",
+      "title": "Доказ сили",
+      "text": "Для рецепта потрібні Серця Бурі, Голоду й Холоду."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поради",
+      "text": "Про цього Вісника відомо мало, тож не роби поспішних висновків.$(br2)$(li)Прийди з повним спорядженням, їжею й $(item)Перлиною папороті$().$(li)Перевір панель здібностей: це не звичайна битва.$(li)Якщо програєш, Вісник зникне без серця."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Нагорода",
+      "text": "Після перемоги залишається $(item)Серце Смерті$(). Поглинувши його, ти отримуєш здібність «Енергія Потойбіччя»."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/death_herald",
+  "secret": true
+}

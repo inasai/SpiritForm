@@ -1,0 +1,22 @@
+{
+  "name": "Lisovyk",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:moss_block",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:lisovyk",
+      "name": "Lisovyk",
+      "text": "A moss-covered giant. Guards the edge of the Beyond Forest.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "Appears on the $(thing)border$() of the Forest, where it turns into another biome. Attacks hostile creatures from outside (zombies, skeletons and so on) but leaves the forest's own dwellers alone. It will not touch you unless you strike first.$(br2)As fast as a $(l:forest/mavka)Mavka$(/l), and as strong a hitter as the $(l:forest/chugaister)Chuhaister$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/lisovyk",
+  "secret": true
+}

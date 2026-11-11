@@ -1,0 +1,23 @@
+{
+  "name": "Кайдани Межі",
+  "category": "spirit_form:resources_darkness",
+  "icon": "spirit_form:shackles_of_the_edge",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Обмеження відступають",
+      "text": "«Єдина мета кайданів — обмежувати тебе. Але ці діють інакше»$(br2)Сила Вісника Холоду змінила межі твоїх можливостей. Кайдани Межі розширюють радіус дії здібностей."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Сила спорядження",
+      "text": "Коли Кайдани Межі споряджені, радіус дії здібностей збільшується вдвічі. Без них цей ефект не діє.",
+      "item": "spirit_form:shackles_of_the_edge"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:shacklace_recipe"
+    }
+  ]
+}

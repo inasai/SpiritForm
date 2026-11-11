@@ -1,12 +1,18 @@
 {
   "name": "Icy Touch",
-  "icon": "minecraft:blue_ice",
-  "category": "spirit_form:abilities",
-  "sortnum": 4,
+  "category": "spirit_form:abilities_movement",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=37]",
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Requirement$(): Movement Path 10.$(br)$(thing)Type$(): passive (wheel $(thing)T$()).$(br2)Mobs you hit (or mobs you are riding) freeze. Water around you turns into ice, and lava turns into magmatic block, which doesn't cause damage. Outside the effect radius, the block becomes lava again."
+      "title": "What it does",
+      "text": "Freezes creatures you hit, turns water into ice, and turns lava into magma blocks.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 10."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "If you are possessing a creature, the cold affects it too. Block changes are temporary: when they leave the ability’s area, they return to their previous state."
     }
   ]
 }

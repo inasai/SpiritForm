@@ -1,0 +1,20 @@
+{
+  "name": "Ash",
+  "category": "spirit_form:heatland",
+  "icon": "spirit_form:phoenix_ash",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What the Phoenix leaves",
+      "text": "When a player slays a Phoenix, a flat block of $(item)Ash$() is left where it fell. It can be mined with a shovel or by hand."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Rebirth",
+      "text": "Place the Ash next to lava (or in it) and click it with a $(item)Phoenix Feather$(). After 3 minutes the block vanishes and a calm Phoenix rises in its place.$(br2)Only that one can be tamed with a $(item)Spirit Apple$()."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/phoenix_ash",
+  "secret": true
+}

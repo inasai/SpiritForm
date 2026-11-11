@@ -1,0 +1,18 @@
+{
+  "name": "Echo of Death",
+  "category": "spirit_form:abilities_darkness",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=43]",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Creates a Beyond Echo block — a return point and a gateway between dimensions.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 3."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "When you disable the ability, you return to your previous location and the block disappears. There must be enough space to place it. To enter the Beyond, interact with the block while carrying a $(l:resources/beyond/crystal_soul)Crystallized Soul$(/l) or after earning the “King of the Beyond” advancement."
+    }
+  ]
+}

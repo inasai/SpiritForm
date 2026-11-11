@@ -1,0 +1,7 @@
+{
+  "name": "Реліквії Темряви",
+  "description": "Сила, що залишилася після зустрічі з Вісником Холоду.",
+  "icon": "spirit_form:shackles_of_the_edge",
+  "sortnum": 2,
+  "parent": "spirit_form:resources"
+}

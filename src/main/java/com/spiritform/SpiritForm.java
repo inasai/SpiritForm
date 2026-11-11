@@ -34,6 +34,8 @@ public final class SpiritForm {
         if (SpiritFormState.isActive(player)) {
             if (SpiritPossession.isPossessing(player)) {
                 SpiritPossession.drainAndExit(player);
+            } else if (SpiritExistence.isNether()) {
+                player.displayClientMessage(Component.translatable("message.spirit_form.nether.stay"), true);
             } else {
                 deactivate(player);
             }
@@ -54,11 +56,36 @@ public final class SpiritForm {
 
     /** ignoreCooldown = true для рятівного Інстинкту, який не може чекати. */
     public static void activate(ServerPlayer player, boolean ignoreCooldown) {
+        activateImpl(player, ignoreCooldown, false);
+    }
+
+    /** Примусовий вхід у форму для режиму Nether (після смерті): без перевірок голоду, перезарядки й відкриття. */
+    public static void activateForced(ServerPlayer player) {
+        activateImpl(player, true, true);
+    }
+
+    private static void activateImpl(ServerPlayer player, boolean ignoreCooldown, boolean forced) {
+        if (SpiritFormState.isActive(player)) {
+            return;
+        }
+        if (!forced && SpiritExistence.isNether()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.nether.locked"), true);
+            return;
+        }
+        if (forced && !SpiritFormState.get(player).unlocked()) {
+            SpiritFormState.set(player, SpiritFormState.get(player).withUnlocked(true));
+        }
         SpiritData data = SpiritFormState.get(player);
 
         // З Косою Потойбіччя в руках Привидом бути не можна
-        if (SpiritReaper.holdsScythe(player)) {
+        if (!forced && SpiritReaper.holdsScythe(player)) {
             player.displayClientMessage(Component.translatable("message.spirit_form.scythe.no_form"), true);
+            return;
+        }
+
+        // Біля Титанічного дерева форма Привида не діє
+        if (!forced && TitanTrees.blocksForm(player)) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.titan.no_form"), true);
             return;
         }
 
@@ -78,26 +105,22 @@ public final class SpiritForm {
             }
         }
 
-        if (isStarving(player)) {
+        if (!forced && isStarving(player)) {
             player.displayClientMessage(Component.translatable("message.spirit_form.exhausted"), true);
             return;
         }
 
         SpiritFormState.setActive(player, true);
 
-        AttributeInstance flight = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
-        if (flight != null && !flight.hasModifier(FLIGHT_MODIFIER_ID)) {
-            flight.addTransientModifier(new AttributeModifier(
-                    FLIGHT_MODIFIER_ID,
-                    1.0,
-                    AttributeModifier.Operation.ADD_VALUE
-            ));
+        applyFlight(player, data);
+        // Політ вмикається сам лише якщо Інстинкти Привида увімкнені й гравець у повітрі;
+        // на землі або з вимкненими Інстинктами летіти можна, двічі швидко натиснувши Пробіл
+        if (data.canFly() && data.instinct() && !player.onGround()) {
+            player.getAbilities().flying = true;
+            player.onUpdateAbilities();
         }
-
-        Abilities abilities = player.getAbilities();
-        abilities.setFlyingSpeed(SpiritBalance.flySpeed(data.movement()));
-        abilities.flying = true;
-        player.onUpdateAbilities();
+        // З рівня 2 форма починається з увімкненим проходженням крізь блоки (двічі швидко Shift вимикає його)
+        SpiritFormState.set(player, SpiritFormState.get(player).withPhasing(data.canPhase()));
 
         // Темрява при вході у форму
         if (SpiritBalance.darknessConstantInForm(data.darkness())) {
@@ -164,7 +187,35 @@ public final class SpiritForm {
         if (!data.active()) {
             return;
         }
-        player.getAbilities().setFlyingSpeed(SpiritBalance.flySpeed(data.movement()));
+        applyFlight(player, data);
+    }
+
+    /**
+     * Політ дає лише рівень форми 2 і вище (проходження крізь блоки з рівня 3 забезпечує PlayerMixin).
+     * Викликається при вході у форму, після покупки чи скидання рівня й після зміни режиму.
+     */
+    public static void applyFlight(ServerPlayer player, SpiritData data) {
+        AttributeInstance flight = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
+        Abilities abilities = player.getAbilities();
+
+        if (data.canFly()) {
+            if (flight != null && !flight.hasModifier(FLIGHT_MODIFIER_ID)) {
+                flight.addTransientModifier(new AttributeModifier(
+                        FLIGHT_MODIFIER_ID,
+                        1.0,
+                        AttributeModifier.Operation.ADD_VALUE
+                ));
+            }
+            abilities.setFlyingSpeed(SpiritBalance.flySpeed(data.movement()));
+        } else {
+            if (flight != null) {
+                flight.removeModifier(FLIGHT_MODIFIER_ID);
+            }
+            if (!player.isCreative() && !player.isSpectator()) {
+                abilities.flying = false;
+            }
+            abilities.setFlyingSpeed(SpiritBalance.DEFAULT_FLY_SPEED);
+        }
         player.onUpdateAbilities();
     }
 
@@ -181,6 +232,7 @@ public final class SpiritForm {
         player.removeEffect(MobEffects.NIGHT_VISION);
 
         SpiritFormState.setActive(player, false);
+        SpiritFormState.set(player, SpiritFormState.get(player).withPhasing(false));
 
         AttributeInstance flight = player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
         if (flight != null) {

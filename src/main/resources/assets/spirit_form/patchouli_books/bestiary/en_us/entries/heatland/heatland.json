@@ -1,0 +1,24 @@
+{
+  "name": "Heatland",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:magma_block",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_heatland.png"
+      ],
+      "title": "Scorched land",
+      "text": "Basalt, blackstone and obsidian fields, lava lakes, a copper-dark sky and ash always in the air.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What lives here",
+      "text": "$(li)$(l:heatland/volcano)Titanic Volcano$(/l): the heart of the land;$(li)$(l:heatland/klunnyk)Klunnyk$(/l): the old man by the lava lakes;$(li)$(l:heatland/bahatko)Bahatko$(/l): small fireballs;$(li)$(l:heatland/phoenix)Phoenix$(/l): ruler of the sky.$(br2)Fire is neither enemy nor friend here. It is the master, and you must learn its ways."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_heatland",
+  "secret": true
+}

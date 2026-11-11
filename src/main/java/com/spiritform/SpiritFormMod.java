@@ -16,8 +16,14 @@ public class SpiritFormMod {
         SpiritBlocks.BLOCK_ENTITIES.register(modEventBus);
         SpiritArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
         SpiritItems.ITEMS.register(modEventBus);
+        SpiritRecipes.SERIALIZERS.register(modEventBus);
+        SpiritEffects.EFFECTS.register(modEventBus);
+        SpiritGameRules.init();
         SpiritCreatures.init();
+        SpiritHeraldEntities.init();
         SpiritEntities.ENTITY_TYPES.register(modEventBus);
+        SpiritWorldgen.FEATURES.register(modEventBus);
+        SpiritWorldgen.PLACEMENT_TYPES.register(modEventBus);
         SpiritItems.CREATIVE_TABS.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC);

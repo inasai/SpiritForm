@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "spirit_form:storm_heart"
+    },
+    {
+      "item": "spirit_form:hunger_heart"
+    },
+    {
+      "item": "spirit_form:cold_heart"
+    }
+  ],
+  "result": {
+    "id": "spirit_form:proof_of_strength",
+    "count": 1
+  }
+}

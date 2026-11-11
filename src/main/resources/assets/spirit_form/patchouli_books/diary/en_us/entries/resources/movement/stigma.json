@@ -1,0 +1,23 @@
+{
+  "name": "Phantom Stigma",
+  "category": "spirit_form:resources_movement",
+  "icon": "spirit_form:fentons_bracelet",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A mark of another essence",
+      "text": "“This bracelet seems to remind the body that its owner has crossed the boundary between life and death.”$(br2)Phantom Stigma is a relic of the $(l:beginning/paths)$(#1C7FA8)Path of Movement$()$(/l). While held or placed in a cell of the $(l:beginning/vault)Vault$(/l), it doubles movement speed, attack damage, and jump height, and halves ability cooldowns."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "The Phantom’s imprint",
+      "text": "Your skin colours are inverted while the bracelet is visible. If you hide it with the eye icon in the Vault, your skin returns to normal but its effects remain active. Multiple Phantom Stigmas do not stack.",
+      "item": "spirit_form:fentons_bracelet"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:fentons_bracelet_recipe"
+    }
+  ]
+}

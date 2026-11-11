@@ -1,0 +1,24 @@
+{
+  "name": "Ліс Потойбіччя",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:oak_sapling",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_forest.png"
+      ],
+      "title": "Між деревами",
+      "text": "Ліс ховає більше, ніж здається.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Що тут є",
+      "text": "$(li)$(l:forest/mavka_tree)Дерева Мавок$(/l) і $(l:forest/titan_tree)Титанічні Дерева$(/l);$(li)$(l:forest/roots)Корені$(/l), що вказують на Титанічне Дерево;$(li)$(l:forest/mavka_flower)Квітка Мавки$(/l) на верхівці Титанічного Дерева;$(li)істоти: $(l:forest/mavka)Мавка$(/l), $(l:forest/chugaister)Чугайстер$(/l), $(l:forest/hukha)Хуха$(/l), $(l:forest/zlyden)Злидень$(/l), $(l:forest/bisyk)Бісик$(/l), $(l:forest/skarbnyk)Скарбник$(/l).$(br2)Якщо побачиш величезне дерево, не поспішай проходити повз. Можливо, воно приведе тебе до чогось цікавого. А можливо, до того, хто не радий гостям."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_forest",
+  "secret": true
+}

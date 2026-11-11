@@ -1,0 +1,28 @@
+{
+  "name": "Хуха",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:cat_spawn_egg",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:hukha",
+      "name": "Хуха",
+      "text": "Велика й боязка істота, що нагадує кота.",
+      "rotate": true,
+      "scale": 0.65
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Приручення",
+      "text": "Хухи не поспішають довіряти незнайомцям. Спробуй запропонувати $(item)сиру рибу$(), як котам, і дай час.$(br2)Приручена Хуха ходить за тобою; її можна посадити."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Захисниця",
+      "text": "Приручена Хуха, яка не сидить, нападає на $(l:forest/zlyden)Злидня$(/l) поблизу. Злидень, якого вона вдарила, тікає близько шести секунд.$(br2)Мавки Хух не чіпають."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/hukha",
+  "secret": true
+}

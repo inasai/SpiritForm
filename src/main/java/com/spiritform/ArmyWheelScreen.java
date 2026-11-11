@@ -2,9 +2,12 @@ package com.spiritform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -14,89 +17,178 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
- * Колеса армії: виклик душ (центр викликає всіх), накази та видалення душ.
- * Закривається після вибору або клавішею Esc.
+ * Меню Армії Потойбіччя у вигляді колеса (відкривається здібністю Армії).
+ * Головне колесо: у центрі кнопка «Викликати всіх» або, коли хоч одну душу викликано, «Відкликати всіх»;
+ * по колу три пункти: Виклик, Накази, Видалення. Кожен пункт відкриває своє колесо.
+ * ПКМ повертає до попереднього колеса, а з головного закриває меню. Shift + ПКМ по душі змінює її іконку.
  */
 public class ArmyWheelScreen extends Screen {
 
     private enum Kind {
+        MAIN,
         SUMMON,
         ORDERS,
-        SOULS
+        DELETE
     }
 
-    private record Entry(Component name, Component sub, String icon, ItemStack stack, boolean on, Runnable action) {
-    }
+    private static final java.util.Map<String, ItemStack> EGGS = new java.util.HashMap<>();
+    private static final String[] ORDER_IDS = {"guard", "attack", "hold", "fury"};
 
-    private static final int OUTER = 104;
-    private static final int INNER = 30;
-    private static final int ICON_RADIUS = 70;
+    /** Сектор колеса: вигляд, душа (для коліс душ) і номер (для наказів і головного колеса). */
+    private record Entry(SpiritWheelUi.Slice slice, ArmySyncPayload.Entry soul, int index) {
+    }
 
     private final Kind kind;
-    private int pendingDelete = -1;
+    private final Screen parent;
+    private UUID pendingDelete;
 
-    private ArmyWheelScreen(Kind kind, String title) {
+    private ArmyWheelScreen(Kind kind, Screen parent, String title) {
         super(Component.translatable(title));
         this.kind = kind;
+        this.parent = parent;
     }
 
-    public static ArmyWheelScreen summon() {
-        return new ArmyWheelScreen(Kind.SUMMON, "screen.spirit_form.army.summon");
+    public static ArmyWheelScreen main() {
+        return new ArmyWheelScreen(Kind.MAIN, null, "screen.spirit_form.army.title");
     }
 
-    public static ArmyWheelScreen orders() {
-        return new ArmyWheelScreen(Kind.ORDERS, "screen.spirit_form.army.orders");
+    private ArmyWheelScreen child(Kind next) {
+        return new ArmyWheelScreen(next, this, switch (next) {
+            case SUMMON -> "screen.spirit_form.army.summon";
+            case ORDERS -> "screen.spirit_form.army.orders";
+            default -> "screen.spirit_form.army.souls";
+        });
     }
 
-    public static ArmyWheelScreen souls() {
-        return new ArmyWheelScreen(Kind.SOULS, "screen.spirit_form.army.souls");
+    private static Kind subKind(int index) {
+        return switch (index) {
+            case 0 -> Kind.SUMMON;
+            case 1 -> Kind.ORDERS;
+            default -> Kind.DELETE;
+        };
+    }
+
+    private static String mainId(int index) {
+        return switch (index) {
+            case 0 -> "summon";
+            case 1 -> "orders";
+            default -> "delete";
+        };
     }
 
     private static void send(int action, String arg) {
         PacketDistributor.sendToServer(new ArmyActionPayload(action, arg));
     }
 
+    // ---------- дані ----------
+
+    private static int summonedCount() {
+        int count = 0;
+        for (ArmySyncPayload.Entry soul : SpiritArmyClient.souls()) {
+            if (soul.summoned()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static int storageSize() {
+        LocalPlayer player = Minecraft.getInstance().player;
+        return player == null ? 0 : SpiritFormState.get(player).effectiveArmySlots();
+    }
+
+    private static Component orderName(int index) {
+        SpiritArmy.Order[] orders = SpiritArmy.Order.values();
+        int i = Math.max(0, Math.min(orders.length - 1, index));
+        return Component.translatable("order.spirit_form." + orders[i].name().toLowerCase());
+    }
+
+    static Component soulName(ArmySyncPayload.Entry soul) {
+        return soul.name().isEmpty() ? SpiritArmy.typeName(soul.type()) : Component.literal(soul.name());
+    }
+
+    static ItemStack soulStack(ArmySyncPayload.Entry soul) {
+        ItemStack custom = SpiritArmyIcons.get(soul.id());
+        if (!custom.isEmpty()) {
+            return custom;
+        }
+        // Яйце виклику шукаємо один раз для кожного виду, а не щокадру
+        return EGGS.computeIfAbsent(soul.type(), type -> {
+            SpawnEggItem egg = EntityType.byString(type).map(SpawnEggItem::byId).orElse(null);
+            return egg == null ? ItemStack.EMPTY : new ItemStack(egg);
+        });
+    }
+
     private List<Entry> entries() {
         List<Entry> list = new ArrayList<>();
-        if (kind == Kind.ORDERS) {
-            String[] ids = {"guard", "attack", "hold", "fury"};
-            for (int i = 0; i < ids.length; i++) {
-                final int index = i;
-                list.add(new Entry(
-                        Component.translatable("order.spirit_form." + ids[i]),
-                        Component.translatable("order.spirit_form." + ids[i] + ".desc"),
-                        "order_" + ids[i], ItemStack.EMPTY,
-                        i == SpiritArmyClient.order(),
-                        () -> send(SpiritArmy.ACT_ORDER, String.valueOf(index))));
+        switch (kind) {
+            case MAIN -> {
+                int total = SpiritArmyClient.souls().size();
+                list.add(new Entry(SpiritWheelUi.Slice.of(
+                        Component.translatable("screen.spirit_form.army.sector.summon"),
+                        Component.translatable("screen.spirit_form.army.summoned_count", summonedCount(), total),
+                        "army_summon", false), null, 0));
+                list.add(new Entry(SpiritWheelUi.Slice.of(
+                        Component.translatable("screen.spirit_form.army.sector.orders"),
+                        Component.translatable("screen.spirit_form.army.current_order", orderName(SpiritArmyClient.order())),
+                        "army_orders", false), null, 1));
+                list.add(new Entry(SpiritWheelUi.Slice.of(
+                        Component.translatable("screen.spirit_form.army.sector.delete"),
+                        Component.translatable("screen.spirit_form.army.in_storage", total),
+                        "army_souls", false), null, 2));
+                list.add(new Entry(SpiritWheelUi.Slice.of(
+                        Component.translatable("screen.spirit_form.army.sector.upgrade"),
+                        Component.translatable("screen.spirit_form.army.upgrade_info"),
+                        "army_upgrade", false), null, 3));
             }
-            return list;
-        }
-
-        for (int i = 0; i < SpiritArmyClient.souls().size(); i++) {
-            final int index = i;
-            ArmySyncPayload.Entry soul = SpiritArmyClient.souls().get(i);
-            Component name = soul.name().isEmpty() ? SpiritArmy.typeName(soul.type()) : Component.literal(soul.name());
-            Component sub = Component.literal("♥ " + soul.hp()
-                    + (soul.summoned() ? " · " : ""))
-                    .append(soul.summoned() ? Component.translatable("screen.spirit_form.army.summoned") : Component.empty());
-            ItemStack stack = ItemStack.EMPTY;
-            SpawnEggItem egg = EntityType.byString(soul.type()).map(SpawnEggItem::byId).orElse(null);
-            if (egg != null) {
-                stack = new ItemStack(egg);
+            case ORDERS -> {
+                for (int i = 0; i < ORDER_IDS.length; i++) {
+                    list.add(new Entry(SpiritWheelUi.Slice.of(
+                            Component.translatable("order.spirit_form." + ORDER_IDS[i]),
+                            Component.translatable(i == SpiritArmyClient.order()
+                                    ? "screen.spirit_form.wheel.on" : "screen.spirit_form.army.order_pick"),
+                            "order_" + ORDER_IDS[i], i == SpiritArmyClient.order()), null, i));
+                }
             }
-            ItemStack custom = SpiritArmyIcons.get(soul.id());
-            if (!custom.isEmpty()) {
-                stack = custom;
+            default -> {
+                boolean delete = kind == Kind.DELETE;
+                for (ArmySyncPayload.Entry soul : SpiritArmyClient.souls()) {
+                    Component info = Component.literal("♥ " + soul.hp())
+                            .append(soul.summoned() && !delete
+                                    ? Component.literal(" · ").append(Component.translatable("screen.spirit_form.army.summoned"))
+                                    : Component.empty());
+                    boolean pending = delete && soul.id().equals(pendingDelete);
+                    list.add(new Entry(new SpiritWheelUi.Slice(soulName(soul), info, "soul", soulStack(soul),
+                            soul.summoned() && !delete, delete, pending), soul, list.size()));
+                }
             }
-            Runnable action;
-            if (kind == Kind.SUMMON) {
-                action = () -> send(SpiritArmy.ACT_SUMMON, soul.id().toString());
-            } else {
-                action = () -> send(SpiritArmy.ACT_DELETE, soul.id().toString());
-            }
-            list.add(new Entry(name, sub, "soul", stack, soul.summoned(), action));
         }
         return list;
+    }
+
+    /** Назва дії центральної кнопки (для підказки внизу). */
+    private Component centerName() {
+        if (kind == Kind.MAIN) {
+            return Component.translatable(summonedCount() > 0
+                    ? "screen.spirit_form.army.recall_all" : "screen.spirit_form.army.summon_all");
+        }
+        return Component.translatable("screen.spirit_form.army.back");
+    }
+
+    /** Центр головного колеса: лише іконка й «душі/місця»; назва дії з'являється в підказці. */
+    private SpiritWheelUi.Center center() {
+        if (kind == Kind.MAIN) {
+            return new SpiritWheelUi.Center("army", null,
+                    Component.literal(SpiritArmyClient.souls().size() + "/" + storageSize()));
+        }
+        return new SpiritWheelUi.Center(null, centerName(), null);
+    }
+
+    // ---------- екран ----------
+
+    @Override
+    public void removed() {
+        SpiritWheelUi.release();
     }
 
     @Override
@@ -108,130 +200,141 @@ public class ArmyWheelScreen extends Screen {
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
     }
 
-    /** -2 центр, -1 ніщо, інакше номер сектора. */
-    private int hovered(int count, double mouseX, double mouseY) {
-        double dx = mouseX - width / 2.0;
-        double dy = mouseY - height / 2.0;
-        double distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < INNER) {
-            return -2;
-        }
-        if (count <= 0 || distance > OUTER + 30) {
-            return -1;
-        }
-        double angle = Math.toDegrees(Math.atan2(dy, dx)) + 90.0;
-        double sector = 360.0 / count;
-        angle = ((angle + sector / 2.0) % 360.0 + 360.0) % 360.0;
-        return Math.min(count - 1, (int) (angle / sector));
+    private SpiritWheelUi.Geo geo() {
+        return SpiritWheelUi.Geo.of(height);
     }
 
-    private static void disk(GuiGraphics graphics, int cx, int cy, int radius, int color) {
-        for (int dy = -radius; dy <= radius; dy++) {
-            int dx = (int) Math.sqrt((double) radius * radius - (double) dy * dy);
-            graphics.fill(cx - dx, cy + dy, cx + dx + 1, cy + dy + 1, color);
-        }
+    private int hovered(int count, double mouseX, double mouseY) {
+        return SpiritWheelUi.hit(geo(), count, mouseX - width / 2.0, mouseY - height / 2.0);
+    }
+
+    private Component hint() {
+        return Component.translatable(switch (kind) {
+            case MAIN -> "screen.spirit_form.army.hint.main";
+            case SUMMON -> "screen.spirit_form.army.hint.summon";
+            case ORDERS -> "screen.spirit_form.army.hint.orders";
+            case DELETE -> "screen.spirit_form.army.hint.delete";
+        });
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         List<Entry> entries = entries();
-        int cx = width / 2;
-        int cy = height / 2;
-
-        disk(graphics, cx, cy, OUTER, 0x90101018);
-        disk(graphics, cx, cy, INNER, 0xC0000000);
-        graphics.drawCenteredString(font, title, cx, cy - OUTER - 26, 0x8CFFC8);
-
-        int hover = hovered(entries.size(), mouseX, mouseY);
-
-        if (kind == Kind.SUMMON) {
-            if (hover == -2) {
-                disk(graphics, cx, cy, INNER, 0x6040FFA0);
-            }
-            graphics.drawCenteredString(font, Component.translatable("screen.spirit_form.army.all"), cx, cy - 4, 0xFFFFFF);
+        List<SpiritWheelUi.Slice> slices = new ArrayList<>();
+        for (Entry entry : entries) {
+            slices.add(entry.slice());
         }
 
-        if (entries.isEmpty()) {
-            graphics.drawCenteredString(font, Component.translatable("screen.spirit_form.army.empty"),
-                    cx, cy + OUTER + 8, 0xAAAAAA);
-            return;
-        }
+        int raw = hovered(entries.size(), mouseX, mouseY);
+        int hover = Math.max(-1, raw);
+        boolean centerHot = raw == -2;
 
-        double sector = 360.0 / entries.size();
-        for (int i = 0; i < entries.size(); i++) {
-            Entry entry = entries.get(i);
-            double angle = Math.toRadians(-90.0 + i * sector);
-            int x = cx + (int) Math.round(Math.cos(angle) * ICON_RADIUS);
-            int y = cy + (int) Math.round(Math.sin(angle) * ICON_RADIUS);
-
-            if (i == hover) {
-                disk(graphics, x, y, 22, 0x80FFFFFF);
-            }
-            int base = kind == Kind.SOULS
-                    ? (i == pendingDelete ? 0xC0D03030 : 0xA0603030)
-                    : (entry.on() ? 0xA040C080 : 0xA0404040);
-            disk(graphics, x, y, 18, base);
-            if (!entry.stack().isEmpty()) {
-                graphics.renderItem(entry.stack(), x - 8, y - 8);
-            } else {
-                SpiritIcons.draw(graphics, entry.icon(), x - 8, y - 8);
-            }
-        }
-
-        if (hover >= 0) {
+        Component hint = hint();
+        SpiritWheelUi.Tip tip;
+        if (centerHot) {
+            Component storage = kind == Kind.MAIN
+                    ? Component.translatable("screen.spirit_form.army.storage", SpiritArmyClient.souls().size(), storageSize())
+                    : null;
+            tip = new SpiritWheelUi.Tip(centerName(), storage, null, hint);
+        } else if (hover >= 0) {
             Entry entry = entries.get(hover);
-            graphics.drawCenteredString(font, entry.name(), cx, cy + OUTER + 8, 0xFFFFFF);
-            Component sub = kind == Kind.SOULS && hover == pendingDelete
-                    ? Component.translatable("screen.spirit_form.army.confirm")
-                    : entry.sub();
-            graphics.drawCenteredString(font, sub, cx, cy + OUTER + 20, kind == Kind.SOULS ? 0xFF8080 : 0xAAFFD0);
-            if (kind != Kind.ORDERS) {
-                graphics.drawCenteredString(font, Component.translatable("screen.spirit_form.army.icon_hint"),
-                        cx, cy + OUTER + 32, 0x888888);
+            Component detail = null;
+            if (kind == Kind.ORDERS) {
+                detail = Component.translatable("order.spirit_form." + ORDER_IDS[entry.index()] + ".desc");
+            } else if (kind == Kind.DELETE && entry.slice().pending()) {
+                detail = Component.translatable("screen.spirit_form.army.confirm", entry.slice().name());
+            } else if (kind == Kind.MAIN) {
+                detail = Component.translatable("screen.spirit_form.army.sector." + mainId(entry.index()) + ".desc");
             }
+            tip = new SpiritWheelUi.Tip(entry.slice().name(), entry.slice().info(), detail, hint);
+        } else if (entries.isEmpty()) {
+            tip = new SpiritWheelUi.Tip(title, null, Component.translatable("screen.spirit_form.army.empty"), hint);
+        } else {
+            tip = new SpiritWheelUi.Tip(title, kind == Kind.MAIN
+                    ? Component.translatable("screen.spirit_form.army.storage", SpiritArmyClient.souls().size(), storageSize())
+                    : null, null, hint);
         }
+        SpiritWheelUi.draw(graphics, font, width, height, geo(), slices, hover, center(), centerHot, tip);
     }
+
+    // ---------- керування ----------
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         List<Entry> entries = entries();
-        int hover = hovered(entries.size(), mouseX, mouseY);
-        if (button == 1 && kind != Kind.ORDERS && hover >= 0 && hover < SpiritArmyClient.souls().size()) {
-            // ПКМ по душі: змінити іконку
-            if (minecraft != null) {
-                minecraft.setScreen(new ArmyIconScreen(this, SpiritArmyClient.souls().get(hover).id()));
+        int raw = hovered(entries.size(), mouseX, mouseY);
+
+        if (button == 1) {
+            if (hasShiftDown() && raw >= 0 && entries.get(raw).soul() != null && minecraft != null) {
+                // Shift + ПКМ по душі: змінити іконку
+                minecraft.setScreen(new ArmyIconScreen(this, entries.get(raw).soul().id()));
+                return true;
             }
+            back();
             return true;
         }
         if (button != 0) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
-        if (hover == -2 && kind == Kind.SUMMON) {
-            send(SpiritArmy.ACT_SUMMON, "");
-            finish();
-            return true;
-        }
-        if (hover >= 0) {
-            if (kind == Kind.SOULS && pendingDelete != hover) {
-                pendingDelete = hover;
+
+        if (raw == -2) {
+            if (kind == Kind.MAIN) {
+                send(summonedCount() > 0 ? SpiritArmy.ACT_RECALL : SpiritArmy.ACT_SUMMON, "");
                 click();
-                return true;
+                onClose();
+            } else {
+                click();
+                back();
             }
-            entries.get(hover).action().run();
-            finish();
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        if (raw < 0) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+
+        Entry entry = entries.get(raw);
+        switch (kind) {
+            case MAIN -> {
+                click();
+                if (minecraft != null) {
+                    minecraft.setScreen(entry.index() == 3 ? new ArmySoulsScreen(this) : child(subKind(entry.index())));
+                }
+            }
+            case SUMMON -> {
+                // Повторне клацання по викликаній душі відкликає її (це робить сервер)
+                send(SpiritArmy.ACT_SUMMON, entry.soul().id().toString());
+                click();
+            }
+            case ORDERS -> {
+                send(SpiritArmy.ACT_ORDER, String.valueOf(entry.index()));
+                click();
+                onClose();
+            }
+            case DELETE -> {
+                click();
+                if (!entry.soul().id().equals(pendingDelete)) {
+                    pendingDelete = entry.soul().id();
+                } else {
+                    pendingDelete = null;
+                    send(SpiritArmy.ACT_DELETE, entry.soul().id().toString());
+                }
+            }
+        }
+        return true;
+    }
+
+    /** Повернення до попереднього колеса; з головного закриває меню. */
+    private void back() {
+        if (parent != null && minecraft != null) {
+            minecraft.setScreen(parent);
+        } else {
+            onClose();
+        }
     }
 
     private void click() {
         if (minecraft != null) {
             minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         }
-    }
-
-    private void finish() {
-        click();
-        onClose();
     }
 }

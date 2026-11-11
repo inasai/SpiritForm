@@ -1,0 +1,28 @@
+{
+  "name": "Scythe of the Beyond",
+  "category": "spirit_form:resources_weapons",
+  "icon": "spirit_form:scythe",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A tool of the boundary",
+      "text": "“A scythe is more than a weapon. It marks the limit of every life. But who says that limit cannot be used to your advantage?”$(br2)The Scythe of the Beyond turns damage dealt into recovery. Each successful hit restores 20–30% of the damage as health and half a hunger point.$(br2)The dead cannot wield the scythe: it cannot be held in $(l:beginning/spirit_form)Spirit Form$(/l), and undead creatures do not provide ordinary loot."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Stored souls",
+      "text": "When you kill a creature with the Scythe of the Beyond, its soul does not drop normally; instead, the scythe gains 5 charge. With at least one charge, right-click to freeze mobs within $(thing)10 blocks$() and gain Strength V. At full charge, Reaping activates and every hit becomes lethal.",
+      "item": "spirit_form:scythe"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:scythe_recipe"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Scythe in the vault",
+      "text": "A Scythe in the main hand cell of the $(l:beginning/vault)Vault$(/l) charges too, from any kill. While its $(thing)power is on$(), souls never appear, even at full charge. To get souls, turn the Scythe's power off. To activate it, hold right click with an empty hand for 3 seconds."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Нічниця",
+  "category": "spirit_form:night",
+  "icon": "minecraft:witch_spawn_egg",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:nichnytsia",
+      "name": "Нічниця",
+      "text": "Дуже схожа на мавку. Може, енергія цього місця змінила її?",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поведінка",
+      "text": "Мандрує лісом і майже нікого не чіпає. Але, помітивши тебе, $(thing)кидає зілля$(): отруює й послаблює.$(br2)Тримайся подалі, якщо не маєш чим відповісти."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Як домовитися",
+      "text": "$(#2E7D4F)Дар із душею:$() піднеси $(item)Кристалізовану Душу$(). Нічниця приймає дар і дарує корисне зілля.$(br2)Мир триває $(thing)п’ять хвилин$(). Докладніше: $(l:general/affection)Прихильність істот$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/nichnytsia",
+  "secret": true
+}

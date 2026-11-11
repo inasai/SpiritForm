@@ -1,0 +1,19 @@
+{
+  "name": "Heart of Hunger",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:hunger_heart",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Power of Hunger",
+      "text": "A trophy left after defeating the Herald of Hunger. Proof that you endured the trial of exhaustion.$(br2)The heart embodies the $(l:beginning/paths)$(#B03030)Path of Hunger$()$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:hunger_heart",
+      "title": "Heart of Hunger",
+      "text": "Right-click the Echo of the Beyond with the heart in hand to lower the $(l:beyond/pursuit)Pursuit$(/l) meter by 100."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Beyond Relics",
+  "description": "Relics that strengthen your connection to the Beyond and unlock new possibilities.",
+  "icon": "spirit_form:soul_catcher",
+  "sortnum": 1,
+  "parent": "spirit_form:resources"
+}

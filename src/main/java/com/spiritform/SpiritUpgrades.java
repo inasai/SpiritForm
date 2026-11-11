@@ -32,6 +32,21 @@ public final class SpiritUpgrades {
             return;
         }
 
+        if (action == UpgradeSpiritPayload.TOGGLE_INVULNERABLE) {
+            toggleInvulnerable(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.TOGGLE_SOULS) {
+            toggleSouls(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.TOGGLE_ENERGY) {
+            toggleEnergy(player);
+            return;
+        }
+
         if (action == UpgradeSpiritPayload.TOGGLE_ECHO) {
             SpiritEcho.toggle(player);
             return;
@@ -44,6 +59,16 @@ public final class SpiritUpgrades {
 
         if (action == UpgradeSpiritPayload.BUY_ARMY_SLOT) {
             buyArmySlot(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.UPGRADE_FORM) {
+            upgradeForm(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.RESET_FORM) {
+            resetForm(player);
             return;
         }
 
@@ -74,6 +99,34 @@ public final class SpiritUpgrades {
         if (ability != null) {
             unlockAbility(player, ability);
         }
+    }
+
+    /** Невразливість форми: перемикається, коли форму розвинено до максимуму. */
+    private static void toggleInvulnerable(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.canBeInvulnerable()) {
+            return;
+        }
+        boolean enable = (data.form() & 32) != 0;
+        SpiritFormState.set(player, data.withInvulnerabilityOff(!enable));
+        player.displayClientMessage(Component.translatable(
+                enable ? "message.spirit_form.invulnerable.on" : "message.spirit_form.invulnerable.off"), true);
+    }
+
+    /** Енергія Потойбіччя: вмикається й вимикається колесом пасивних здібностей. */
+    private static void toggleEnergy(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.hasAbility(SpiritAbility.ENERGY)) {
+            player.displayClientMessage(
+                    Component.translatable("message.spirit_form.passive.locked", SpiritAbility.ENERGY.displayName()), true);
+            return;
+        }
+        boolean enable = !data.energy();
+        SpiritFormState.set(player, data.withEnergy(enable));
+        player.displayClientMessage(
+                Component.translatable(enable ? "message.spirit_form.passive.on" : "message.spirit_form.passive.off",
+                        SpiritAbility.ENERGY.displayName()),
+                true);
     }
 
     /** Вмикає або вимикає пасивну здібність (Крижаний Доторк, Присутність). */
@@ -241,6 +294,24 @@ public final class SpiritUpgrades {
         );
     }
 
+    /** Армія Душ: вмикає й вимикає випадіння душ з убитих ворогів. */
+    private static void toggleSouls(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.hasAbility(SpiritAbility.ARMY)) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.army.locked"), true);
+            return;
+        }
+
+        boolean enabled = !data.soulDrops();
+        SpiritFormState.set(player, data.withSoulDrops(enabled));
+        player.displayClientMessage(
+                Component.translatable(enabled
+                        ? "message.spirit_form.souls.on"
+                        : "message.spirit_form.souls.off"),
+                true
+        );
+    }
+
     private static void unlock(ServerPlayer player) {
         SpiritData data = SpiritFormState.get(player);
         if (data.unlocked()) {
@@ -316,7 +387,52 @@ public final class SpiritUpgrades {
         );
     }
 
-    private static boolean pay(ServerPlayer player, int cost) {
+    /** Купує наступний рівень здібності «Форма Привида» (2: політ, 3: проходження крізь блоки, 4: невразливість). */
+    private static void upgradeForm(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.unlocked()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.need_unlock"), true);
+            return;
+        }
+        if (data.fullForm()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.form.full_mode"), true);
+            return;
+        }
+        int current = Math.max(1, data.formLevel());
+        if (current >= SpiritData.FORM_MAX) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.max_level"), true);
+            return;
+        }
+        int next = current + 1;
+        if (!pay(player, SpiritBalance.formCost(next))) {
+            return;
+        }
+        SpiritFormState.set(player, data.withFormLevel(next));
+        SpiritForm.refreshStats(player);
+        player.displayClientMessage(Component.translatable("message.spirit_form.form.upgraded", next), true);
+    }
+
+    /** Скидає здібність «Форма Привида» до 1 рівня й повертає витрачені на неї рівні досвіду. */
+    private static void resetForm(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (data.fullForm()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.form.full_mode"), true);
+            return;
+        }
+        int current = Math.max(1, data.formLevel());
+        if (current <= 1) {
+            return;
+        }
+        int refund = SpiritBalance.formSpent(current);
+        SpiritFormState.set(player, data.withFormLevel(1));
+        SpiritForm.refreshStats(player);
+        if (!player.getAbilities().instabuild) {
+            player.giveExperienceLevels(refund);
+        }
+        player.displayClientMessage(Component.translatable("message.spirit_form.form.reset", refund), true);
+    }
+
+    static boolean pay(ServerPlayer player, int cost) {
         if (player.getAbilities().instabuild) {
             return true; // у творчому режимі безкоштовно
         }

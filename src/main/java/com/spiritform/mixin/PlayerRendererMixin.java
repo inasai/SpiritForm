@@ -25,6 +25,29 @@ public abstract class PlayerRendererMixin {
         }
     }
 
+    /** Вкрадена зовнішність: замість моделі гравця малюється макет моба (SpiritDisguiseClient). */
+    @Inject(method = "render(Lnet/minecraft/client/player/AbstractClientPlayer;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At("HEAD"), cancellable = true, require = 0)
+    private void spiritForm$disguise(AbstractClientPlayer player, float entityYaw, float partialTick,
+                                     com.mojang.blaze3d.vertex.PoseStack poseStack,
+                                     net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight,
+                                     org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
+        net.minecraft.world.entity.LivingEntity dummy = com.spiritform.SpiritDisguiseClient.prepare(player, partialTick);
+        if (dummy == null) {
+            return;
+        }
+        try {
+            @SuppressWarnings("unchecked")
+            net.minecraft.client.renderer.entity.EntityRenderer<net.minecraft.world.entity.LivingEntity> renderer =
+                    (net.minecraft.client.renderer.entity.EntityRenderer<net.minecraft.world.entity.LivingEntity>)
+                            (Object) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(dummy);
+            renderer.render(dummy, entityYaw, partialTick, poseStack, buffer, packedLight);
+            ci.cancel();
+        } catch (RuntimeException e) {
+            com.spiritform.SpiritDisguiseClient.fail(player);
+        }
+    }
+
     @Redirect(method = "renderHand",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/resources/PlayerSkin;texture()Lnet/minecraft/resources/ResourceLocation;"),

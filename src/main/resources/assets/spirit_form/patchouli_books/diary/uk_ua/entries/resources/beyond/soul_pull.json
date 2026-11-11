@@ -1,0 +1,23 @@
+{
+  "name": "Тяжіння Душі",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:soul_pull",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A captured essence",
+      "text": "“Навіть після смерті душа не втрачає зв’язку зі світом. Усе, що колись належало їй, і досі відчуває її поклик.”$(br2)Тяжіння Душі притягує до носія предмети та сфери досвіду, що опинилися поблизу."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Тяжіння",
+      "text": "Тяжіння автоматично притягує всі предмети та досвід у радіусі $(thing)16 блоків$(). Достатньо вдягнути артефакт як чоботи або покласти його в комірку Сховища.",
+      "item": "spirit_form:soul_pull"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:pull_recipe"
+    }
+  ]
+}

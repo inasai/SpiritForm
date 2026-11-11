@@ -22,7 +22,7 @@ import net.minecraft.world.level.Level;
 public class ScytheItem extends SwordItem {
 
     public ScytheItem(Item.Properties properties) {
-        super(Tiers.IRON, properties);
+        super(Tiers.NETHERITE, properties);
     }
 
     @Override

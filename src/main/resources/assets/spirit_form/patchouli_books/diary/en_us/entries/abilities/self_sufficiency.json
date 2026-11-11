@@ -1,0 +1,23 @@
+{
+  "name": "Self-Sufficiency",
+  "category": "spirit_form:abilities_paths",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=48]",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Opens a wheel of stations: crafting table, furnace, enchanting table, brewing stand, smoker, blast furnace, anvil, smithing table, stonecutter, grindstone, cartography table and loom. A station opens its vanilla window without a block.$(br2)$(bold)$(#7952A6)Requirement:$() all three Paths, level 3."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Stations and pages",
+      "text": "Stations sit on three pages of four. The first page is open at once, the others cost experience levels; the Nth station costs N levels. Buy with Shift+click on a locked station or on the wheel centre. The centre turns pages: left click for next, right click for previous. Rearrange stations in the progression menu, Placement section."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Furnaces and the stand",
+      "text": "The furnace, smoker, blast furnace and brewing stand keep their items, fuel and progress and keep working in the background with the window closed. Each has its own queue. A marker glows by the slot when finished items wait inside; reopen the station to take them. Enchanting here is always at maximum level (10, 20 and 30). Other stations, as in vanilla, return items when the window closes."
+    }
+  ]
+}

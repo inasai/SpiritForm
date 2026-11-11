@@ -1,0 +1,21 @@
+{
+  "name": "Полудниця",
+  "category": "spirit_form:plains",
+  "icon": "spirit_form:poludnytsia",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:poludnytsia",
+      "title": "Квітка-сонце",
+      "text": "Росте в Рівнинах Потойбіччя колами навколо центру біому. Світиться, як маленьке сонце."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Для чого вона",
+      "text": "Це квітка, тож $(l:plains/polovyk)Польовик$(/l) вгамовується від неї, як і від будь-якої іншої. Але Полудниця — єдина, за яку він віддячує яблуками.$(br2)$(#8A6A1A)Не зловживай:$() подарунок щоразу скромніший, а після п’яти квіток Польовик нічого не дає й не бере."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/poludnytsia",
+  "secret": true
+}

@@ -66,7 +66,9 @@ public final class SpiritSummon {
             return;
         }
         player.getFoodData().setFoodLevel(food - cost);
-        COOLDOWN_UNTIL.put(id, now + FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L));
+        long abilityCooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
+        COOLDOWN_UNTIL.put(id, now + abilityCooldown);
+        SpiritCooldowns.start(player, "summon", abilityCooldown);
 
         puff(level, target.getX(), target.getY(), target.getZ());
         if (target.isPassenger()) {
@@ -95,7 +97,7 @@ public final class SpiritSummon {
      * Крізь блоки не діє.
      */
     private static LivingEntity findTarget(ServerPlayer player, ServerLevel level) {
-        double range = Config.SUMMON_RANGE.get();
+        double range = Config.SUMMON_RANGE.get() * SpiritRange.mul(player);
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
         Vec3 end = eye.add(look.scale(range));

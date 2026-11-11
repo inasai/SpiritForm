@@ -42,9 +42,12 @@ public final class SpiritImmunity {
             return;
         }
         player.getFoodData().setFoodLevel(food - cost);
-        COOLDOWN_UNTIL.put(id, now + FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L));
+        long abilityCooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
+        COOLDOWN_UNTIL.put(id, now + abilityCooldown);
+        SpiritCooldowns.start(player, "immunity", abilityCooldown);
 
         player.removeAllEffects();
+        SpiritHeraldWorld.onCleanse(player);
 
         if (player.level() instanceof ServerLevel level) {
             level.sendParticles(ParticleTypes.END_ROD, player.getX(), player.getY() + 1.0, player.getZ(),

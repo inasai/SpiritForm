@@ -88,7 +88,7 @@ public final class SpiritTouchBlock {
             return;
         }
 
-        double range = Config.TOUCH_RANGE.get();
+        double range = Config.TOUCH_RANGE.get() * SpiritRange.mul(player);
         Vec3 eye = player.getEyePosition();
         BlockHitResult hit = level.clip(new ClipContext(eye, eye.add(player.getLookAngle().scale(range)),
                 ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
@@ -122,7 +122,7 @@ public final class SpiritTouchBlock {
     public static void adjustDistance(ServerPlayer player, int steps) {
         Grab grab = BY_PLAYER.get(player.getUUID());
         if (grab != null) {
-            grab.distance = Mth.clamp(grab.distance + Mth.clamp(steps, -3, 3), 2.0, Config.TOUCH_RANGE.get());
+            grab.distance = Mth.clamp(grab.distance + Mth.clamp(steps, -3, 3), 2.0, Config.TOUCH_RANGE.get() * SpiritRange.mul(player));
         }
     }
 

@@ -140,7 +140,7 @@ public final class SpiritTouch {
             return;
         }
 
-        double range = Config.TOUCH_RANGE.get();
+        double range = Config.TOUCH_RANGE.get() * SpiritRange.mul(player);
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
         Vec3 end = eye.add(look.scale(range));
@@ -153,7 +153,7 @@ public final class SpiritTouch {
         );
 
         if (hit == null || !(hit.getEntity() instanceof Mob mob)
-                || mob instanceof EnderDragon || mob instanceof WitherBoss
+                || mob instanceof EnderDragon || mob instanceof WitherBoss || mob instanceof HeraldBase
                 || SpiritPossession.isPossessed(mob) || isGrabbed(mob)) {
             player.displayClientMessage(Component.translatable("message.spirit_form.touch.failed"), true);
             return;
@@ -182,7 +182,7 @@ public final class SpiritTouch {
             return;
         }
         int clamped = Mth.clamp(steps, -3, 3);
-        grab.distance = Mth.clamp(grab.distance + clamped, 2.0, Config.TOUCH_RANGE.get());
+        grab.distance = Mth.clamp(grab.distance + clamped, 2.0, Config.TOUCH_RANGE.get() * SpiritRange.mul(player));
     }
 
     /** Відпускає моба. throwIt = true відкидає його вперед. */

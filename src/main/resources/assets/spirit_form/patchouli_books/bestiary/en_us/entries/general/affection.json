@@ -1,0 +1,32 @@
+{
+  "name": "Favour of Creatures",
+  "category": "spirit_form:general",
+  "icon": "minecraft:wither_rose",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Mavkas",
+      "text": "$(bold)How to win favour.$() Kill a Chuhaister in front of the mavkas. Every mavka that watched from nearby (within 24 blocks) will accept you as a friend.$(br2)$(bold)A gift.$() Give a friendly Mavka a $(item)Wither Rose$(): in return you receive Regeneration II for five minutes."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "minecraft:wither_rose",
+      "title": "Wither Rose",
+      "text": "Hand it to the Mavka or toss it nearby: she will walk over, pick up the flower and say thanks.$(br2)$(#A33B3B)Striking a Mavka ends the friendship.$() She will treat you as an enemy again."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Nichnytsias",
+      "text": "$(bold)A gift with a soul.$() Offer a $(item)Crystallized Soul$() to a Nichnytsia or toss it near her. She accepts and throws a helpful potion at you: saturation, regeneration, absorption, resistance, speed, strength or instant health.$(br2)$(#8A6A1A)The peace lasts five minutes$(), after which she is hostile again."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:crystal_soul",
+      "title": "Crystallized Soul",
+      "text": "Combine a soul captured with a Soul Catcher with amethyst. More about it is in the Diary."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/affection",
+  "secret": true
+}

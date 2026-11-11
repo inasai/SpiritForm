@@ -4,10 +4,15 @@
   "package": "com.spiritform.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BiomeMixin",
+    "EntityMixin",
     "LivingEntityMixin",
     "PlayerMixin"
   ],
   "client": [
+    "GameRendererMixin",
+    "LevelRendererMixin",
+    "LightTextureMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",
     "PlayerRendererMixin"

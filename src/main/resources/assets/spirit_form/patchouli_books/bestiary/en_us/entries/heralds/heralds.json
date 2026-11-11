@@ -1,0 +1,23 @@
+{
+  "name": "Heralds of the Cycle",
+  "category": "spirit_form:heralds",
+  "icon": "minecraft:beacon",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Heralds of the Beyond",
+      "text": "“When the world begins to change for no reason, do not look for an explanation. Look for the one drawing near.”$(br2)Heralds are creatures whose arrival turns an ordinary place into a disaster zone. Each brings its own threat and tests your preparation."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "The order",
+      "text": "The cycle never changes:$(br)$(#55DDFF)Herald of Storm → Herald of Hunger → Herald of Cold → again$()$(br2)Only one Herald exists at a time. After victory or the player’s death it vanishes and the cycle moves on. If the player loses, no heart drops.$(br2)When a Herald appears, see the Diary entry on $(thing)the Pursuit$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "General advice",
+      "text": "$(li)$(#2E7D4F)Spirit Apple$() in Spirit Form: Absorption and Strength.$(li)$(#2E7D4F)Fern Pearl$(): full healing and food.$(li)Do not rely on one tactic: every Herald changes the battlefield.$(li)Check your ability bar before the fight begins."
+    }
+  ]
+}

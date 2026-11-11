@@ -14,7 +14,7 @@ public enum SpiritAbility {
     STEP("step", SpiritBranch.MOVEMENT, Tier.BASIC, Kind.ACTIVE, false, Items.ENDER_PEARL),
     POSSESSION("possession", null, Tier.MASTER, Kind.ACTIVE, false, Items.SKELETON_SKULL),
     TOUCH("touch", SpiritBranch.MOVEMENT, Tier.MASTER, Kind.ACTIVE, true, Items.PHANTOM_MEMBRANE),
-    DELIRIUM("delirium", SpiritBranch.HUNGER, Tier.MASTER, Kind.ACTIVE, false, Items.ARMOR_STAND),
+    DELIRIUM("delirium", SpiritBranch.HUNGER, Tier.MASTER, Kind.ACTIVE, true, Items.ARMOR_STAND),
     ICY_TOUCH("icy_touch", SpiritBranch.MOVEMENT, Tier.ADVANCED, Kind.PASSIVE, false, Items.BLUE_ICE),
     PRESENCE("presence", null, Tier.BASIC, Kind.PASSIVE, false, Items.CAMPFIRE),
     IMMUNITY("immunity", SpiritBranch.HUNGER, Tier.ADVANCED, Kind.ACTIVE, false, Items.MILK_BUCKET),
@@ -25,7 +25,11 @@ public enum SpiritAbility {
     SCREAM("scream", SpiritBranch.HUNGER, Tier.NOVICE, Kind.ACTIVE, false, Items.GOAT_HORN),
     SUMMON("summon", SpiritBranch.MOVEMENT, Tier.NOVICE, Kind.ACTIVE, false, Items.LEAD),
     /** Нагорода за досягнення "Король Потойбіччя": не купується й не скидається. */
-    ARMY("army", null, Tier.SPECIAL, Kind.ACTIVE, false, Items.SOUL_LANTERN);
+    ARMY("army", null, Tier.SPECIAL, Kind.ACTIVE, false, Items.SOUL_LANTERN),
+    /** Нагорода за досягнення "Володар Потойбіччя": пасивна, удвічі більше здоров'я гравця й сила Армії. */
+    ENERGY("energy", null, Tier.SPECIAL, Kind.PASSIVE, false, Items.NETHER_STAR),
+    /** Станції для виготовлення просто з меню (колесо станцій). Усі шляхи, початковий рівень. */
+    SELF_SUFFICIENCY("self_sufficiency", null, Tier.NOVICE, Kind.ACTIVE, false, Items.CRAFTING_TABLE);
 
     /** Яка вимога до рівня шляху: початкова (5 за замовчуванням) чи висока (10). Обидві задаються в конфігу. */
     public enum Tier {
@@ -114,7 +118,7 @@ public enum SpiritAbility {
 
     /** Здібність видається за досягнення, її не можна купити чи скинути. */
     public boolean rewardOnly() {
-        return this == ARMY;
+        return this == ARMY || this == ENERGY;
     }
 
     public boolean isAvailable(SpiritData data) {

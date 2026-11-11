@@ -1,0 +1,18 @@
+{
+  "name": "Spirit Form",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=29]",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Between worlds",
+      "text": "Spirit Form is the first power you should master. It frees you from the usual limits of a physical body.$(br2)In Spirit Form, you can:$(li)fly;$(li)pass through blocks;$(li)see in darkness;$(li)ignore ordinary damage."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "The cost of intangibility",
+      "text": "Hunger is the main limit of Spirit Form. Moving in this state consumes hunger according to the distance travelled. When your hunger runs out, Spirit Form ends.$(br2)A cooldown may apply after returning to your normal state. Do not let the freedom of flight make you forget the cost of coming back."
+    }
+  ]
+}

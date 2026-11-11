@@ -146,4 +146,23 @@ public final class SpiritBalance {
     private static double lerp(double from, double to, double t) {
         return from + (to - from) * t;
     }
+
+    /** Вартість у рівнях досвіду купівлі рівня форми Привида (2: політ, 3: проходження крізь блоки, 4: невразливість). */
+    public static int formCost(int level) {
+        return switch (level) {
+            case 2 -> Config.FORM_COST_LEVEL_2.get();
+            case 3 -> Config.FORM_COST_LEVEL_3.get();
+            case 4 -> Config.FORM_COST_LEVEL_4.get();
+            default -> 0;
+        };
+    }
+
+    /** Скільки рівнів досвіду витрачено на форму, щоб дійти до вказаного рівня. */
+    public static int formSpent(int level) {
+        int sum = 0;
+        for (int i = 2; i <= level; i++) {
+            sum += formCost(i);
+        }
+        return sum;
+    }
 }

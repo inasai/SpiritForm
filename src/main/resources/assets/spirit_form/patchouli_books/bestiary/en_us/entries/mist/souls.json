@@ -1,0 +1,20 @@
+{
+  "name": "Souls",
+  "category": "spirit_form:mist",
+  "icon": "minecraft:ghast_tear",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Dwellers of the fog",
+      "text": "The souls differ little from ordinary creatures. The forest even has animals, so food can be found if needed.$(br2)Zombies, skeletons, spiders and other denizens of the Overworld also turn up here."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Careful",
+      "text": "Not every denizen of the Beyond wants to attack. Some simply live their lives.$(br2)But do not forget where you are. Even a calm place may hide something strange."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_mist",
+  "secret": true
+}

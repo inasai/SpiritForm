@@ -11,18 +11,27 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 
 /** Сховище армії кожного гравця: список збережених душ. Зберігається у світі, тож переживає смерть гравця. */
 public class SpiritArmyStore extends SavedData {
 
-    /** Душа: тип моба, його повні характеристики (NBT), ім'я (якщо було) і здоров'я. */
+    /** Душа: тип моба, його повні характеристики (NBT), ім'я (якщо було), здоров'я та розвиток (вбивства, рівні, обладунки). */
     public static final class Soul {
         public final UUID id;
         public final String type;
         public final String name;
         public final float maxHealth;
         public final CompoundTag nbt;
+        /** Початкова шкода й швидкість моба (0, якщо в нього такого параметра немає). */
+        public float attack;
+        public float speed;
+        public int kills;
+        public int healthLevel;
+        public int damageLevel;
+        public int speedLevel;
+        public final ItemStack[] armor = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
 
         public Soul(UUID id, String type, String name, float maxHealth, CompoundTag nbt) {
             this.id = id;
@@ -32,17 +41,66 @@ public class SpiritArmyStore extends SavedData {
             this.nbt = nbt;
         }
 
-        public static Soul fromTag(UUID id, CompoundTag tag) {
-            return new Soul(id, tag.getString("type"), tag.getString("name"), tag.getFloat("hp"), tag.getCompound("nbt"));
+        public int level(int stat) {
+            return stat == ArmySoulStats.STAT_HEALTH ? healthLevel : stat == ArmySoulStats.STAT_DAMAGE ? damageLevel : speedLevel;
         }
 
-        public CompoundTag toTag() {
+        public void setLevel(int stat, int value) {
+            if (stat == ArmySoulStats.STAT_HEALTH) {
+                healthLevel = value;
+            } else if (stat == ArmySoulStats.STAT_DAMAGE) {
+                damageLevel = value;
+            } else {
+                speedLevel = value;
+            }
+        }
+
+        public int rank() {
+            return ArmySoulStats.rank(kills);
+        }
+
+        public static Soul fromTag(UUID id, CompoundTag tag, HolderLookup.Provider registries) {
+            Soul soul = new Soul(id, tag.getString("type"), tag.getString("name"), tag.getFloat("hp"), tag.getCompound("nbt"));
+            soul.attack = tag.getFloat("atk");
+            soul.speed = tag.getFloat("spd");
+            soul.kills = tag.getInt("kills");
+            soul.healthLevel = tag.getInt("lvlHp");
+            soul.damageLevel = tag.getInt("lvlDmg");
+            soul.speedLevel = tag.getInt("lvlSpd");
+            ListTag worn = tag.getList("armor", Tag.TAG_COMPOUND);
+            for (int i = 0; i < worn.size(); i++) {
+                CompoundTag entry = worn.getCompound(i);
+                int slot = entry.getInt("s");
+                if (slot >= 0 && slot < soul.armor.length && registries != null) {
+                    soul.armor[slot] = ItemStack.parseOptional(registries, entry.getCompound("i"));
+                }
+            }
+            return soul;
+        }
+
+        public CompoundTag toTag(HolderLookup.Provider registries) {
             CompoundTag tag = new CompoundTag();
             tag.putUUID("Id", id);
             tag.putString("type", type);
             tag.putString("name", name);
             tag.putFloat("hp", maxHealth);
             tag.put("nbt", nbt);
+            tag.putFloat("atk", attack);
+            tag.putFloat("spd", speed);
+            tag.putInt("kills", kills);
+            tag.putInt("lvlHp", healthLevel);
+            tag.putInt("lvlDmg", damageLevel);
+            tag.putInt("lvlSpd", speedLevel);
+            ListTag worn = new ListTag();
+            for (int i = 0; i < armor.length; i++) {
+                if (!armor[i].isEmpty()) {
+                    CompoundTag entry = new CompoundTag();
+                    entry.putInt("s", i);
+                    entry.put("i", armor[i].saveOptional(registries));
+                    worn.add(entry);
+                }
+            }
+            tag.put("armor", worn);
             return tag;
         }
     }
@@ -74,7 +132,7 @@ public class SpiritArmyStore extends SavedData {
             for (int j = 0; j < items.size(); j++) {
                 CompoundTag item = items.getCompound(j);
                 if (item.hasUUID("Id")) {
-                    list.add(Soul.fromTag(item.getUUID("Id"), item));
+                    list.add(Soul.fromTag(item.getUUID("Id"), item, registries));
                 }
             }
         }
@@ -89,7 +147,7 @@ public class SpiritArmyStore extends SavedData {
             owner.putUUID("Owner", entry.getKey());
             ListTag items = new ListTag();
             for (Soul soul : entry.getValue()) {
-                items.add(soul.toTag());
+                items.add(soul.toTag(registries));
             }
             owner.put("Souls", items);
             owners.add(owner);

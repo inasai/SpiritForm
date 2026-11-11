@@ -1,0 +1,19 @@
+{
+  "name": "Доказ сили",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:proof_of_strength",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Ключ до Вісника Смерті",
+      "text": "Об’єднай $(l:beyond/storm_heart)Серця Бурі$(/l), Голоду й Холоду, і вийде предмет «Доказ сили». Візьми його й натисни ПКМ по блоку Відлуння Потойбіччя — це викличе Вісника Смерті.$(br2)Підготуйся заздалегідь: ця зустріч не буде звичайною битвою."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:proof_of_strength",
+      "title": "Рецепт",
+      "text": "Три серця $(l:beyond/heralds)Вісників$(/l), у будь-якому порядку."
+    }
+  ]
+}

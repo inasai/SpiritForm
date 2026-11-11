@@ -87,6 +87,7 @@ public final class SpiritEcho {
         }
 
         BlockPos pos = entry.pos();
+        boolean fromBeyond = player.level().dimension().equals(SpiritBeyond.KEY);
         SpiritBeyond.rememberExit(player);
         puff(player);
         player.teleportTo(target, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYRot(), player.getXRot());
@@ -98,6 +99,9 @@ public final class SpiritEcho {
             target.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         }
         player.displayClientMessage(Component.translatable("message.spirit_form.echo.returned"), true);
+        if (fromBeyond) {
+            SpiritHeralds.onReturn(player);
+        }
     }
 
     private static void puff(ServerPlayer player) {

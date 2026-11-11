@@ -1,0 +1,21 @@
+{
+  "name": "Бестіарій Потойбіччя",
+  "category": "spirit_form:beginning",
+  "icon": "minecraft:writable_book",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Друга книга",
+      "text": "Усе, що я дізнався про Потойбіччя, не вмістилося в цьому щоденнику. Тож я створив другу книгу — $(thing)Бестіарій Потойбіччя$().$(br2)У ній: біоми, їхні рослини й дерева, істоти та способи їх приборкати, $(l:beyond/heralds)Вісники$(/l) й поради з їх подолання."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:bestiary_recipe",
+      "title": "Бестіарій",
+      "text": "Порох, гниле м’ясо, кістка й павуче око навколо звичайної книги: усе те, що залишилося від мого світу."
+    }
+  ],
+  "advancement": "spirit_form:beyond_home",
+  "secret": true
+}

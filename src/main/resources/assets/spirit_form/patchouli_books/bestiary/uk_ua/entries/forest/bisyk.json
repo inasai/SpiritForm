@@ -1,0 +1,22 @@
+{
+  "name": "Бісик",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:blaze_powder",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:bisyk",
+      "name": "Бісик",
+      "text": "Малий крадій. Чарівний на вигляд, а характер у нього від біса.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Крадіжка",
+      "text": "Спритні лапки нишпорять у твоїх кишенях. Іноді після удару бісик витягує з інвентаря предмет.$(br2)$(#7952A6)Не зволікай:$() поверни річ якомога швидше. Особливо якщо поряд $(l:forest/skarbnyk)Скарбник$(/l): тоді вона зникне іншим способом."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/bisyk",
+  "secret": true
+}

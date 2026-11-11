@@ -1,12 +1,18 @@
 {
   "name": "Summon",
-  "icon": "minecraft:lead",
-  "category": "spirit_form:abilities",
-  "sortnum": 14,
+  "category": "spirit_form:abilities_movement",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=45]",
+  "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Requirement$(): Path of Movement 3, costs 3 levels.$(br)$(thing)Type$(): active.$(br2)Teleports the entity you are looking at to your location, within a range of up to 48 blocks (in config $(thing)summonRange$()). If you are not looking at anything, the ability will not work. Players cannot be summoned."
+      "title": "What it does",
+      "text": "Teleports the creature you are looking at to you.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 3."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "The target must be valid and within range. The default range is $(thing)48 blocks$(), controlled by $(thing)summonRange$(). Other players cannot be summoned."
     }
   ]
 }

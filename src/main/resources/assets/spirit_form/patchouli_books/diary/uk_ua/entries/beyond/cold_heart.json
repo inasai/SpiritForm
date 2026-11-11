@@ -1,0 +1,19 @@
+{
+  "name": "Серце Холоду",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:cold_heart",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Сила Темряви",
+      "text": "Трофей, що залишається після перемоги над Вісником Холоду. Воно нагадує про битву, після якої навіть навколишній світ уже не здавався таким, як раніше.$(br2)Серце уособлює $(l:beginning/paths)$(#7A3DB8)Шлях Темряви$()$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:cold_heart",
+      "title": "Серце Холоду",
+      "text": "ПКМ по Відлунню Потойбіччя із серцем у руці зменшує шкалу $(l:beyond/pursuit)Переслідування$(/l) на 100."
+    }
+  ]
+}

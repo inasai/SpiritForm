@@ -1,0 +1,21 @@
+{
+  "name": "Poludnytsia",
+  "category": "spirit_form:plains",
+  "icon": "spirit_form:poludnytsia",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:poludnytsia",
+      "title": "The sun flower",
+      "text": "Grows in the Beyond Plains in rings around the centre of the biome. Glows like a tiny sun."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What it is for",
+      "text": "It is a flower, so the $(l:plains/polovyk)Polovyk$(/l) calms down for it like any other. But the Poludnytsia is the only one he repays with apples.$(br2)$(#8A6A1A)Do not push your luck:$() each gift is humbler than the last, and after five flowers the Polovyk gives and takes nothing."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/poludnytsia",
+  "secret": true
+}

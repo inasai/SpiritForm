@@ -1,0 +1,23 @@
+{
+  "name": "Soul Catcher",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:soul_catcher",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A captured essence",
+      "text": "“A soul does not always vanish after death. Sometimes it can be held, if you know what to grasp.”$(br2)The Soul Catcher captures creatures and stores them inside the item.$(br2)$(#1C7FA8)Capture:$() right-click a mob.$(br)$(#1C7FA8)Release:$() tap right-click to release it forward.$(br)$(#1C7FA8)Absorb:$() hold right-click for $(thing)5 seconds$(). The creature’s health is transferred to you, and any excess becomes hunger."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Capture limits",
+      "text": "The Soul Catcher cannot capture bosses or creatures that currently have more than $(thing)50 hearts$() of health. Current health counts, so a weakened creature can be caught. It can also act as a lantern: hold Shift and right-click a block to place it. If it contains a creature, it emits light. Break the placed lantern to retrieve it with the creature inside.",
+      "item": "spirit_form:soul_catcher"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:soul_catcher_recipe"
+    }
+  ]
+}

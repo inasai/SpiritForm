@@ -1,0 +1,28 @@
+{
+  "name": "Polovyk",
+  "category": "spirit_form:plains",
+  "icon": "minecraft:daylight_detector",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:polovyk",
+      "name": "Polovyk",
+      "text": "A man in clothes covered with daisies. Hovers above the ground in the centre of the Plains.",
+      "rotate": true,
+      "scale": 0.7
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "Never attacks first. Strike him and he becomes $(#A33B3B)very fast and strong$(): he catches even a Spirit in the air, and his blows hurt you in Spirit form. No effects.$(br2)The centre of the biome, where he stands, is marked by the narrowest rings of $(l:plains/poludnytsia)Poludnytsia$(/l)."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Gifts",
+      "text": "Give him any flower and he stops attacking.$(br2)If it is a $(item)Poludnytsia$(), he repays you:$(li)1st: enchanted golden apple;$(li)2nd and 3rd: golden apple;$(li)4th and 5th: plain apple;$(li)after that: nothing, and he will not take the flower.$(br2)The count is separate for each player."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/polovyk",
+  "secret": true
+}

@@ -43,7 +43,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
  * Ловець Душ.
  * ПКМ по мобу: ловить його (порожній ловець). Коротке ПКМ із мобом усередині випускає його туди, куди дивишся.
  * Якщо затиснути ПКМ на 5 секунд, гравець поглинає моба: здоров'я йде гравцю, а залишок перетворюється на голод.
- * Босів і мобів із понад 50 сердечками (100 здоров'я) ловити не можна.
+ * Босів і мобів, у яких зараз понад 50 сердечок (100 здоров'я), ловити не можна; ослаблену істоту можна.
  */
 @EventBusSubscriber(modid = SpiritFormMod.MODID)
 public class SoulCatcherItem extends BlockItem {
@@ -101,7 +101,8 @@ public class SoulCatcherItem extends BlockItem {
                 || target.getType().is(Tags.EntityTypes.BOSSES)) {
             return false;
         }
-        if (target.getMaxHealth() > MAX_CATCH_HEALTH) {
+        // Враховується поточне здоров'я: ослаблену істоту впіймати можна
+        if (target.getHealth() > MAX_CATCH_HEALTH) {
             return false;
         }
         return !SpiritPossession.isPossessed(mob) && !SpiritTouch.isGrabbed(mob) && !SpiritDelirium.isDecoy(mob);
@@ -128,7 +129,7 @@ public class SoulCatcherItem extends BlockItem {
         }
     }
 
-    private static void catchMob(ItemStack stack, ServerPlayer player, LivingEntity target) {
+    static void catchMob(ItemStack stack, ServerPlayer player, LivingEntity target) {
         if (!canCatch(target)) {
             player.displayClientMessage(Component.translatable("message.spirit_form.catcher.cannot"), true);
             return;
@@ -291,7 +292,7 @@ public class SoulCatcherItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.spirit_form.artifact.movement").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.spirit_form.artifact.beyond").withStyle(ChatFormatting.GOLD));
         CompoundTag mob = stored(stack);
         if (mob == null) {
             tooltip.add(Component.translatable("tooltip.spirit_form.catcher.empty").withStyle(ChatFormatting.GRAY));

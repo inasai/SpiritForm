@@ -1,0 +1,20 @@
+{
+  "name": "Titanic Volcano",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:basalt",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Heart of the Heatland",
+      "text": "As tall as a Titan Tree, with a crater and a lava lake on top. Lava rivers spread from it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Rivers and tunnels",
+      "text": "Lava rivers run from the crater downhill, branch out and sometimes harden into black stone. Follow one upstream to find the volcano.$(br2)Inside are a magma chamber and lava tunnels that sometimes open onto the slope.$(br2)$(#B04A1F)Tip:$() the $(l:heatland/phoenix)Phoenix$(/l) circles above the crater. Lava forgives no mistakes: $(item)Icy Touch$() cools it, but only for a while, and it heats up again."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/volcano",
+  "secret": true
+}

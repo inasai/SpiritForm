@@ -12,7 +12,11 @@ import net.minecraft.sounds.SoundSource;
 
 public final class SpiritInvisibility {
 
-    private static final Map<UUID, Long> ACTIVE_UNTIL = new HashMap<>();
+    /**
+     * Зникнення гравець просто вмикає й вимикає (стан у SpiritData.invisible), тривалості в нього немає.
+     * Часовий відлік лишається тільки для невидимості, яку вмикає Марення (forceOn).
+     */
+    private static final Map<UUID, Long> FORCED_UNTIL = new HashMap<>();
     private static final Map<UUID, Long> COOLDOWN_UNTIL = new HashMap<>();
 
     private SpiritInvisibility() {
@@ -36,8 +40,9 @@ public final class SpiritInvisibility {
             return;
         }
 
-        if (ACTIVE_UNTIL.getOrDefault(id, 0L) > now) {
-            ACTIVE_UNTIL.remove(id);
+        // Уже невидимий (сам увімкнув або від Марення): повторне натискання вимикає
+        if (data.invisible()) {
+            FORCED_UNTIL.remove(id);
             SpiritFormState.set(player, data.withInvisible(false));
             player.displayClientMessage(Component.translatable("message.spirit_form.invisibility.deactivated"), true);
             playSound(player, 0.7F);
@@ -61,13 +66,12 @@ public final class SpiritInvisibility {
 
         player.getFoodData().setFoodLevel(food - cost);
 
-        long duration = Config.INVISIBILITY_DURATION_SECONDS.get() * 20L;
         long cooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
 
         SpiritFormState.set(player, data.withInvisible(true));
 
-        ACTIVE_UNTIL.put(id, now + duration);
         COOLDOWN_UNTIL.put(id, now + cooldown);
+        SpiritCooldowns.start(player, "vanish", cooldown);
 
         player.displayClientMessage(
                 Component.translatable("message.spirit_form.invisibility.activated"),
@@ -75,31 +79,34 @@ public final class SpiritInvisibility {
         playSound(player, 1.0F);
     }
 
-    /** Вмикає Зникнення без витрат голоду й перезарядки (для Марення). Повторний виклик лише продовжує дію. */
+    /**
+     * Вмикає Зникнення без витрат голоду й перезарядки (для Марення) на обмежений час.
+     * Якщо гравець уже невидимий сам, нічого не змінюється й таймер не вмикається.
+     */
     public static void forceOn(ServerPlayer player) {
         UUID id = player.getUUID();
         long now = player.level().getGameTime();
-        boolean already = ACTIVE_UNTIL.getOrDefault(id, 0L) > now;
+        SpiritData data = SpiritFormState.get(player);
 
-        ACTIVE_UNTIL.put(id, now + Config.INVISIBILITY_DURATION_SECONDS.get() * 20L);
+        if (data.invisible() && !FORCED_UNTIL.containsKey(id)) {
+            return;
+        }
+        boolean already = data.invisible();
+
+        FORCED_UNTIL.put(id, now + Config.INVISIBILITY_DURATION_SECONDS.get() * 20L);
         if (!already) {
-            SpiritData data = SpiritFormState.get(player);
             SpiritFormState.set(player, data.withInvisible(true));
             playSound(player, 1.0F);
         }
     }
 
+    /** Чи гравець зараз невидимий. Заодно вимикає невидимість від Марення, коли її час сплив. */
     public static boolean isActive(ServerPlayer player) {
         UUID id = player.getUUID();
-        long now = player.level().getGameTime();
-        Long until = ACTIVE_UNTIL.get(id);
+        Long until = FORCED_UNTIL.get(id);
 
-        if (until == null) {
-            return false;
-        }
-
-        if (now >= until) {
-            ACTIVE_UNTIL.remove(id);
+        if (until != null && player.level().getGameTime() >= until) {
+            FORCED_UNTIL.remove(id);
 
             SpiritData data = SpiritFormState.get(player);
             if (data.invisible()) {
@@ -115,13 +122,13 @@ public final class SpiritInvisibility {
             return false;
         }
 
-        return true;
+        return SpiritFormState.get(player).invisible();
     }
 
     public static void clear(ServerPlayer player) {
         UUID id = player.getUUID();
 
-        ACTIVE_UNTIL.remove(id);
+        FORCED_UNTIL.remove(id);
         COOLDOWN_UNTIL.remove(id);
 
         SpiritData data = SpiritFormState.get(player);

@@ -1,0 +1,22 @@
+{
+  "name": "Скарбник",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:gold_nugget",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:skarbnyk",
+      "name": "Скарбник",
+      "text": "Малий пройдисвіт, що тримається біля бісиків.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поведінка",
+      "text": "Скарбник підбирає предмети, що лежать на землі, а потім швидко тікає.$(br2)$(#7952A6)Пильнуй речі:$() не залишай цінне без нагляду, особливо поряд з $(l:forest/bisyk)бісиками$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/skarbnyk",
+  "secret": true
+}

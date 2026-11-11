@@ -129,6 +129,132 @@
         "custom_model_data": 21
       },
       "model": "spirit_form:item/advancement/retinue"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 22
+      },
+      "model": "spirit_form:item/advancement/overlord"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 29
+      },
+      "model": "spirit_form:item/ability/spirit_form"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 30
+      },
+      "model": "spirit_form:item/ability/instinct"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 31
+      },
+      "model": "spirit_form:item/ability/sense"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 32
+      },
+      "model": "spirit_form:item/ability/vanish"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 33
+      },
+      "model": "spirit_form:item/ability/step"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 34
+      },
+      "model": "spirit_form:item/ability/possession"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 35
+      },
+      "model": "spirit_form:item/ability/touch"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 36
+      },
+      "model": "spirit_form:item/ability/delirium"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 37
+      },
+      "model": "spirit_form:item/ability/icy_touch"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 38
+      },
+      "model": "spirit_form:item/ability/presence"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 39
+      },
+      "model": "spirit_form:item/ability/immunity"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 40
+      },
+      "model": "spirit_form:item/ability/life_gift"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 41
+      },
+      "model": "spirit_form:item/ability/scales"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 42
+      },
+      "model": "spirit_form:item/ability/gaze"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 43
+      },
+      "model": "spirit_form:item/ability/echo"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 44
+      },
+      "model": "spirit_form:item/ability/scream"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 45
+      },
+      "model": "spirit_form:item/ability/summon"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 46
+      },
+      "model": "spirit_form:item/ability/army"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 47
+      },
+      "model": "spirit_form:item/ability/energy"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 48
+      },
+      "model": "spirit_form:item/ability/self_sufficiency"
     }
   ]
 }

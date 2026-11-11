@@ -1,0 +1,7 @@
+{
+  "name": "Реліквії Руху",
+  "description": "Реліквії, що несуть у собі силу Вісника Бурі.",
+  "icon": "spirit_form:fentons_bracelet",
+  "sortnum": 4,
+  "parent": "spirit_form:resources"
+}

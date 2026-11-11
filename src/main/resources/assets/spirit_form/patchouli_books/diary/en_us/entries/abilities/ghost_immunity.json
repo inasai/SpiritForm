@@ -1,0 +1,18 @@
+{
+  "name": "Ghost Immunity",
+  "category": "spirit_form:abilities_hunger",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=39]",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Removes all active effects from you, both beneficial and harmful.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 10."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Use it when negative effects threaten your survival. Remember that beneficial effects disappear too. The ability consumes hunger and has a cooldown."
+    }
+  ]
+}

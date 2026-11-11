@@ -1,0 +1,19 @@
+{
+  "name": "Серце Смерті",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:death_heart",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Вмістилище сили",
+      "text": "Після перемоги над Вісником Смерті залишається Серце Смерті — вмістилище сили Потойбіччя.$(br2)Поглинувши його, ти отримуєш здібність «$(l:beginning/energy_beyond)Енергія Потойбіччя$(/l)». Воно є не просто трофеєм, а завершенням особливого випробування."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:death_heart",
+      "title": "Серце Смерті",
+      "text": "У $(l:beginning/spirit_form)Формі Привида$(/l) клацни з серцем у руці, щоб поглинути його. Здібність «$(l:beginning/energy_beyond)Енергія Потойбіччя$(/l)» — назавжди."
+    }
+  ]
+}

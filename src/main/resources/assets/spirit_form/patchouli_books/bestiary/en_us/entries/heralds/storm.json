@@ -1,0 +1,33 @@
+{
+  "name": "Herald of Storm",
+  "category": "spirit_form:heralds",
+  "icon": "minecraft:lightning_rod",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:storm_herald",
+      "name": "Herald of Storm",
+      "text": "First in the cycle. It opens the trials.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Its arrival brings overcast weather and a constant gale. The wind throws the player back, even in Spirit Form, and arrows and other suitable projectiles are deflected."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to defeat it",
+      "text": "$(#2E7D4F)Spirit Step$(): teleport straight to the Herald, then strike in melee while the brief window of knockback immunity lasts.$(br2)Ordinary ranged attacks are unreliable, and Spirit Form does not stop the knockback."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Reward",
+      "text": "Victory leaves a $(item)Heart of Storm$(), embodying the Path of Movement. If you lose, the Herald vanishes and no heart drops."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/storm_herald",
+  "secret": true
+}

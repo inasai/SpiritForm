@@ -13,6 +13,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -80,6 +81,11 @@ public final class SpiritAuras {
         ServerLevel level = player.serverLevel();
         int t = player.tickCount;
 
+        // Крижаний Доторк гасить вогонь на гравцеві
+        if (icy && player.isOnFire()) {
+            player.clearFire();
+        }
+
         if (t % 2 == 0) {
             double x = player.getX();
             double y = player.getY() + 0.9;
@@ -124,7 +130,7 @@ public final class SpiritAuras {
 
     /** Вода навколо гравця перетворюється на крижаний шар, що згодом тане (як при Підводній ходьбі). */
     private static void freezeWater(ServerPlayer player, ServerLevel level) {
-        int radius = Config.ICY_RADIUS.get();
+        int radius = (int) Math.round(Config.ICY_RADIUS.get() * SpiritRange.mul(player));
         BlockPos center = player.blockPosition();
         BlockState ice = Blocks.FROSTED_ICE.defaultBlockState();
 
@@ -156,7 +162,7 @@ public final class SpiritAuras {
             cooled = null;
         }
 
-        int radius = Config.ICY_RADIUS.get();
+        int radius = (int) Math.round(Config.ICY_RADIUS.get() * SpiritRange.mul(player));
         double reach = radius + 0.5;
 
         // Спершу повертаємо лаву, що опинилася поза зоною дії
@@ -239,7 +245,8 @@ public final class SpiritAuras {
     /** Магматичний блок, який зробив Крижаний Доторк, не обпікає гравця з увімкненою здібністю. */
     @SubscribeEvent
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
-        if (!(event.getEntity() instanceof Player player) || !event.getSource().is(DamageTypes.HOT_FLOOR)) {
+        if (!(event.getEntity() instanceof Player player)
+                || !(event.getSource().is(DamageTypeTags.IS_FIRE) || event.getSource().is(DamageTypes.HOT_FLOOR))) {
             return;
         }
         SpiritData data = SpiritFormState.get(player);
@@ -275,7 +282,7 @@ public final class SpiritAuras {
 
     /** Погляд Привида: агресивні моби тікають, нейтральні й мирні тягнуться до гравця. */
     private static void gaze(ServerPlayer player, ServerLevel level) {
-        double radius = Config.PRESENCE_RADIUS.get();
+        double radius = Config.PRESENCE_RADIUS.get() * SpiritRange.mul(player);
         List<Mob> mobs = level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(radius));
 
         for (Mob mob : mobs) {
@@ -342,7 +349,7 @@ public final class SpiritAuras {
 
     /** Присутність: агресивні моби нападають, мирні й нейтральні тікають. */
     private static void scare(ServerPlayer player, ServerLevel level) {
-        double radius = Config.PRESENCE_RADIUS.get();
+        double radius = Config.PRESENCE_RADIUS.get() * SpiritRange.mul(player);
         List<Mob> mobs = level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(radius));
 
         for (Mob mob : mobs) {

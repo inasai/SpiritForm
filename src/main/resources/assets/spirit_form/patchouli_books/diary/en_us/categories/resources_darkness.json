@@ -1,0 +1,7 @@
+{
+  "name": "Relics of Darkness",
+  "description": "Power left behind after an encounter with the Herald of Cold.",
+  "icon": "spirit_form:shackles_of_the_edge",
+  "sortnum": 2,
+  "parent": "spirit_form:resources"
+}

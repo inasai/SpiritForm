@@ -1,0 +1,39 @@
+{
+  "name": "Herald of Death",
+  "category": "spirit_form:heralds",
+  "icon": "minecraft:wither_skeleton_skull",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:death_herald",
+      "name": "Herald of Death",
+      "text": "The one who comes when life draws to an end.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "The summoning",
+      "text": "He does not appear on his own. He can be called only by a special ritual: combine the three Herald hearts into a $(item)Proof of Strength$() and right-click the $(item)Echo of the Beyond$() block with it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:proof_of_strength",
+      "title": "Proof of Strength",
+      "text": "The recipe needs the Hearts of Storm, Hunger and Cold."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Advice",
+      "text": "Little is known about this Herald, so do not draw hasty conclusions.$(br2)$(li)Arrive fully geared, with food and a $(item)Fern Pearl$().$(li)Check your ability bar: this is no ordinary fight.$(li)If you lose, the Herald vanishes without a heart."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Reward",
+      "text": "Victory leaves a $(item)Heart of Death$(). Absorbing it grants the ability “Energy of the Beyond”."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/death_herald",
+  "secret": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Relics of Hunger",
+  "description": "Relics associated with hunger and endurance.",
+  "icon": "spirit_form:necklace_of_the_beyond",
+  "sortnum": 3,
+  "parent": "spirit_form:resources"
+}

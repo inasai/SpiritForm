@@ -1,0 +1,19 @@
+{
+  "name": "Heart of Storm",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:storm_heart",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Power of Movement",
+      "text": "A trophy left after defeating the Herald of Storm. Its arrival shows you survived the first trial of the cycle.$(br2)The heart embodies the $(l:beginning/paths)$(#1C7FA8)Path of Movement$()$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:storm_heart",
+      "title": "Heart of Storm",
+      "text": "Right-click the Echo of the Beyond with the heart in hand to lower the $(l:beyond/pursuit)Pursuit$(/l) meter by 100."
+    }
+  ]
+}

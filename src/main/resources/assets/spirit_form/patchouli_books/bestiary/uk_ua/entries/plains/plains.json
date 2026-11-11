@@ -1,0 +1,29 @@
+{
+  "name": "Рівнини Потойбіччя",
+  "category": "spirit_form:plains",
+  "icon": "spirit_form:poludnytsia",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_plains.png"
+      ],
+      "title": "Поле без кінця",
+      "text": "Трава, квіти й одинокі дуби.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Що тут є",
+      "text": "$(li)$(l:plains/poludnytsia)Полудниця$(/l): квітка, схожа на сонце;$(li)$(l:plains/polovyk)Польовик$(/l): господар Рівнин;$(li)$(l:plains/vovkulaka)Вовкулаки$(/l): чорні вовки завбільшки з коней;$(li)$(l:plains/chort)Чорт$(/l): дівчина в білому, що блукає полем.$(br2)Тут трапляються й звичайні істоти: вівці, корови, свині, а вночі — звичайні вороги."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Кола Полудниць",
+      "text": "Полудниці ростуть колами навколо центру біому, і кожне наступне коло вужче за попереднє. Іди по колах усе глибше, і вони приведуть до $(l:plains/polovyk)Польовика$(/l).$(br2)Рівнини менші за Ліс, але в них є де розгулятися. Вони з’являються лише в нових, раніше не відвіданих частинах світу."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_plains",
+  "secret": true
+}

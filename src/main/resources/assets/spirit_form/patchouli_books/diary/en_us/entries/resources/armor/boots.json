@@ -1,0 +1,23 @@
+{
+  "name": "Boots of the Beyond",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_boots",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Steps beyond life",
+      "text": "“My steps no longer need to touch the ground. That does not mean I cannot leave a trace.”$(br2)The Boots of the Beyond complete the set with the Crown, Cloak, and Leggings."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Soulfire",
+      "text": "Each kill ignites Soulfire, which damages every creature caught in the flames except its owner.",
+      "item": "spirit_form:spirit_boots"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:boots_recipe"
+    }
+  ]
+}

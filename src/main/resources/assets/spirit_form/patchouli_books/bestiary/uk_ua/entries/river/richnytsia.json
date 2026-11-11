@@ -1,0 +1,21 @@
+{
+  "name": "Річниця",
+  "category": "spirit_form:river",
+  "icon": "minecraft:seagrass",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:richnytsia",
+      "title": "Рослина біля води",
+      "text": "Річниця росте як у воді, так і на землі, вздовж річок Потойбіччя."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Сила Морів",
+      "text": "Поряд із Річницею (в межах $(thing)20 блоків$()) ти отримуєш ефект Сили Морів, як від провідника: легше дихати під водою, краще бачити й швидше копати.$(br2)Якщо плануєш довго бути під водою, пошук цієї рослини буде вдалим рішенням."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/richnytsia",
+  "secret": true
+}

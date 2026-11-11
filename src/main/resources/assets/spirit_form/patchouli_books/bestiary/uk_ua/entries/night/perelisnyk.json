@@ -1,0 +1,28 @@
+{
+  "name": "Перелісник",
+  "category": "spirit_form:night",
+  "icon": "minecraft:warden_spawn_egg",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:perelisnyk",
+      "name": "Перелісник",
+      "text": "Місцевий король. Жахливий місцевий король.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Удар, що перевертає",
+      "text": "Його удар накладає $(thing)Темряву$() й $(thing)Інверсію$() (по 10 секунд): погляд затуманюється, а керування перевертається.$(br2)Перелісник спотворює не лише тіло, а й саме сприйняття."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Не покладайся на безтілесність",
+      "text": "$(#A33B3B)Форма Привида не захищає від його ударів.$() Він шкодить, навіть якщо ти примарний, але форма при цьому не вимикається.$(br2)Не вдавай, що стати привидом — це вихід. Краще тікай."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/perelisnyk",
+  "secret": true
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Phoenix",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:blaze_rod",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:phoenix",
+      "name": "Phoenix",
+      "text": "A giant predatory bird of sun colours that circles the crater.",
+      "rotate": true,
+      "scale": 0.3
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Wild and reborn",
+      "text": "The wild Phoenix fires flaming balls at all who approach, and sleeps at night on a nest with a reward at the crater rim.$(br2)A wild one cannot be tamed. But from $(l:heatland/phoenix_ash)Ash$(/l) a calm one is reborn, and that one can be tamed with a $(item)Spirit Apple$() (1 in 3)."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Tamed",
+      "text": "It helps in combat, carries a chest (use a chest on it; open with Shift and an empty hand) and can be ridden. Its wings scorch the rider like a magma block: enable $(item)Icy Touch$().$(br2)It needs $(item)hot food$(): blaze powder, magma cream, a blaze rod or an ember. A hungry one flies back to the volcano."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Wrath of God",
+      "text": "$(#B04A1F)Do not kill a wild Phoenix.$() Perun will notice the killer: $(l:heatland/perun)Wrath of God$(/l) hurts while you carry its feather.$(br2)Killing a tamed one is not seen by Perun."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/phoenix",
+  "secret": true
+}

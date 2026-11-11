@@ -1,0 +1,18 @@
+{
+  "name": "Gift of Life",
+  "category": "spirit_form:abilities_darkness",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=40]",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Transfers health to another creature, using the health taken from you while charging.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 10."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Hold the ability key while looking at a target. Each charge costs one heart, but your health cannot fall below half a heart. Release the key to send white smoke that restores health to the target according to the charge."
+    }
+  ]
+}

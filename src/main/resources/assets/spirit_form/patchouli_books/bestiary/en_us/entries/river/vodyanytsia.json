@@ -1,0 +1,27 @@
+{
+  "name": "Vodianytsia",
+  "category": "spirit_form:river",
+  "icon": "minecraft:nautilus_shell",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:vodianytsia",
+      "name": "Vodianytsia",
+      "text": "A river dweller that looks like a tiny mermaid. Do not trust her looks.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "The song",
+      "text": "The vodianytsias’ song inflicts $(thing)Lure$(): you cannot jump, and the water pulls you in. The range is $(thing)32 blocks$().$(br2)In the water you cannot swim up: you are pressed to the bottom."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What to do",
+      "text": "$(#2E7D4F)The best escape is Spirit Form.$() Switch it on as soon as you feel the pull of the water.$(br2)Vodianytsias are timid and weak, but a quarter of them are bold: they swim up and attack when you are already drowning."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/vodianytsia",
+  "secret": true
+}

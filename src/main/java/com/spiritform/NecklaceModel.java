@@ -16,9 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Модель Намиста Потойбіччя на персонажі (з Blockbench, Modded Entity, Mojang mappings).
+ * Модель Намиста Потойбіччя на персонажі: пласкій значок, як у інвентарі.
  * Координати задані відносно частини тіла "body" гравця: початок координат на шиї, y вниз, z уперед це мінус.
- * Щоб замінити модель, встав свій createBodyLayer з нового експорту Blockbench (див. коментар нижче).
  */
 public class NecklaceModel extends Model {
 
@@ -33,45 +32,22 @@ public class NecklaceModel extends Model {
     }
 
     /**
-     * Нову модель з Blockbench вставляй сюди: скопіюй рядки від "PartDefinition Necklace = ..." до останнього
-     * addOrReplaceChild. Якщо в експорті імена частин складаються з цифр, перейменуй змінні (наприклад, part1),
-     * самі рядкові імена "1", "2" можна лишати. Розмір текстури в LayerDefinition.create (тут 16, 16) має збігатися
-     * з розміром у Blockbench.
+     * Намисто на персонажі: той самий пласкій значок 16x16, що й у інвентарі (текстура 64x32: спереду значок у (1,1),
+     * ззаду копія). Початок координат на шиї, y униз, z уперед це мінус.
      */
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-
-        PartDefinition necklace = partdefinition.addOrReplaceChild("Necklace", CubeListBuilder.create(),
-                PartPose.offsetAndRotation(0.0F, 5.0F, -2.0F, 0.0F, 0.0F, 0.7854F));
-
-        necklace.addOrReplaceChild("1", CubeListBuilder.create()
-                .texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 0).addBox(0.0F, -2.0F, -1.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        necklace.addOrReplaceChild("2", CubeListBuilder.create()
-                .texOffs(7, 0).addBox(-1.0F, -2.0F, -1.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 0).addBox(1.0F, -3.0F, -1.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 0).addBox(2.0F, -4.0F, -1.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(6, 0).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(-2.0F, 1.0F, 0.0F));
-
-        necklace.addOrReplaceChild("3", CubeListBuilder.create()
-                .texOffs(3, 2).addBox(0.0F, -1.0F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(3, 2).addBox(1.0F, 0.0F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(4, 2).addBox(2.0F, -2.0F, -1.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(-3.0F, -1.0F, 0.0F));
-
-        necklace.addOrReplaceChild("4", CubeListBuilder.create()
-                .texOffs(8, 3).addBox(-3.0F, -3.0F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        return LayerDefinition.create(meshdefinition, 16, 16);
+        partdefinition.addOrReplaceChild("Amulet",
+                CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, 0.0F, -5.0F, 16.0F, 16.0F, 1.0F, new CubeDeformation(0.0F)),
+                PartPose.ZERO);
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+        float scale = 0.46F;
+        poseStack.scale(scale, scale, scale);
         root.render(poseStack, buffer, packedLight, packedOverlay, color);
     }
 }

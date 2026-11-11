@@ -1,0 +1,23 @@
+{
+  "name": "Delusion",
+  "category": "spirit_form:abilities_hunger",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=36]",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Creates a smoky decoy that draws enemy attention while you vanish from sight.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 15."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Enemies focus on the decoy, giving you time to reposition or escape. The smoky apparition is not a real fighter and will not defeat enemies for you."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Stolen Appearance",
+      "text": "If you possess a creature and use Delirium inside it, the creature dies and you take its looks: your model changes for everyone.$(br2)Mobs treat you as that creature: zombies leave a zombie alone, a golem sees a monster as an enemy, and a villager draws zombies at once.$(br2)The look stays until you steal another. To put it on or take it off, $(thing)hold Delirium for 5 seconds$(). A short press remains the normal Delirium."
+    }
+  ]
+}

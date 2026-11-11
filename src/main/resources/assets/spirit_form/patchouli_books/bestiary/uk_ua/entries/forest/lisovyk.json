@@ -1,0 +1,22 @@
+{
+  "name": "Лісовик",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:moss_block",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:lisovyk",
+      "name": "Лісовик",
+      "text": "Велетень, вкритий мохом. Охороняє межу Лісу Потойбіччя.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поведінка",
+      "text": "З’являється на $(thing)кордоні$() Лісу, там, де він переходить в інший біом. Нападає на ворожих істот ззовні (зомбі, скелетів тощо), але не чіпає мешканців лісу. Тебе не зачепить, якщо не вдарити першим.$(br2)Швидкий, як $(l:forest/mavka)Мавка$(/l), а його удари такі ж сильні, як у $(l:forest/chugaister)Чугайстера$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/lisovyk",
+  "secret": true
+}

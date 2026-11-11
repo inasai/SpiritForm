@@ -1,0 +1,23 @@
+{
+  "name": "Soul Pull",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:soul_pull",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A captured essence",
+      "text": "“Even after death, the soul does not lose its connection to the world. Everything that once belonged to it still feels its call.”$(br2)The Soul’s pull draws objects and realms of experience that happen to be nearby toward the one who bears it."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Gravity",
+      "text": "Attraction automatically draws in all objects and experiences within a radius of $(thing)16 blocks$(). Simply equip the artifact as boots or place it in a Vault cell.",
+      "item": "spirit_form:soul_pull"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:pull_recipe"
+    }
+  ]
+}

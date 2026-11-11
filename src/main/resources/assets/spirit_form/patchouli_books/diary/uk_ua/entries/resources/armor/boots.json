@@ -1,0 +1,23 @@
+{
+  "name": "Черевики Потойбіччя",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_boots",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Кроки поза життям",
+      "text": "«Мої кроки більше не обов’язково торкаються землі. Та це не означає, що я не можу залишити слід»$(br2)Черевики Потойбіччя завершують комплект із Корони, Накидки та Штанів."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Вогонь душі",
+      "text": "Кожне вбивство запалює вогонь душ, який завдає шкоди всім істотам у полум’ї, крім його власника.",
+      "item": "spirit_form:spirit_boots"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:boots_recipe"
+    }
+  ]
+}

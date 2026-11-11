@@ -20,7 +20,9 @@
   "features": [
     [],
     [],
-    [],
+    [
+      "spirit_form:heatland_terrain"
+    ],
     [],
     [],
     [],
@@ -43,7 +45,7 @@
       "minecraft:spring_lava"
     ],
     [
-      "minecraft:patch_grass_plain"
+      "spirit_form:beyond_grass"
     ],
     []
   ],

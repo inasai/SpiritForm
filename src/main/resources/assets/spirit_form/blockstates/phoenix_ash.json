@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "spirit_form:block/phoenix_ash"
+    },
+    "lit=true": {
+      "model": "spirit_form:block/phoenix_ash_lit"
+    }
+  }
+}

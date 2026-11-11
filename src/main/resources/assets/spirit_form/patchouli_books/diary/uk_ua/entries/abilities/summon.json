@@ -1,12 +1,18 @@
 {
   "name": "Виклик",
-  "icon": "minecraft:lead",
-  "category": "spirit_form:abilities",
-  "sortnum": 14,
+  "category": "spirit_form:abilities_movement",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=45]",
+  "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Вимога$(): Шлях Руху 3, коштує 3 рівні.$(br)$(thing)Тип$(): активна.$(br2)Телепортує до тебе істоту, на яку ти дивишся, на відстані до 48 блоків (у конфігу $(thing)summonRange$()). Якщо ти ні на кого не дивишся, здібність не спрацьовує. Гравців викликати не можна."
+      "title": "Природа здібності",
+      "text": "Телепортує до тебе істоту, на яку ти дивишся.$(br2)$(bold)$(#7952A6)Вимога:$() 3 рівень відповідного Шляху."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Використання та обмеження",
+      "text": "Ціль має бути придатною та перебувати в межах дальності здібності. Стандартна дальність — $(thing)48 блоків$(); її визначає параметр $(thing)summonRange$(). Викликати інших гравців не можна."
     }
   ]
 }

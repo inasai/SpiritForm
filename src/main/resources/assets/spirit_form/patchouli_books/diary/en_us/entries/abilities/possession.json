@@ -1,16 +1,18 @@
 {
   "name": "Possession",
-  "icon": "minecraft:skeleton_skull",
-  "category": "spirit_form:abilities",
-  "sortnum": 11,
+  "category": "spirit_form:abilities_paths",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=34]",
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Requirement$(): all Paths 15.$(br)$(thing)Type$(): active.$(br2)Possesses you into the mob you are looking at, and you control their body. The mob's attacks (fireballs, creeper explosions) and flying mobs work."
+      "title": "What it does",
+      "text": "Lets you possess and control a creature, using its natural abilities.$(br2)$(bold)$(#7952A6)Requirement:$() all three Paths at level 15."
     },
     {
       "type": "patchouli:text",
-      "text": "You can exit by using the ability again or exiting the form ($(thing)G$()). In the latter case, you take the mob's health (as much as you need, the rest becomes hunger), and the mob dies if their health is too low.$(br2)After this, the form has a cooldown."
+      "title": "Use and limits",
+      "text": "You can use the creature’s available attacks: for example, a ghast can shoot fireballs and a creeper can explode. To leave, activate the ability again or press G. Leaving with G transfers the creature’s health to you: it first restores your health, and the remainder becomes hunger. If the creature does not have enough health, it dies. This exit starts $(l:beginning/spirit_form)Spirit Form$(/l)’s cooldown."
     }
   ]
 }

@@ -17,7 +17,7 @@ public class FentonBraceletItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.spirit_form.artifact.darkness").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.spirit_form.artifact.movement").withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.translatable("tooltip.spirit_form.bracelet.1").withStyle(ChatFormatting.GRAY));
     }
 }

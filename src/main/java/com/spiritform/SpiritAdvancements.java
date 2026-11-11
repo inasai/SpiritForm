@@ -71,6 +71,13 @@ public final class SpiritAdvancements {
             if (lowest >= 15) {
                 grant(player, "king");
             }
+            // Нагорода за досягнення "Володар Потойбіччя": пасивна Енергія Потойбіччя
+            if (data.lord() && !data.hasAbility(SpiritAbility.ENERGY)) {
+                SpiritFormState.set(player, data.withAbility(SpiritAbility.ENERGY, true));
+                player.displayClientMessage(
+                        net.minecraft.network.chat.Component.translatable("message.spirit_form.energy.unlocked"), false);
+                data = SpiritFormState.get(player);
+            }
             // Нагорода за досягнення "Король Потойбіччя"
             if (!data.hasAbility(SpiritAbility.ARMY) && player.getServer() != null
                     && SpiritBeyond.hasKing(player, player.getServer())) {

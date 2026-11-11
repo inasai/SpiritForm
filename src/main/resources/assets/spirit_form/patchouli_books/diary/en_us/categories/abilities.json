@@ -1,6 +1,6 @@
 {
   "name": "Abilities",
-  "description": "All the abilities of the Spirit Form: requirements, control, and actions.",
-  "icon": "minecraft:ender_eye",
-  "sortnum": 1
+  "description": "“What is impossible for the living may become routine for the dead.”$(br2)Learn about the Ghost’s powers, their uses, limitations, and costs.",
+  "icon": "spirit_form:textures/gui/ability/instinct.png",
+  "sortnum": 2
 }

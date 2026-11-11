@@ -1,0 +1,7 @@
+{
+  "name": "Шлях Голоду",
+  "description": "$(#B03030)Шлях Голоду$()$(br2)Приховуй свою присутність, виживай і керуй увагою ворогів.",
+  "icon": "spirit_form:textures/gui/ability/scream.png",
+  "sortnum": 2,
+  "parent": "spirit_form:abilities"
+}

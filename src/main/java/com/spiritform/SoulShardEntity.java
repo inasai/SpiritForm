@@ -84,6 +84,16 @@ public class SoulShardEntity extends Entity {
             server.sendParticles(ParticleTypes.SMOKE, getX(), getY() + 0.5, getZ(), 3, 0.3, 0.6, 0.3, 0.02);
         }
 
+        // Місце й резервна копія предметів у обліку (з цього Чуття веде гравця до уламка)
+        if (owner != null && tickCount % 100 == 5) {
+            SoulShardIndex index = SoulShardIndex.get(server.getServer());
+            SoulShardIndex.Position position = new SoulShardIndex.Position(
+                    server.dimension().location().toString(), getX(), getY(), getZ());
+            if (index.keep(owner, getUUID(), Config.SOUL_SHARD_LIMIT.get()) && index.touch(getUUID(), position, items)) {
+                SoulShardTools.pushMarks(server.getServer(), owner);
+            }
+        }
+
         // Застарілий уламок (власник уже має новіший) зникає
         if (owner != null && tickCount % 40 == 20
                 && !SoulShardIndex.get(server.getServer()).keep(owner, getUUID(), Config.SOUL_SHARD_LIMIT.get())) {
@@ -133,6 +143,7 @@ public class SoulShardEntity extends Entity {
             server.playSound(null, getX(), getY(), getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.0F, 1.0F);
             if (owner != null) {
                 SoulShardIndex.get(server.getServer()).remove(owner, getUUID());
+                SoulShardTools.pushMarks(server.getServer(), owner);
             }
         }
         player.displayClientMessage(Component.translatable("message.spirit_form.shard.restored"), true);

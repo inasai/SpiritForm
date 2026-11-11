@@ -81,7 +81,11 @@ public final class SpiritTeleport {
             return;
         }
 
-        Vec3 destination = findDestination(player);
+        // Поряд із Вісником Бурі Крок переносить гравця впритул до нього
+        Vec3 destination = SpiritHeraldWorld.stepToHerald(player);
+        if (destination == null) {
+            destination = findDestination(player);
+        }
 
         if (destination == null) {
             player.displayClientMessage(
@@ -112,11 +116,13 @@ public final class SpiritTeleport {
 
         puff(player, destination.x, destination.y, destination.z);
         SMOKE_UNTIL.put(id, now + Config.TELEPORT_SMOKE_SECONDS.get() * 20L);
+        SpiritHeraldWorld.onStep(player);
 
         player.getFoodData().setFoodLevel(food - cost);
 
         long cooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
         COOLDOWN_UNTIL.put(id, now + cooldown);
+        SpiritCooldowns.start(player, "step", cooldown);
 
         player.displayClientMessage(
                 Component.translatable("message.spirit_form.teleport.activated"),
@@ -136,7 +142,7 @@ public final class SpiritTeleport {
             return nearestFree(player);
         }
 
-        double range = Config.TELEPORT_RANGE.get();
+        double range = Config.TELEPORT_RANGE.get() * SpiritRange.mul(player);
 
         Vec3 eyePosition = player.getEyePosition();
         Vec3 lookDirection = player.getLookAngle();

@@ -1,0 +1,18 @@
+{
+  "name": "Погляд Привида",
+  "category": "spirit_form:abilities_paths",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=42]",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Природа здібності",
+      "text": "Зачаровує мирних і нейтральних істот, а агресивних змушує тікати.$(br2)$(bold)$(#7952A6)Вимога:$() усі три Шляхи, рівень 10."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Використання та обмеження",
+      "text": "Боси не реагують на цю здібність. Якщо одночасно активні $(l:abilities/presence)Присутність$(/l) і Погляд Привида, перевагу має Погляд Привида. $(bold)$(#7952A6)Вимога:$() усі три Шляхи, рівень 10."
+    }
+  ]
+}

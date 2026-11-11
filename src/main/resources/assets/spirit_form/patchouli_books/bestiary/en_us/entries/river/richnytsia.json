@@ -1,0 +1,21 @@
+{
+  "name": "Richnytsia",
+  "category": "spirit_form:river",
+  "icon": "minecraft:seagrass",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:richnytsia",
+      "title": "A plant by the water",
+      "text": "Richnytsia grows both in water and on land, along the rivers of the Beyond."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Conduit Power",
+      "text": "Near a Richnytsia (within $(thing)20 blocks$()) you gain Conduit Power, just as from a conduit: easier breathing underwater, better sight and faster digging.$(br2)If you plan a long time underwater, finding this plant is a good move."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/richnytsia",
+  "secret": true
+}

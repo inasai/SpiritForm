@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,7 +17,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 
@@ -28,6 +32,10 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 public class SpiritServerEvents {
 
     private static final Map<UUID, Vec3> LAST_POSITIONS = new HashMap<>();
+
+    /** Для кожного гравця: {чи тримав Shift минулого тіку (0/1), тік останнього натискання}. */
+    private static final Map<UUID, long[]> SNEAK_STATE = new HashMap<>();
+    private static final long DOUBLE_TAP_TICKS = 7;
 
     /**
      * Гравці, для яких Інстинкт уже спрацював або які вже на межі смерті. Поки здоров'я не
@@ -45,11 +53,14 @@ public class SpiritServerEvents {
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
+        syncFormMode(player);
         SpiritInvisibility.isActive(player);
         SpiritCooldowns.tick(player);
         SpiritTeleport.tickSmoke(player);
         SpiritDelirium.tick(player);
+        SpiritDisguise.tick(player);
         SpiritAuras.tick(player);
+        SpiritExistence.tick(player);
 
         // Поки гравець у моба, його тіло не показуємо (ефекти можуть скинути прапорець)
         if (SpiritPossession.isPossessing(player)) {
@@ -65,22 +76,28 @@ public class SpiritServerEvents {
             return;
         }
 
-        // Голод дійшов до нуля: сили на форму немає
-        if (SpiritForm.isStarving(player)) {
+        tickPhaseToggle(player, data);
+        data = SpiritFormState.get(player);
+
+        // Голод дійшов до нуля: сили на форму немає (Привид «Незеру» лишається Привидом)
+        if (SpiritForm.isStarving(player) && !SpiritExistence.isNether()) {
             SpiritForm.deactivate(player, "message.spirit_form.exhausted");
             return;
         }
 
         // Лава підпалює, а вода витрачає повітря, навіть якщо шкода скасована
-        if (player.isOnFire()) {
-            player.clearFire();
+        if (data.invulnerable() && !SpiritExistence.isBeyond()) {
+            if (player.isOnFire()) {
+                player.clearFire();
+            }
+            player.setAirSupply(player.getMaxAirSupply());
         }
-        player.setAirSupply(player.getMaxAirSupply());
 
-        // Нічне бачення: поновлюємо з запасом, щоб воно не мигало перед завершенням
+        // Нічне бачення не зілля: його дає клієнтський міксин LightTextureMixin, тож іконки немає.
+        // Лишок старого ефекту (з попередніх версій) прибираємо
         MobEffectInstance nightVision = player.getEffect(MobEffects.NIGHT_VISION);
-        if (nightVision == null || nightVision.getDuration() < 300) {
-            player.addEffect(SpiritForm.nightVision(400));
+        if (nightVision != null && !nightVision.isVisible() && !nightVision.showIcon()) {
+            player.removeEffect(MobEffects.NIGHT_VISION);
         }
 
         // Голод залежить від пройденої відстані
@@ -99,6 +116,46 @@ public class SpiritServerEvents {
         // Постійна Темрява: поновлюємо щосекунди
         if (SpiritBalance.darknessConstantInForm(data.darkness()) && player.tickCount % 20 == 0) {
             player.addEffect(SpiritForm.darkness(60));
+        }
+    }
+
+    /**
+     * Двічі швидко натиснути присідання (Shift) у формі: вмикає або вимикає проходження крізь блоки (з 2 рівня форми).
+     * Подвійне натискання Пробілу вмикає польот сама гра, бо форма дає гравцеві творчий політ.
+     */
+    private static void tickPhaseToggle(ServerPlayer player, SpiritData data) {
+        long[] state = SNEAK_STATE.computeIfAbsent(player.getUUID(), id -> new long[] {0, -100});
+        boolean sneaking = player.isShiftKeyDown();
+        long now = player.level().getGameTime();
+
+        if (sneaking && state[0] == 0 && !SpiritPossession.isPossessing(player)) {
+            if (data.canPhase() && now - state[1] <= DOUBLE_TAP_TICKS) {
+                boolean enable = !data.phasing();
+                SpiritFormState.set(player, data.withPhasing(enable));
+                player.displayClientMessage(Component.translatable(
+                        enable ? "message.spirit_form.phase.on" : "message.spirit_form.phase.off"), true);
+                state[1] = -100;
+            } else {
+                state[1] = now;
+            }
+        }
+        state[0] = sneaking ? 1 : 0;
+    }
+
+    /**
+     * Режим форми (ігрове правило spiritFormOverworldMode) переписується в дані гравця, бо клієнт не бачить правил світу.
+     * Перевіряється раз на секунду; якщо режим змінився, форма одразу отримує або втрачає політ.
+     */
+    private static void syncFormMode(ServerPlayer player) {
+        if (player.tickCount % 20 != 0) {
+            return;
+        }
+        boolean full = player.serverLevel().getGameRules().getBoolean(SpiritGameRules.OVERWORLD_MODE);
+        SpiritData data = SpiritFormState.get(player);
+        if (data.fullForm() != full) {
+            data = data.withFullForm(full);
+            SpiritFormState.set(player, data);
+            SpiritForm.refreshStats(player);
         }
     }
 
@@ -133,6 +190,7 @@ public class SpiritServerEvents {
 
     private static boolean canTriggerInstinct(ServerPlayer player, SpiritData data) {
         return data.instinct() && data.unlocked() && !data.active() && !SpiritForm.isStarving(player)
+                && !SpiritExistence.isNether()
                 && (player.getAbilities().instabuild
                 || player.getFoodData().getFoodLevel() >= FentonBracelet.cost(player, Config.INSTINCT_HUNGER_COST.get()));
     }
@@ -185,11 +243,55 @@ public class SpiritServerEvents {
      */
     @SubscribeEvent
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
+        // Режим Nether: Привид нікому не шкодить своїми руками (удари одержимого моба не рахуються)
+        if (SpiritExistence.isNether() && event.getSource().getEntity() instanceof Player attacker
+                && SpiritFormState.isActive(attacker)) {
+            event.setCanceled(true);
+            return;
+        }
+
         if (!(event.getEntity() instanceof Player player) || !SpiritFormState.isActive(player)) {
             return;
         }
 
         if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return;
+        }
+
+        // Режим Beyond: Привид отримує шкоду, як звичайний гравець
+        if (SpiritExistence.isBeyond()) {
+            return;
+        }
+
+        // Режим Nether: Привид не отримує жодної шкоди
+        if (SpiritExistence.isNether()) {
+            event.setCanceled(true);
+            return;
+        }
+
+        // Поки невразливість форми не розвинена (рівень 4), Привид захищений лише від падіння
+        if (!SpiritFormState.get(player).invulnerable()) {
+            if (event.getSource().is(DamageTypeTags.IS_FALL)) {
+                event.setCanceled(true);
+            }
+            return;
+        }
+
+        // Вісник Смерті ігнорує невразливість Привида, але лише своїми ударами (інші моби такого права не мають)
+        if (event.getSource().getEntity() instanceof DeathHerald
+                || event.getSource().getDirectEntity() instanceof DeathHerald) {
+            return;
+        }
+
+        // Перелісник б'є й Привида, не вимикаючи форму
+        if (event.getSource().getEntity() instanceof Perelisnyk
+                || event.getSource().getDirectEntity() instanceof Perelisnyk) {
+            return;
+        }
+
+        // Польовик б'є й Привида: його удари проходять крізь невразливість форми
+        if (event.getSource().getEntity() instanceof Polovyk
+                || event.getSource().getDirectEntity() instanceof Polovyk) {
             return;
         }
 
@@ -205,6 +307,7 @@ public class SpiritServerEvents {
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             SpiritForm.reset(player);
+            SpiritExistence.onLogin(player);
 
             // Перезахід не дає нового рятунку: хто вже на межі смерті, Інстинкт не спрацьовує
             if (player.getHealth() <= INSTINCT_HEALTH) {
@@ -218,6 +321,9 @@ public class SpiritServerEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             SpiritForm.reset(player);
             player.removeEffect(MobEffects.DARKNESS);
+            if (!event.isEndConquered()) {
+                SpiritExistence.onRespawn(player);
+            }
         }
     }
 
@@ -226,8 +332,33 @@ public class SpiritServerEvents {
         LAST_POSITIONS.remove(event.getEntity().getUUID());
         if (event.getEntity() instanceof ServerPlayer player) {
             SpiritCooldowns.clear(player);
+            SpiritExistence.clear(player);
             SpiritDelirium.clear(player);
+            SpiritDisguise.clear(player);
             SpiritImmunity.clear(player);
+            SNEAK_STATE.remove(player.getUUID());
+        }
+    }
+
+    /** Режим Nether: Привид не може атакувати та добувати блоки. */
+    @SubscribeEvent
+    public static void onGhostAttack(AttackEntityEvent event) {
+        if (SpiritExistence.isNether() && SpiritFormState.isActive(event.getEntity())) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onGhostLeftClick(PlayerInteractEvent.LeftClickBlock event) {
+        if (SpiritExistence.isNether() && SpiritFormState.isActive(event.getEntity())) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onGhostBreak(BlockEvent.BreakEvent event) {
+        if (SpiritExistence.isNether() && SpiritFormState.isActive(event.getPlayer())) {
+            event.setCanceled(true);
         }
     }
 

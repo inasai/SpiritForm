@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "item0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:spirit_leaves"
+          }
+        ]
+      }
+    },
+    "item1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:spirit_apple"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "item0",
+      "item1"
+    ]
+  ]
+}

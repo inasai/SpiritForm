@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "I I",
+    "C C",
+    "CCC"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "spirit_form:crystal_soul"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "spirit_form:soul_pull"
+  }
+}

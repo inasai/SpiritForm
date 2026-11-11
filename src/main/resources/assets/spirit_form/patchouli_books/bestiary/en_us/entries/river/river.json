@@ -1,0 +1,24 @@
+{
+  "name": "Beyond River",
+  "category": "spirit_form:river",
+  "icon": "minecraft:water_bucket",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_river.png"
+      ],
+      "title": "A river with a master",
+      "text": "Trees here grow straight out of the water.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What is here",
+      "text": "$(li)$(l:river/richnytsia)Richnytsia$(/l): a plant that grants Conduit Power;$(li)$(l:river/vodyanyk)The Vodianyk$(/l): king of the river;$(li)$(l:river/vodyanytsia)Vodianytsias$(/l): singing dwellers of the water.$(br2)Not everything that lives in the water wants you drowned. But some creatures may do it even with no ill intent."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_river",
+  "secret": true
+}

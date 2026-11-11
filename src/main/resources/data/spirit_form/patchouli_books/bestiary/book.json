@@ -1,0 +1,20 @@
+{
+  "name": "spirit_form.bestiary.title",
+  "landing_text": "spirit_form.bestiary.desc",
+  "version": 2,
+  "creative_tab": "spirit_form:spirit_form",
+  "use_resource_pack": true,
+  "show_progress": false,
+  "subtitle": "Spirit Form",
+  "model": "spirit_form:diary/book_green",
+  "book_texture": "spirit_form:textures/gui/diary/page/book_green.png",
+  "filler_texture": "spirit_form:textures/gui/diary/page_filler.png",
+  "crafting_texture": "spirit_form:textures/gui/diary/crafting.png",
+  "text_color": "23301F",
+  "header_color": "2E5E3A",
+  "nameplate_color": "7ED6A0",
+  "link_color": "2E7D4F",
+  "link_hover_color": "6FD39A",
+  "progress_bar_color": "7ED6A0",
+  "progress_bar_background": "23301F"
+}

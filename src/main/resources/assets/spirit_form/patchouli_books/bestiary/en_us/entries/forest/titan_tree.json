@@ -1,0 +1,26 @@
+{
+  "name": "Titan Tree",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:dark_oak_log",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Colossus of the forest",
+      "text": "A colossal tree about a hundred blocks tall, guarded by a coven of $(thing)ten mavkas$().$(br2)Small outbuildings cling to its branches, and a house with valuable treasures stands at the very top."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:mavka_flower",
+      "title": "Treasure at the top",
+      "text": "In the house at the top a $(item)Mavka Flower$() grows in a pot. Break the pot and the flower drops as an item."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "A hindering force",
+      "text": "Near this tree I cannot remain in $(thing)Spirit Form$(). Perhaps it gives off a force that disturbs my nature.$(br2)Come prepared: ten mavkas with poisonous touches are a serious foe."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/titan_tree",
+  "secret": true
+}

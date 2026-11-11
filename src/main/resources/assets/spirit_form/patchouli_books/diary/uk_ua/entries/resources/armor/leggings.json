@@ -1,0 +1,23 @@
+{
+  "name": "Штани Потойбіччя",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_leggings",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Сліди безтілесності",
+      "text": "«Навіть той, хто більше не відчуває землі під ногами, може потребувати обладунку»$(br2)Штани Потойбіччя — нижня частина особливого комплекту спорядження Привида."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Швидкість мертвих",
+      "text": "Кожне вбивство збільшує твою швидкість на $(thing)3 секунди$(). Використай цей короткий імпульс, щоб утекти або перейти до наступної цілі.",
+      "item": "spirit_form:spirit_leggings"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:leggings_recipe"
+    }
+  ]
+}

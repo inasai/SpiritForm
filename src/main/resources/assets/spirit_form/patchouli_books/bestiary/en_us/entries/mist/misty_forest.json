@@ -1,0 +1,24 @@
+{
+  "name": "Mist Forest",
+  "category": "spirit_form:mist",
+  "icon": "minecraft:gray_dye",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_mist.png"
+      ],
+      "title": "Place of the dead souls",
+      "text": "It is extremely hard to make anything out through the fog.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What is here",
+      "text": "$(li)$(l:mist/fern)Fern$(/l): glows and yields a Pearl;$(li)$(l:mist/potercha)Potercha$(/l): a ghostly guide;$(li)$(l:mist/souls)Souls$(/l): animals and ordinary foes.$(br2)Even when nothing can be seen, the feeling of being watched does not leave you."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_mist",
+  "secret": true
+}

@@ -17,7 +17,7 @@ import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 /**
- * Браслет Фентона. Діє, коли лежить в одній із рук або в слоті Curios "браслет".
+ * Браслет Фентона. Діє, коли лежить в одній із рук або в сховищі.
  * Ефект завжди один, скільки б браслетів гравець не тримав: подвоює швидкість і силу (модифікатори
  * мають фіксований ідентифікатор і не складаються), а перезарядку здібностей скорочує вдвічі.
  * Інверсію кольорів скіна малює клієнт (див. FentonSkin).
@@ -44,47 +44,62 @@ public final class FentonBracelet {
                 || isBracelet(entity.getItemInHand(InteractionHand.OFF_HAND));
     }
 
-    /** Чи діє браслет: у руці або в Curios (навіть якщо його сховано "оком"). */
+    /** Чи діє браслет: у руці або в сховищі (навіть якщо його сховано "оком"). */
     public static boolean isWearing(LivingEntity entity) {
         return inHands(entity)
-                || CuriosCompat.isEquipped(entity, SpiritItems.FENTONS_BRACELET.get());
+                || SpiritAccessories.isEquipped(entity, SpiritItems.FENTONS_BRACELET.get());
     }
 
-    /** Чи видно браслет на персонажі (а значить, інвертуються кольори скіна): рука або видимий слот Curios. */
+    /** Чи видно браслет на персонажі (а значить, інвертуються кольори скіна): рука або видима комірка сховища. */
     public static boolean invertsSkin(LivingEntity entity) {
         return inHands(entity)
-                || CuriosCompat.state(entity, SpiritItems.FENTONS_BRACELET.get()) == CuriosCompat.State.VISIBLE;
+                || SpiritAccessories.state(entity, SpiritItems.FENTONS_BRACELET.get()) == SpiritAccessories.State.VISIBLE;
     }
 
-    /** Чи малювати браслет на тілі: лежить у видимому слоті Curios і не тримається в руці (там він і так видний). */
+    /** Чи малювати браслет на тілі: лежить у видимій комірці сховища і не тримається в руці (там він і так видний). */
     public static boolean shownOnBody(LivingEntity entity) {
         return !inHands(entity)
-                && CuriosCompat.state(entity, SpiritItems.FENTONS_BRACELET.get()) == CuriosCompat.State.VISIBLE;
+                && SpiritAccessories.state(entity, SpiritItems.FENTONS_BRACELET.get()) == SpiritAccessories.State.VISIBLE;
     }
 
-    /** Намисто Потойбіччя діє: нагрудником або в слоті Curios "намисто" (навіть сховане). */
+    /** Намисто Потойбіччя діє: нагрудником або лежить у сховищі (навіть сховане). */
     public static boolean hasNecklace(LivingEntity entity) {
         return entity.getItemBySlot(EquipmentSlot.CHEST).is(SpiritItems.NECKLACE.get())
-                || CuriosCompat.isEquipped(entity, SpiritItems.NECKLACE.get());
+                || SpiritAccessories.isEquipped(entity, SpiritItems.NECKLACE.get());
     }
 
-    /** Чи видно намисто: нагрудник завжди, слот Curios лише з відкритим "оком". */
+    /** Чи видно намисто: нагрудник завжди, комірка сховища лише з відкритим "оком". */
     public static boolean showsNecklace(LivingEntity entity) {
         return entity.getItemBySlot(EquipmentSlot.CHEST).is(SpiritItems.NECKLACE.get())
-                || CuriosCompat.state(entity, SpiritItems.NECKLACE.get()) == CuriosCompat.State.VISIBLE;
+                || SpiritAccessories.state(entity, SpiritItems.NECKLACE.get()) == SpiritAccessories.State.VISIBLE;
     }
 
     /** Вартість здібності голодом: з Намистом Потойбіччя нуль. */
     public static int cost(Player player, int base) {
-        return base > 0 && hasNecklace(player) ? 0 : base;
+        if (base <= 0) {
+            return base;
+        }
+        if (hasNecklace(player)) {
+            return 0;
+        }
+        // Серце Смерті: голод вдвічі менший (округлення вгору, щоб здібність не стала безкоштовною)
+        return SpiritFormState.get(player).lord() ? Math.max(1, (base + 1) / 2) : base;
     }
 
     /** Перезарядка здібності в тіках: з Стигматом Фантома удвічі швидше (мінімум 1 тік, якщо вона була). */
     public static long cooldown(Player player, long baseTicks) {
-        if (baseTicks <= 0 || !isWearing(player)) {
+        if (baseTicks <= 0) {
             return baseTicks;
         }
-        return Math.max(1L, baseTicks / 2L);
+        long ticks = baseTicks;
+        if (isWearing(player)) {
+            ticks = Math.max(1L, ticks / 2L);
+        }
+        // Серце Смерті: ще вдвічі швидше (множиться зі Стигматом Фантома)
+        if (SpiritFormState.get(player).lord()) {
+            ticks = Math.max(1L, ticks / 2L);
+        }
+        return ticks;
     }
 
     @SubscribeEvent

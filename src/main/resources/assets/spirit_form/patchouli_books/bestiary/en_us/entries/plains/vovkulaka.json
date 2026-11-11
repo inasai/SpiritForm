@@ -1,0 +1,28 @@
+{
+  "name": "Vovkulaka",
+  "category": "spirit_form:plains",
+  "icon": "minecraft:bone",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:vovkulaka",
+      "name": "Vovkulaka",
+      "text": "A huge black wolf the size of a horse.",
+      "rotate": true,
+      "scale": 0.6
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Wild",
+      "text": "Never attacks first, but watches you when you are within $(thing)10 blocks$(). Come close and it may pounce. Strong bite: $(thing)3 hearts$(). Very fast."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Taming",
+      "text": "Feed it an $(item)enchanted golden apple$() (always works) or a $(item)golden apple$() (random chance per apple, like cats and dogs).$(br2)A tamed one helps in fights. Empty hand, right click: ride it (it steps up one block by itself); Shift + right click: tell it to sit or stand."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/vovkulaka",
+  "secret": true
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Nichnytsia",
+  "category": "spirit_form:night",
+  "icon": "minecraft:witch_spawn_egg",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:nichnytsia",
+      "name": "Nichnytsia",
+      "text": "Very like a mavka. Perhaps the energy of this place changed her?",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "She wanders the forest and leaves nearly everyone alone. But once she sees you she $(thing)throws potions$(): poisoning and weakening.$(br2)Keep away if you have nothing to answer with."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to make peace",
+      "text": "$(#2E7D4F)A gift with a soul:$() offer a $(item)Crystallized Soul$(). The Nichnytsia accepts and gives a helpful potion.$(br2)The peace lasts $(thing)five minutes$(). More: $(l:general/affection)Favour of Creatures$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/nichnytsia",
+  "secret": true
+}

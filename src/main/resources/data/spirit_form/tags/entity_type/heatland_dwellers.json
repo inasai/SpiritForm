@@ -1,0 +1,12 @@
+{
+  "values": [
+    "spirit_form:klunnyk",
+    "spirit_form:bahatko",
+    "minecraft:blaze",
+    "minecraft:magma_cube",
+    {
+      "id": "spirit_form:phoenix",
+      "required": false
+    }
+  ]
+}

@@ -15,7 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 /**
- * Намисто Потойбіччя. Одягається як нагрудник (ПКМ або в слот броні) чи в слот Curios "намисто".
+ * Намисто Потойбіччя. Одягається як нагрудник (ПКМ або в слот броні) чи кладеться в сховище.
  * Поки воно одягнуте, голод не витрачається (див. FentonBracelet.hasNecklace).
  */
 public class NecklaceItem extends Item implements Equipable {

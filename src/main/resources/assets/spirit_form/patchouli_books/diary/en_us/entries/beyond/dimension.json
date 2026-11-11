@@ -1,0 +1,23 @@
+{
+  "name": "The Beyond",
+  "category": "spirit_form:beyond",
+  "icon": "minecraft:warped_fungus",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "The world beyond",
+      "text": "The Beyond is a strange world where the usual laws of life and death take on a new meaning.$(br2)It has forests, rivers and creatures that resemble those of the Overworld. Do not rush to call them familiar. Even the cutest may hide danger, and the strangest may become an ally."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Crossing the boundary",
+      "text": "The Beyond is a separate dimension reached through the Echo of the Beyond.$(br2)There are two ways to enter:$(br2)$(li)Carry a $(item)Crystallized Soul$(), enable $(l:abilities/echo_of_death)Echo of Death$(/l), then right-click the Echo of the Beyond block. The soul is consumed.$(li)Earn the “King of the Beyond” advancement, enable Echo of Death and right-click the block. This route is free."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Biomes and dwellers",
+      "text": "The Beyond has several regions: the Forest of the Beyond, the River, the Mist Forest and the Night Forest.$(br2)Everything about their plants, trees, creatures and the $(l:beyond/heralds)Heralds$(/l) I wrote in a separate book: the $(thing)Bestiary of the Beyond$(). Its recipe is in the “Beginning” section."
+    }
+  ]
+}

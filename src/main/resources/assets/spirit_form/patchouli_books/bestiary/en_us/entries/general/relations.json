@@ -1,0 +1,20 @@
+{
+  "name": "Who Stands Against Whom",
+  "category": "spirit_form:general",
+  "icon": "minecraft:iron_sword",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Enmities",
+      "text": "$(li)$(bold)Mavkas$() against the $(bold)Chuhaister$() and the $(bold)Zlydeny$(). They leave peaceful animals, hukhas, bisyks and skarbnyks alone.$(li)The $(bold)Chuhaister$() grows weaker near a Mavka Tree and a Titan Tree.$(li)A tamed $(bold)Hukha$() strikes the Zlydeny, and it runs away.$(li)A $(bold)Nichnytsia$() usually leaves everyone alone until she sees you.$(li)$(bold)The Lisovyk$() strikes hostile outsiders but leaves every dweller of the Beyond Forest alone."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Spirit allies",
+      "text": "Spirit Form does not help everywhere:$(br)$(li)$(#A33B3B)$(l:river/vodyanyk)The Vodianyk$(/l)$() switches it off for 10 s if you come within 5 blocks;$(li)$(#A33B3B)$(l:night/perelisnyk)The Perelisnyk$(/l)$() strikes even a spirit;$(li)$(#A33B3B)$(l:forest/titan_tree)The Titan Tree$(/l)$() does not allow Spirit Form nearby."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/relations",
+  "secret": true
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Gloves of the Living",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:gloves_of_the_living",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A captured essence",
+      "text": "“Living beings are made to touch the world. Even when their feet no longer touch the ground, their hands must not lose their strength.”$(br2)The Gloves of the Living restore to ghosts the ability to interact with the material world while in flight."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "The Power of the Living",
+      "text": "The gloves allow you to mine blocks at normal speed, even while flying. Simply hold the gloves in your main hand or off-hand, or place them in a Vault cell.",
+      "item": "spirit_form:gloves_of_the_living"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:gloves_recipe"
+    }
+  ]
+}

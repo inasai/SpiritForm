@@ -1,0 +1,19 @@
+{
+  "name": "Proof of Strength",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:proof_of_strength",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "The key to the Herald of Death",
+      "text": "Combine the Hearts of Storm, Hunger and Cold to make a Proof of Strength. Take it and right-click the Echo of the Beyond: this summons the Herald of Death.$(br2)Prepare beforehand: this will not be an ordinary battle."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:proof_of_strength",
+      "title": "Recipe",
+      "text": "Three $(l:beyond/heralds)Herald$(/l) hearts, in any order."
+    }
+  ]
+}

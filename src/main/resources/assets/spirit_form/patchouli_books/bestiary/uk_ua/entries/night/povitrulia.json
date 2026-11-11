@@ -1,0 +1,28 @@
+{
+  "name": "Повітруля",
+  "category": "spirit_form:night",
+  "icon": "minecraft:phantom_spawn_egg",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:povitrulia",
+      "name": "Повітруля",
+      "text": "Літаюча змія без рук і ніг, але з крилами.",
+      "rotate": true,
+      "scale": 0.35
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поведінка",
+      "text": "Літає небом і, помітивши тебе, починає $(thing)випускати вогонь$(). Отрути в неї немає, і вона тримається на відстані, обертаючись навколо.$(br2)Ненависть до змій тут не допоможе: ця ще й літає."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Як діяти",
+      "text": "$(li)$(#7952A6)Дальня зброя$() дістає її, коли вона кружляє.$(li)$(#7952A6)Гаси вогонь$() і не стій на видноті.$(li)Укриття від вогню зарадить, коли вона кружляє."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/povitrulia",
+  "secret": true
+}

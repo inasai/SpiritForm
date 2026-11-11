@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
  * Повідомлення про перезарядку здібностей. Спершу "Ти втомився", а коли воно зникне,
@@ -29,6 +30,13 @@ public final class SpiritCooldowns {
         long now = player.level().getGameTime();
         player.displayClientMessage(Component.translatable("message.spirit_form.ability.cooldown"), true);
         NOTICES.put(player.getUUID(), new Notice(untilTick, now + COUNTDOWN_DELAY_TICKS));
+    }
+
+    /** Здібність пішла на перезарядку: клієнт показує її на іконці. */
+    public static void start(ServerPlayer player, String ability, long ticks) {
+        if (ticks > 0) {
+            PacketDistributor.sendToPlayer(player, new CooldownPayload(ability, (int) Math.min(ticks, Integer.MAX_VALUE)));
+        }
     }
 
     public static void tick(ServerPlayer player) {

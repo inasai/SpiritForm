@@ -1,0 +1,23 @@
+{
+  "name": "Корона Потойбіччя",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_helmet",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Вінець після смерті",
+      "text": "«Корона не обов’язково означає владу над живими. Іноді вона свідчить лише про те, що її власник пережив неможливе»$(br2)Корона Потойбіччя — головна частина особливого комплекту обладунків Привида."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Ім’я в душі",
+      "text": "Коли Корону споряджено, а $(l:abilities/spirit_sense)Чуття Привида$(/l) активне, ти можеш бачити ім’я, вигравіюване в душі істоти, та її стан.",
+      "item": "spirit_form:spirit_helmet"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:helmet_recipe"
+    }
+  ]
+}

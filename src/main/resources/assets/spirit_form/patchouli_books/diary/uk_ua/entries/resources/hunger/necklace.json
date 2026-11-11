@@ -1,0 +1,23 @@
+{
+  "name": "Намисто Потойбіччя",
+  "category": "spirit_form:resources_hunger",
+  "icon": "spirit_form:necklace_of_the_beyond",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Голод більше не владний",
+      "text": "«Навіть після смерті я відчуваю голод. Дивно, як міцно звички живого тіла тримаються за мене»$(br2)Намисто Потойбіччя — реліквія $(l:beginning/paths)$(#B03030)Шляху Голоду$()$(/l). Коли воно одягнене як нагрудник або лежить у комірці $(l:beginning/vault)Сховища$(/l), воно скасовує витрати голоду на використання здібностей, спрацювання $(l:beginning/spirit_instinct)Інстинктів Привида$(/l) та переміщення у $(l:beginning/spirit_form)Формі Привида$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Невидима прикраса",
+      "text": "Намисто можна приховати через значок ока біля комірки Сховища, не втрачаючи його властивостей. Воно скасовує лише перелічені витрати голоду й не надає інших бонусів.",
+      "item": "spirit_form:necklace_of_the_beyond"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:necklace_recipe"
+    }
+  ]
+}

@@ -81,7 +81,7 @@ public final class SpiritReaper {
     // ---------- предмети на гравцеві ----------
 
     private static boolean wears(Player player, EquipmentSlot slot, Item item) {
-        return player.getItemBySlot(slot).is(item);
+        return player.getItemBySlot(slot).is(item) || SpiritVault.wearsGear(player, slot, item);
     }
 
     public static boolean hasCrown(Player player) {
@@ -113,6 +113,21 @@ public final class SpiritReaper {
         return player.getMainHandItem().is(SpiritItems.SCYTHE.get());
     }
 
+    /**
+     * Коса в комірці основної руки сховища: діє, якщо комірку відкрито й "живлення" не вимкнено.
+     * Це не "тримання в руці": Привидом бути можна (holdsScythe її не бачить).
+     */
+    public static ItemStack vaultScythe(Player player) {
+        return SpiritVault.handStack(player, SpiritVault.CELL_MAIN_HAND, SpiritItems.SCYTHE.get());
+    }
+
+    /** Чи може Коса зі сховища зараз прийняти заряд (не "Жниво", не заблокована, не повна). */
+    public static boolean canTakeVaultCharge(ServerPlayer player) {
+        ItemStack stack = vaultScythe(player);
+        return !stack.isEmpty() && !active(stack) && lockUntil(stack) <= player.level().getGameTime()
+                && charge(stack) < Config.SCYTHE_MAX_CHARGE.get();
+    }
+
     // ---------- дані Коси (у самому предметі) ----------
 
     private static CompoundTag tag(ItemStack stack) {
@@ -136,10 +151,18 @@ public final class SpiritReaper {
         return tag(stack).getLong("Lock");
     }
 
-    /** +1 до заряду Коси в основній руці (якщо Коса не в режимі "Жниво" і не заблокована). */
+    /**
+     * +1 до заряду Коси в основній руці, а якщо там її немає, то Коси в комірці сховища
+     * (якщо Коса не в режимі "Жниво" і не заблокована).
+     */
     public static void addCharge(ServerPlayer player) {
         ItemStack stack = player.getMainHandItem();
+        boolean fromVault = false;
         if (!stack.is(SpiritItems.SCYTHE.get())) {
+            stack = vaultScythe(player);
+            fromVault = true;
+        }
+        if (stack.isEmpty()) {
             return;
         }
         long now = player.level().getGameTime();
@@ -149,6 +172,9 @@ public final class SpiritReaper {
             return;
         }
         edit(stack, t -> t.putInt("Charge", charge + 1));
+        if (fromVault) {
+            SpiritVault.touch(player);
+        }
         player.displayClientMessage(Component.translatable("message.spirit_form.scythe.charge", charge + 1, max), true);
     }
 
@@ -368,6 +394,16 @@ public final class SpiritReaper {
             }
         }
 
+        // Коса в комірці сховища: щотіку те саме, що й для Коси в інвентарі (витрата заряду "Жнива", блокування)
+        ItemStack stored = vaultScythe(player);
+        if (!stored.isEmpty()) {
+            CompoundTag before = tag(stored);
+            tickScythe(player, stored);
+            if (!tag(stored).equals(before)) {
+                SpiritVault.touch(player);
+            }
+        }
+
         // Черевики: вогонь не шкодить
         if (player.tickCount % 10 == 0 && player.isOnFire() && hasBoots(player)) {
             player.clearFire();
@@ -461,6 +497,10 @@ public final class SpiritReaper {
             // Жниво: удар Косою смертельний
             if (source.getDirectEntity() == attacker && attacker.getMainHandItem().is(SpiritItems.SCYTHE.get())
                     && active(attacker.getMainHandItem())) {
+                amount = 1.0E6F;
+            } else if (source.getDirectEntity() == attacker && attacker.getMainHandItem().isEmpty()
+                    && active(vaultScythe(attacker))) {
+                // Коса зі сховища: у режимі "Жниво" смертельний удар порожньою рукою
                 amount = 1.0E6F;
             }
             event.setAmount(amount);

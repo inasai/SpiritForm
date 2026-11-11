@@ -1,0 +1,7 @@
+{
+  "name": "Relics of Movement",
+  "description": "Relics that carry the power of the Herald of Storms.",
+  "icon": "spirit_form:fentons_bracelet",
+  "sortnum": 4,
+  "parent": "spirit_form:resources"
+}

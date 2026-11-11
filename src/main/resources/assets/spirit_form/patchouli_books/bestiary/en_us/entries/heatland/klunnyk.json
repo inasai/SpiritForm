@@ -1,0 +1,27 @@
+{
+  "name": "Klunnyk",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:blaze_powder",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:klunnyk",
+      "name": "Klunnyk",
+      "text": "An old man in fiery clothes who lives by the lava lakes.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "The Klunnyk never attacks first. While you have not harmed him, he shields you from fire within 10 blocks: lava, magma and burning cannot hurt you.$(br2)Do not freeze his lake with $(item)Icy Touch$(): he will frown first, then grow angry."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Wrath and gifts",
+      "text": "Whoever strikes a Klunnyk receives his heat: for 12 seconds it burns, hurts even a Spirit, but never kills, and wears down the durability of your gear without breaking it. Spirit Immunity does not remove it. Nearby Klunnyks grow angry too.$(br2)Give him coal or a blaze rod and he will thank you. A golden apple ends his anger."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/klunnyk",
+  "secret": true
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Herald of Hunger",
+  "category": "spirit_form:heralds",
+  "icon": "minecraft:rotten_flesh",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:hunger_herald",
+      "name": "Herald of Hunger",
+      "text": "Comes after the Herald of Storm. Brings a rain of blood.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Within its territory a $(thing)rain of blood$() falls. Every successful hit lowers your hunger bars and applies Hunger. Without food this can end in death by the usual rules."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to defeat it",
+      "text": "$(li)$(#2E7D4F)Scythe of the Beyond$() restores hunger by its usual mechanic, and its charge halts mobs: use that window to attack.$(li)$(#2E7D4F)Fern Pearl$(): fully restores health and hunger.$(li)Bring plenty of food."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Reward",
+      "text": "Victory leaves a $(item)Heart of Hunger$(), embodying the Path of Hunger."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/hunger_herald",
+  "secret": true
+}

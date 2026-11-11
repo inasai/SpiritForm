@@ -16,6 +16,9 @@ public final class SpiritClientReload {
     @SubscribeEvent
     public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener((net.minecraft.server.packs.resources.ResourceManagerReloadListener)
-                manager -> SpiritIcons.clearCache());
+                manager -> {
+                    SpiritIcons.clearCache();
+                    SpiritSenseVision.close();
+                });
     }
 }

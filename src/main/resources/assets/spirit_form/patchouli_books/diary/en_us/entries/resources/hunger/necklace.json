@@ -1,0 +1,23 @@
+{
+  "name": "Necklace of the Beyond",
+  "category": "spirit_form:resources_hunger",
+  "icon": "spirit_form:necklace_of_the_beyond",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Hunger no longer rules",
+      "text": "“Even after death, I still feel hunger. Strange how tightly the habits of a living body cling to me.”$(br2)The Necklace of the Beyond is a relic of the $(l:beginning/paths)$(#B03030)Path of Hunger$()$(/l). While worn as a chestplate or placed in a cell of the $(l:beginning/vault)Vault$(/l), it removes hunger costs for abilities, $(l:beginning/spirit_instinct)Ghost Instincts$(/l), and movement in $(l:beginning/spirit_form)Spirit Form$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "An invisible ornament",
+      "text": "You can hide the necklace with the eye icon next to its Vault cell without losing its properties. It removes only the listed hunger costs and grants no other bonuses.",
+      "item": "spirit_form:necklace_of_the_beyond"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:necklace_recipe"
+    }
+  ]
+}

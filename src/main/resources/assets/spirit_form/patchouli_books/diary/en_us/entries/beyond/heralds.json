@@ -1,0 +1,18 @@
+{
+  "name": "The Cycle Heralds",
+  "category": "spirit_form:beyond",
+  "icon": "minecraft:chain",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "The Herald sequence",
+      "text": "“When the world changes for no apparent reason, do not search for an explanation. Search for what is approaching.”$(br2)The sequence is fixed:$(br)$(#1C7FA8)Herald of Storm → Herald of Hunger → Herald of Cold → repeat.$(br2)Only one Herald can exist in the world at a time. When you win or die, the Herald disappears and the cycle advances. If you lose, it does not drop its heart."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Battle advice",
+      "text": "What each Herald does, how it is weak and which abilities to use against it, I wrote down in the $(thing)Bestiary of the Beyond$(). Read it before the first encounter: there may be no time later."
+    }
+  ]
+}

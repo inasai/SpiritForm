@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "QCQ",
+    "CHC",
+    "QCQ"
+  ],
+  "key": {
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "C": {
+      "item": "spirit_form:crystal_soul"
+    },
+    "H": {
+      "item": "spirit_form:cold_heart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "spirit_form:shackles_of_the_edge"
+  }
+}

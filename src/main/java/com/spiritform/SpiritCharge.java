@@ -26,6 +26,8 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 /**
  * Дарування Життя і Терези: дальні здібності із зарядом. Поки утримується клавіша, заряд росте,
  * а за кожну одиницю заряду гравець віддає одне сердечко (доки в нього не лишиться одне).
+ * Верхньої межі заряду немає (лише необов'язкова chargeLimit у конфігу): що більше в гравця здоров'я,
+ * то більший заряд. Коли лишається одне сердечко, заряд чекає й забирає відновлене здоров'я.
  * Після відпускання вилітає кулька диму: біла (Дарування Життя) лікує моба на стільки ж здоров'я,
  * скільки було в заряді, чорна (Терези) забирає стільки ж.
  */
@@ -142,11 +144,12 @@ public final class SpiritCharge {
         }
 
         charge.ticks++;
-        if (charge.ticks < Config.CHARGE_TICKS.get() || charge.hearts >= Config.CHARGE_MAX.get()) {
+        int limit = Config.CHARGE_LIMIT.get();
+        if (charge.ticks < Config.CHARGE_TICKS.get() || (limit > 0 && charge.hearts >= limit)) {
             return;
         }
         if (player.getHealth() - HEART < MIN_HEALTH) {
-            return; // лишилося одне сердечко: заряд більше не росте
+            return; // лишилося одне сердечко: заряд стоїть, але щойно здоров'я відновиться, росте далі
         }
 
         charge.ticks = 0;
@@ -167,7 +170,7 @@ public final class SpiritCharge {
         Iterator<Ball> iterator = BALLS.iterator();
         while (iterator.hasNext()) {
             Ball ball = iterator.next();
-            if (ball.owner.hasDisconnected() || ++ball.life > maxLife || !advance(ball)) {
+            if (ball.owner.hasDisconnected() || ++ball.life > maxLife * SpiritRange.mul(ball.owner) || !advance(ball)) {
                 iterator.remove();
             }
         }

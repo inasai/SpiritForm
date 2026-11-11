@@ -1,0 +1,29 @@
+{
+  "name": "Night Forest",
+  "category": "spirit_form:night",
+  "icon": "minecraft:dark_oak_sapling",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_night.png"
+      ],
+      "title": "Eternal darkness",
+      "text": "The sky here is always dark.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What is here",
+      "text": "$(li)$(l:night/povitrulia)Povitrulia$(/l): fire from the sky;$(li)$(l:night/perelisnyk)Perelisnyk$(/l): the local king;$(li)$(l:night/nichnytsia)Nichnytsia$(/l): like a mavka;$(li)$(l:night/spirit_apple)Spirit leaves$(/l) and the Spirit Apple.$(br2)I would not advise lingering here without good reason."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "About the dark",
+      "text": "The eternal night is only for show: the sky and fog change, but the Beyond has a single time of day. Lighting is ordinary.$(br2)$(#8A6A1A)Rivers$() within the Night Forest stay bright: they are a separate biome."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_night",
+  "secret": true
+}

@@ -12,6 +12,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -65,6 +66,10 @@ public final class SpiritGearClient {
                 || !SpiritReaper.hasCrown(player)) {
             return;
         }
+        // Інформація видна лише поки Чуття Привида активне
+        if (!SpiritFormState.get(player).hasAbility(SpiritAbility.SENSE) || !SpiritClientHighlight.isEnabled()) {
+            return;
+        }
         LivingEntity target = lookedAt(minecraft, player);
         if (target == null) {
             return;
@@ -82,6 +87,12 @@ public final class SpiritGearClient {
                 String.format(Locale.ROOT, "%.1f", target.getHealth()),
                 String.format(Locale.ROOT, "%.1f", target.getMaxHealth())));
         colors.add(0xFF7070);
+        double toughness = target.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
+        lines.add(toughness > 0.0
+                ? Component.translatable("screen.spirit_form.gaze.armor_toughness", target.getArmorValue(),
+                        String.format(Locale.ROOT, "%.1f", toughness))
+                : Component.translatable("screen.spirit_form.gaze.armor", target.getArmorValue()));
+        colors.add(0xB0C8FF);
         if (target.getAbsorptionAmount() > 0.0F) {
             lines.add(Component.translatable("screen.spirit_form.gaze.absorption",
                     String.format(Locale.ROOT, "%.1f", target.getAbsorptionAmount())));
@@ -100,15 +111,66 @@ public final class SpiritGearClient {
             colors.add(effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL ? 0xFF8080 : 0x90FF90);
         }
 
+        // Оформлення в стилі мода: темна панель із зрізаними кутами, м'ятна рамка, назва над рискою й смужка здоров'я
+        int pad = 6;
         int width = 0;
         for (Component line : lines) {
             width = Math.max(width, minecraft.font.width(line));
         }
-        int height = lines.size() * 10 + 4;
-        graphics.fill(x - 3, y - 3, x + width + 3, y + height - 1, 0x90101018);
-        for (int i = 0; i < lines.size(); i++) {
-            graphics.drawString(minecraft.font, lines.get(i), x, y + i * 10, colors.get(i), true);
+        width = Math.max(width, 74);
+        int panelW = width + pad * 2;
+        int barHeight = 5;
+        int panelH = pad + 10 + 5 + barHeight + 4 + (lines.size() - 1) * 10 + pad - 2;
+        if (x + panelW > graphics.guiWidth() - 4) {
+            x = graphics.guiWidth() / 2 - 14 - panelW;
         }
+        int px = x;
+        int py = y;
+        panel(graphics, px, py, panelW, panelH);
+
+        int tx = px + pad;
+        int ty = py + pad;
+        graphics.drawString(minecraft.font, lines.get(0), tx, ty, 0xFF000000 | colors.get(0), false);
+        ty += 10;
+        graphics.fill(tx, ty, tx + width, ty + 1, 0x805FE0B4);
+        ty += 4;
+
+        // Смужка здоров'я з вкладкою поглинання
+        float max = Math.max(1.0F, target.getMaxHealth());
+        float fill = Mth.clamp(target.getHealth() / max, 0.0F, 1.0F);
+        graphics.fill(tx, ty, tx + width, ty + barHeight, 0xFF08080B);
+        graphics.fill(tx + 1, ty + 1, tx + width - 1, ty + barHeight - 1, 0xFF2A1618);
+        int filled = (int) ((width - 2) * fill);
+        if (filled > 0) {
+            graphics.fill(tx + 1, ty + 1, tx + 1 + filled, ty + barHeight - 1, 0xFFE05A5A);
+            graphics.fill(tx + 1, ty + 1, tx + 1 + filled, ty + 2, 0xFFFF9C9C);
+        }
+        if (target.getAbsorptionAmount() > 0.0F) {
+            int gold = (int) ((width - 2) * Mth.clamp(target.getAbsorptionAmount() / max, 0.0F, 1.0F));
+            graphics.fill(tx + 1, ty + barHeight - 2, tx + 1 + Math.max(1, gold), ty + barHeight - 1, 0xFFE8C860);
+        }
+        ty += barHeight + 4;
+
+        for (int i = 1; i < lines.size(); i++) {
+            graphics.drawString(minecraft.font, lines.get(i), tx, ty, 0xFF000000 | colors.get(i), false);
+            ty += 10;
+        }
+    }
+
+    /** Напівпрозора темна панель із зрізаними кутами й тонкою м'ятною рамкою. */
+    private static void panel(GuiGraphics g, int x, int y, int w, int h) {
+        int body = 0xD0141418;
+        int rim = 0xB05FE0B4;
+        g.fill(x + 1, y, x + w - 1, y + h, body);
+        g.fill(x, y + 1, x + w, y + h - 1, body);
+        g.fill(x + 2, y, x + w - 2, y + 1, rim);
+        g.fill(x + 2, y + h - 1, x + w - 2, y + h, rim);
+        g.fill(x, y + 2, x + 1, y + h - 2, rim);
+        g.fill(x + w - 1, y + 2, x + w, y + h - 2, rim);
+        g.fill(x + 1, y + 1, x + 2, y + 2, rim);
+        g.fill(x + w - 2, y + 1, x + w - 1, y + 2, rim);
+        g.fill(x + 1, y + h - 2, x + 2, y + h - 1, rim);
+        g.fill(x + w - 2, y + h - 2, x + w - 1, y + h - 1, rim);
     }
 
     /** Описи властивостей обладунків у підказках. */

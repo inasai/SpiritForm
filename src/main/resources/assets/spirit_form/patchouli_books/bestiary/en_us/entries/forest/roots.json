@@ -1,0 +1,20 @@
+{
+  "name": "Roots That Show the Way",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:rooted_dirt",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Traces underfoot",
+      "text": "Strange roots appear in the Forest of the Beyond: some quite small, others much larger.$(br2)They grow as if showing the way: one end is thicker and aims at the $(l:forest/titan_tree)Titan Tree$(/l), the other is thin."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to read them",
+      "text": "$(li)Walk from the thin end toward the thick one.$(li)The closer to the tree, the more often they appear.$(li)There are none within 14 blocks of a Mavka Tree."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_forest",
+  "secret": true
+}

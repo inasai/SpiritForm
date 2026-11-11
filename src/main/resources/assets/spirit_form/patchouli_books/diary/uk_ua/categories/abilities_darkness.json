@@ -1,0 +1,7 @@
+{
+  "name": "Шлях Темряви",
+  "description": "$(#7A3DB8)Шлях Темряви$()$(br2)Сили життя й смерті, здоров’я та впливу на сутність інших істот.",
+  "icon": "spirit_form:textures/gui/ability/echo.png",
+  "sortnum": 1,
+  "parent": "spirit_form:abilities"
+}

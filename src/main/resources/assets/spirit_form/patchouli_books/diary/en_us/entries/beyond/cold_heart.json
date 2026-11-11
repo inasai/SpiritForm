@@ -1,0 +1,19 @@
+{
+  "name": "Heart of Cold",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:cold_heart",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Power of Darkness",
+      "text": "A trophy left after defeating the Herald of Cold. It recalls a battle after which even the world around no longer seemed the same.$(br2)The heart embodies the $(l:beginning/paths)$(#7A3DB8)Path of Darkness$()$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:cold_heart",
+      "title": "Heart of Cold",
+      "text": "Right-click the Echo of the Beyond with the heart in hand to lower the $(l:beyond/pursuit)Pursuit$(/l) meter by 100."
+    }
+  ]
+}

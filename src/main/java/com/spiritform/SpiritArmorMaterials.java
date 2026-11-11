@@ -24,19 +24,19 @@ public final class SpiritArmorMaterials {
             DeferredRegister.create(Registries.ARMOR_MATERIAL, SpiritFormMod.MODID);
 
     /** Множник міцності: міцність деталі = базове значення деталі * цей множник (залізо 15, алмаз 33, незерит 37). */
-    public static final int DURABILITY_MULTIPLIER = 15;
+    public static final int DURABILITY_MULTIPLIER = 37;
 
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> SPIRIT = ARMOR_MATERIALS.register("spirit", () -> {
         EnumMap<ArmorItem.Type, Integer> defense = new EnumMap<>(ArmorItem.Type.class);
-        defense.put(ArmorItem.Type.BOOTS, 2);
-        defense.put(ArmorItem.Type.LEGGINGS, 5);
-        defense.put(ArmorItem.Type.CHESTPLATE, 6);
-        defense.put(ArmorItem.Type.HELMET, 2);
+        defense.put(ArmorItem.Type.BOOTS, 4);
+        defense.put(ArmorItem.Type.LEGGINGS, 8);
+        defense.put(ArmorItem.Type.CHESTPLATE, 10);
+        defense.put(ArmorItem.Type.HELMET, 4);
         defense.put(ArmorItem.Type.BODY, 5);
         return new ArmorMaterial(
                 defense,
                 9, // зачаровуваність
-                SoundEvents.ARMOR_EQUIP_IRON, // звук надягання
+                SoundEvents.ARMOR_EQUIP_NETHERITE, // звук надягання
                 () -> Ingredient.EMPTY, // чим лагодиться (порожньо: ніяк)
                 List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "spirit"))),
                 0.0F, // міцність броні (toughness)

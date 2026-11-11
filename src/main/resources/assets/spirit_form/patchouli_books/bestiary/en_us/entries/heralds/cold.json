@@ -1,0 +1,33 @@
+{
+  "name": "Herald of Cold",
+  "category": "spirit_form:heralds",
+  "icon": "minecraft:powder_snow_bucket",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:cold_herald",
+      "name": "Herald of Cold",
+      "text": "Third in the cycle. Brings a local winter.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Within $(thing)50 blocks$() it is winter: snowy weather, snow on suitable surfaces, frozen water. Blows slow you and chill you as in powder snow. The closer to the Herald, the colder, and Spirit Form offers no shelter."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to defeat it",
+      "text": "$(li)$(#2E7D4F)Spirit Immunity$() cleanses negative effects.$(li)$(#2E7D4F)Spirit Touch$() lets you hurl blocks.$(li)$(#2E7D4F)Scales$() and other ranged weapons strike from afar."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Reward",
+      "text": "Victory leaves a $(item)Heart of Cold$(), embodying the Path of Darkness."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/cold_herald",
+  "secret": true
+}

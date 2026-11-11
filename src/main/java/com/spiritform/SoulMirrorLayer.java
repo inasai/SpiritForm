@@ -1,0 +1,47 @@
+package com.spiritform;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
+
+/** Малює предмет на гравці, коли він одягнений слотом броні або лежить у видимій комірці сховища (з "оком" відкритим). */
+public class SoulMirrorLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+            SpiritFormMod.MODID, "textures/entity/soul_mirror.png");
+
+    private final AccessoryModels model;
+
+    public SoulMirrorLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> parent,
+                         EntityModelSet models) {
+        super(parent);
+        this.model = new AccessoryModels(models.bakeLayer(AccessoryModels.MIRROR));
+    }
+
+    @Override
+    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player,
+                       float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks,
+                       float netHeadYaw, float headPitch) {
+        if (!SoulPlunderItem.shows(player)) {
+            return;
+        }
+        SpiritData data = SpiritFormState.get(player);
+        boolean ghost = data.active() || data.invisible();
+        VertexConsumer consumer = buffer.getBuffer(
+                ghost ? RenderType.entityTranslucent(TEXTURE) : RenderType.entityCutoutNoCull(TEXTURE));
+        int color = ghost ? SpiritTransparency.GHOST_COLOR : -1;
+        poseStack.pushPose();
+        getParentModel().body.translateAndRotate(poseStack);
+        model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+        poseStack.popPose();
+    }
+}

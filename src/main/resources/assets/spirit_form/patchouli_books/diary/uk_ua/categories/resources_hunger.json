@@ -1,0 +1,7 @@
+{
+  "name": "Реліквії Голоду",
+  "description": "Реліквії, пов’язані з голодом і витривалістю.",
+  "icon": "spirit_form:necklace_of_the_beyond",
+  "sortnum": 3,
+  "parent": "spirit_form:resources"
+}

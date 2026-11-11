@@ -1,0 +1,21 @@
+{
+  "name": "Bestiary of the Beyond",
+  "category": "spirit_form:beginning",
+  "icon": "minecraft:writable_book",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A second book",
+      "text": "All I learned about the Beyond would not fit in this diary. So I made a second book: the $(thing)Bestiary of the Beyond$().$(br2)It holds the biomes, their plants and trees, the creatures and how to tame them, and the $(l:beyond/heralds)Heralds$(/l) with advice on defeating them."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:bestiary_recipe",
+      "title": "Bestiary",
+      "text": "Gunpowder, rotten flesh, a bone and a spider eye around an ordinary book: everything left of my world."
+    }
+  ],
+  "advancement": "spirit_form:beyond_home",
+  "secret": true
+}

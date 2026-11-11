@@ -1,0 +1,23 @@
+{
+  "name": "Shackles of the Edge",
+  "category": "spirit_form:resources_darkness",
+  "icon": "spirit_form:shackles_of_the_edge",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Limits recede",
+      "text": "“The purpose of shackles is to restrain you. These work differently.”$(br2)The power of the Herald of Cold has changed the limits of your abilities. Shackles of the Edge expand their range."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Power while equipped",
+      "text": "While equipped, Shackles of the Edge double the range of your abilities. This effect does not work while the item is unequipped.",
+      "item": "spirit_form:shackles_of_the_edge"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:shacklace_recipe"
+    }
+  ]
+}

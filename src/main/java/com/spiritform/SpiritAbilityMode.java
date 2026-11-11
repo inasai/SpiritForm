@@ -81,15 +81,30 @@ public final class SpiritAbilityMode {
     }
 
     private static SpiritAbility activeAt(SpiritLoadout.Bar bar, int index) {
-        SpiritAbility ability = SpiritLoadout.ability(SpiritLoadout.get(bar, index));
-        return ability != null && ability.kind == SpiritAbility.Kind.ACTIVE ? ability : null;
+        // На цифрах і основних клавішах може стояти будь-яка здібність: пасивна перемикається, активна запускається
+        return SpiritLoadout.ability(SpiritLoadout.get(bar, index));
     }
 
-    private static void trigger(SpiritAbility ability) {
+    static void trigger(SpiritAbility ability) {
+        int toggle = SpiritAbilityUse.toggleAction(ability);
+        if (toggle >= 0) {
+            LocalPlayer self = Minecraft.getInstance().player;
+            if (self != null && SpiritFormState.get(self).hasAbility(ability)) {
+                PacketDistributor.sendToServer(new UpgradeSpiritPayload(toggle));
+            }
+            return;
+        }
+        if (ability == SpiritAbility.SELF_SUFFICIENCY) {
+            LocalPlayer self = Minecraft.getInstance().player;
+            if (self != null && SpiritFormState.get(self).hasAbility(SpiritAbility.SELF_SUFFICIENCY)) {
+                Minecraft.getInstance().setScreen(new SpiritStationScreen());
+            }
+            return;
+        }
         if (ability == SpiritAbility.ARMY) {
             LocalPlayer self = Minecraft.getInstance().player;
             if (self != null && SpiritFormState.get(self).hasAbility(SpiritAbility.ARMY)) {
-                SpiritArmyMode.open();
+                Minecraft.getInstance().setScreen(ArmyWheelScreen.main());
             } else if (self != null) {
                 self.displayClientMessage(Component.translatable("message.spirit_form.army.locked"), true);
             }
@@ -165,20 +180,12 @@ public final class SpiritAbilityMode {
 
         if (!active || !SpiritFormState.get(player).unlocked()) {
             releaseAll();
-            SpiritArmyMode.close();
             for (KeyMapping key : SpiritKeyMappings.MAIN) {
                 drain(key);
             }
             if (!SpiritFormState.get(player).unlocked()) {
                 active = false;
             }
-            return;
-        }
-
-        // Меню армії: цифри 1-3 мають власні дії
-        if (SpiritArmyMode.isOpen()) {
-            releaseAll();
-            SpiritArmyMode.tick(minecraft, noScreen);
             return;
         }
 
@@ -244,13 +251,6 @@ public final class SpiritAbilityMode {
             return;
         }
 
-        if (SpiritArmyMode.isOpen()) {
-            // З меню армії R повертає до панелі здібностей
-            SpiritArmyMode.close();
-            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 0.9F));
-            return;
-        }
-
         active = !active;
         if (!active) {
             releaseAll();
@@ -288,49 +288,97 @@ public final class SpiritAbilityMode {
             case VANISH -> data.invisible();
             case SENSE -> SpiritClientHighlight.isEnabled();
             case POSSESSION -> controllingOther(minecraft);
+            case ICY_TOUCH -> data.icy();
+            case PRESENCE -> data.presence();
+            case GAZE -> data.gaze();
+            case ECHO -> data.echo();
+            case ENERGY -> data.energy();
             default -> ability.hold && isHolding(ability);
         };
+    }
+
+    // Палітра збігається з колесами (SpiritWheelUi): темна м'ятна панель, світла м'ятна підсвітка.
+    private static final int PLATE = 0xE0070B09;
+    private static final int PLATE_EDGE = 0xFF1B3A30;
+    private static final int PLATE_TOP = 0xFF3F7A64;
+    private static final int CELL = 0xD00E1613;
+    private static final int CELL_EMPTY = 0x70080D0B;
+    private static final int CELL_ON = 0xE0183A2F;
+    private static final int ACCENT = 0xFF8CFFC8;
+    private static final int KEY_TEXT = 0xFFE8FFF4;
+
+    /** Прямокутник зі зрізаними кутами й однопіксельною рамкою. */
+    private static void plate(GuiGraphics graphics, int x, int y, int w, int h, int fill, int edge) {
+        graphics.fill(x + 1, y, x + w - 1, y + h, fill);
+        graphics.fill(x, y + 1, x + w, y + h - 1, fill);
+        graphics.fill(x + 1, y, x + w - 1, y + 1, edge);
+        graphics.fill(x + 1, y + h - 1, x + w - 1, y + h, edge);
+        graphics.fill(x, y + 1, x + 1, y + h - 1, edge);
+        graphics.fill(x + w - 1, y + 1, x + w, y + h - 1, edge);
     }
 
     private static void drawSlot(GuiGraphics graphics, Minecraft minecraft, SpiritData data,
                                  SpiritAbility ability, String id, int x, int y, int size, Component label) {
         boolean owned = ability != null && data.hasAbility(ability);
         boolean on = owned && isToggledOn(ability, minecraft, data);
+        boolean framed = size >= 24;
 
-        graphics.fill(x, y, x + size, y + size, 0xB0101018);
-        graphics.renderOutline(x, y, size, size, on ? 0xFF55FF55 : 0xFF8888AA);
+        if (ability == null) {
+            graphics.fill(x, y, x + size, y + size, CELL_EMPTY);
+            return;
+        }
 
-        if (ability != null) {
-            int offset = (size - 16) / 2;
-            SpiritIcons.draw(graphics, id, x + offset, y + offset);
-            if (!owned) {
-                graphics.fill(x + 1, y + 1, x + size - 1, y + size - 1, 0xA0000000);
+        int fill = on ? CELL_ON : CELL;
+        if (framed) {
+            plate(graphics, x, y, size, size, fill, on ? ACCENT : PLATE_TOP);
+        } else {
+            graphics.fill(x, y, x + size, y + size, fill);
+        }
+        if (on) {
+            // Увімкнена здібність: м'ятна смужка знизу
+            graphics.fill(x + 1, y + size - 2, x + size - 1, y + size - 1, ACCENT);
+        }
+
+        int offset = (size - 16) / 2;
+        SpiritIcons.draw(graphics, id, x + offset, y + offset);
+        if (!owned) {
+            graphics.fill(x, y, x + size, y + size, 0xB0050807);
+        } else {
+            // Перезарядка: затемнення знизу вгору, що поступово зникає, зі світлою кромкою
+            float left = SpiritCooldownClient.remaining(id);
+            if (left > 0.0F) {
+                int height = (int) Math.ceil(16 * left);
+                int top = y + offset + 16 - height;
+                graphics.fill(x + offset, top, x + offset + 16, y + offset + 16, 0xB05A6A64);
+                graphics.fill(x + offset, top, x + offset + 16, top + 1, 0xC0B8E6D2);
             }
         }
 
         if (label != null) {
-            graphics.drawString(minecraft.font, label, x + size - 2 - minecraft.font.width(label),
-                    y + size - 9, 0xFFFFFF, true);
+            // Номер клавіші дрібним шрифтом у правому нижньому куті
+            graphics.pose().pushPose();
+            graphics.pose().translate(x + size - 2, y + size - 7, 0.0F);
+            graphics.pose().scale(0.75F, 0.75F, 1.0F);
+            graphics.drawString(minecraft.font, label, -minecraft.font.width(label), 0, KEY_TEXT, true);
+            graphics.pose().popPose();
         }
     }
 
     private static void draw(GuiGraphics graphics, Minecraft minecraft, LocalPlayer player) {
-        if (SpiritArmyMode.isOpen()) {
-            SpiritArmyMode.draw(graphics, minecraft, player);
-            return;
-        }
         SpiritData data = SpiritFormState.get(player);
         int width = graphics.guiWidth();
         int height = graphics.guiHeight();
 
-        // Панель активних здібностей внизу по центру
-        int baseX = width / 2 - 91;
-        int y = height - 22;
+        // Панель активних здібностей внизу по центру, на місці ванільного хотбару (182x22)
+        int barX = width / 2 - 91;
+        int barY = height - 22;
+        plate(graphics, barX, barY, 182, 22, PLATE, PLATE_EDGE);
+        graphics.fill(barX + 1, barY, barX + 181, barY + 1, PLATE_TOP);
         for (int i = 0; i < AUX; i++) {
             String id = SpiritLoadout.get(SpiritLoadout.Bar.AUX, i);
             Component label = minecraft.options.keyHotbarSlots[i].getTranslatedKeyMessage();
             drawSlot(graphics, minecraft, data, activeAt(SpiritLoadout.Bar.AUX, i), id,
-                    baseX + i * 20, y, 20, label);
+                    barX + 2 + i * 20, barY + 2, 18, label);
         }
 
         // Основні здібності справа внизу (порожні клітинки не малюємо)

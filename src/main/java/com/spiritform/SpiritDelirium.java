@@ -81,7 +81,9 @@ public final class SpiritDelirium {
         level.addFreshEntity(stand);
         long lifetime = Config.DELIRIUM_DECOY_SECONDS.get() * 20L;
         DECOYS.put(id, new Decoy(stand, now + lifetime));
-        COOLDOWN_UNTIL.put(id, now + FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L));
+        long abilityCooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
+        COOLDOWN_UNTIL.put(id, now + abilityCooldown);
+        SpiritCooldowns.start(player, "delirium", abilityCooldown);
 
         puff(level, stand);
         level.playSound(null, player.getX(), player.getY(), player.getZ(),

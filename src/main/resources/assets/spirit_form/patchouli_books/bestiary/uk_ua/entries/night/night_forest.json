@@ -1,0 +1,29 @@
+{
+  "name": "Ліс Ночі",
+  "category": "spirit_form:night",
+  "icon": "minecraft:dark_oak_sapling",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_night.png"
+      ],
+      "title": "Вічна темрява",
+      "text": "Небо тут завжди темне.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Що тут є",
+      "text": "$(li)$(l:night/povitrulia)Повітруля$(/l): вогонь із неба;$(li)$(l:night/perelisnyk)Перелісник$(/l): місцевий король;$(li)$(l:night/nichnytsia)Нічниця$(/l): схожа на мавку;$(li)$(l:night/spirit_apple)Листя духів$(/l) і Яблуко Духів.$(br2)Я б не радив затримуватися тут без вагомої причини."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Про темряву",
+      "text": "Тут вічна ніч лише на вигляд: небо й туман змінюються, але час доби в Потойбіччі один. Освітлення звичайне.$(br2)$(#8A6A1A)Річки$() у Лісі Ночі лишаються без темряви: це окремий біом."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_night",
+  "secret": true
+}

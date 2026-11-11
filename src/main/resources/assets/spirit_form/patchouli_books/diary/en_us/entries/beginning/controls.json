@@ -1,0 +1,18 @@
+{
+  "name": "Controls",
+  "category": "spirit_form:beginning",
+  "icon": "minecraft:book",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Core keys",
+      "text": "Every power has its own controls. Start by learning these key bindings:$(li)$(k:key.spirit_form.toggle_spirit) — toggle $(l:beginning/spirit_form)Spirit Form$(/l);$(li)$(k:key.spirit_form.open_upgrades) — open the progression menu;$(li)$(k:key.spirit_form.ability_mode) — enter or leave Ability Mode;$(li)$(k:key.spirit_form.passive_wheel) — hold to open the ability wheel (several pages: click the centre for next, right click the centre for previous; pages are set up in the progression menu, Placement section; wheel, number keys and main keys can hold any ability except held ones);$(li)$(k:key.spirit_form.main_1), $(k:key.spirit_form.main_2), $(k:key.spirit_form.main_3) — primary ability keys."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Ability Mode",
+      "text": "In Ability Mode, keys 1–9 activate the powers assigned to the matching slots. You can rearrange them in the progression menu.$(br2)Before a fight, check your ability bar and passive powers. Once combat begins, you may not have time to search for the right skill.$(br2)Controls should become an extension of your will. Then your power will be ready when you need it."
+    }
+  ]
+}

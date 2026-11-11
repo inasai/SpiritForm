@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
@@ -50,9 +51,17 @@ public final class SpiritBeyond {
             player.displayClientMessage(Component.translatable("message.spirit_form.beyond.need_echo"), true);
             return;
         }
+        // Без досягнення "Король Потойбіччя" потрібна Кристалізована Душа в руці
+        ItemStack crystal = ItemStack.EMPTY;
         if (!hasKing(player, server)) {
-            player.displayClientMessage(Component.translatable("message.spirit_form.beyond.need_king"), true);
-            return;
+            if (player.getMainHandItem().is(SpiritItems.CRYSTAL_SOUL.get())) {
+                crystal = player.getMainHandItem();
+            } else if (player.getOffhandItem().is(SpiritItems.CRYSTAL_SOUL.get())) {
+                crystal = player.getOffhandItem();
+            } else {
+                player.displayClientMessage(Component.translatable("message.spirit_form.beyond.need_king"), true);
+                return;
+            }
         }
         ServerLevel beyond = server.getLevel(KEY);
         if (beyond == null) {
@@ -77,9 +86,14 @@ public final class SpiritBeyond {
         if (arrival == null) {
             arrival = new BlockPos(echoPos.getX(), surfaceY(beyond, echoPos.getX(), echoPos.getZ()), echoPos.getZ());
         }
+        // Кристалізована Душа зникає (у творчому режимі лишається)
+        if (!crystal.isEmpty() && !player.getAbilities().instabuild) {
+            crystal.shrink(1);
+        }
         travel(player, beyond, arrival.getX() + 0.5, arrival.getY(), arrival.getZ() + 0.5);
         player.displayClientMessage(Component.translatable("message.spirit_form.beyond.entered"), true);
         SpiritAdvancements.grant(player, "beyond_home");
+        SpiritHeralds.onEnterBeyond(player);
     }
 
     /** Запам'ятовує місце гравця в Потойбіччі (якщо він там). */
@@ -155,6 +169,7 @@ public final class SpiritBeyond {
         }
         travel(player, target, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         player.displayClientMessage(Component.translatable("message.spirit_form.beyond.left"), true);
+        SpiritHeralds.onReturn(player);
     }
 
     private static void travel(ServerPlayer player, ServerLevel target, double x, double y, double z) {

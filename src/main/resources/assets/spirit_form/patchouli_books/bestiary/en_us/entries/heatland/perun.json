@@ -1,0 +1,20 @@
+{
+  "name": "Wrath of God",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:feather",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Perun's punishment",
+      "text": "When a wild Phoenix is slain you are told \"Perun, God of the Sky, has noticed you\", then \"Run!\", and you have 5 seconds. Then the Wrath lasts 5 minutes.$(br2)It deals one heart per second while you are in the Heatland, under the open sky, with a Phoenix feather in your inventory. It works through Spirit Form too."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to survive",
+      "text": "Take cover under a roof or in a cave, leave the Heatland, or get rid of the feather. Spirit Immunity, milk and a totem do not remove this wrath, and death cancels it."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/perun",
+  "secret": true
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Bisyk",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:blaze_powder",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:bisyk",
+      "name": "Bisyk",
+      "text": "A small thief. Charming to look at, but with a devil of a temper.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Theft",
+      "text": "Nimble paws rummage through your pockets. Sometimes after a hit the bisyk pulls an item from your inventory.$(br2)$(#7952A6)Do not delay:$() recover the item as soon as you can. Especially if a $(l:forest/skarbnyk)Skarbnyk$(/l) is near: then the item may vanish another way."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/bisyk",
+  "secret": true
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Яблуко Духів",
+  "category": "spirit_form:night",
+  "icon": "minecraft:enchanted_golden_apple",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:spirit_leaves",
+      "title": "Листя духів",
+      "text": "На деревах Лісу Ночі росте особливе листя. Його можна зламати навіть голою рукою, і тоді з нього випаде $(item)Яблуко Духів$()."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:spirit_apple",
+      "title": "Яблуко Духів",
+      "text": "Дія залежить від форми, у якій ти завершив поїдання.$(br2)$(#A33B3B)Людина:$() Висушування й Голод на 5 хв, Нудота на 10 с.$(br)$(#2E7D4F)Привид:$() Поглинання й Сила на 3 хв."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Порада",
+      "text": "$(#7952A6)Їж у Формі Привида.$() Якщо почати в одній формі, а завершити в іншій, діятимуть ефекти тієї, у якій ти наприкінці.$(br2)Поглинання й Сила — гарна підготовка до бою з $(l:heralds/heralds)Вісником$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/spirit_apple",
+  "secret": true
+}

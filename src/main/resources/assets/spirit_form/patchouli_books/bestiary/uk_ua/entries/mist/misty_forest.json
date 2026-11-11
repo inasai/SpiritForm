@@ -1,0 +1,24 @@
+{
+  "name": "Туманний Ліс",
+  "category": "spirit_form:mist",
+  "icon": "minecraft:gray_dye",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_mist.png"
+      ],
+      "title": "Місце померлих душ",
+      "text": "Роздивитися щось крізь туман надзвичайно важко.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Що тут є",
+      "text": "$(li)$(l:mist/fern)Папороть$(/l): світиться й дає Перлину;$(li)$(l:mist/potercha)Потерча$(/l): примарна провідниця;$(li)$(l:mist/souls)Душі$(/l): тварини й звичайні вороги.$(br2)Навіть коли нічого не видно, не полишає відчуття, що хтось спостерігає за тобою."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_mist",
+  "secret": true
+}

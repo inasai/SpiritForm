@@ -1,0 +1,28 @@
+{
+  "name": "Perelisnyk",
+  "category": "spirit_form:night",
+  "icon": "minecraft:warden_spawn_egg",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:perelisnyk",
+      "name": "Perelisnyk",
+      "text": "The local king. A dreadful local king.",
+      "rotate": true,
+      "scale": 0.9
+    },
+    {
+      "type": "patchouli:text",
+      "title": "A blow that turns things over",
+      "text": "His blow inflicts $(thing)Darkness$() and $(thing)Inversion$() (10 seconds each): vision blurs and your controls are reversed.$(br2)The Perelisnyk twists not just the body, but perception itself."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Do not rely on being intangible",
+      "text": "$(#A33B3B)Spirit Form does not shield you from his blows.$() He harms you even when you are intangible, though the form does not switch off.$(br2)Do not pretend that turning spirit is a way out. Better to run."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/perelisnyk",
+  "secret": true
+}

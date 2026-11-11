@@ -1,0 +1,7 @@
+{
+  "name": "Спільні здібності",
+  "description": "$(#AA82C6)Спільні здібності$()$(br2)Сили, які відкриваються через розвиток усіх трьох Шляхів.",
+  "icon": "spirit_form:textures/gui/ability/gaze.png",
+  "sortnum": 4,
+  "parent": "spirit_form:abilities"
+}

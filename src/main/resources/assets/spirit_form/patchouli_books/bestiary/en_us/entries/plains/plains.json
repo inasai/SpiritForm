@@ -1,0 +1,29 @@
+{
+  "name": "Beyond Plains",
+  "category": "spirit_form:plains",
+  "icon": "spirit_form:poludnytsia",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_plains.png"
+      ],
+      "title": "A field without end",
+      "text": "Grass, flowers and lone oaks.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What lives here",
+      "text": "$(li)$(l:plains/poludnytsia)Poludnytsia$(/l): a flower that looks like the sun;$(li)$(l:plains/polovyk)Polovyk$(/l): master of the Plains;$(li)$(l:plains/vovkulaka)Vovkulaky$(/l): black wolves the size of horses;$(li)$(l:plains/chort)Chort$(/l): a girl in white wandering the field.$(br2)Ordinary creatures appear too: sheep, cows, pigs, and the usual enemies at night."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Rings of Poludnytsia",
+      "text": "Poludnytsia grow in rings around the centre of the biome, each ring narrower than the last. Follow the rings inward and they lead to the $(l:plains/polovyk)Polovyk$(/l).$(br2)The Plains are smaller than the Forest, but there is room to roam. They only appear in new, not yet visited parts of the world."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_plains",
+  "secret": true
+}

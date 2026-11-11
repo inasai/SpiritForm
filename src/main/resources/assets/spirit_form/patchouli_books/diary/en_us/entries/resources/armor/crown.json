@@ -1,0 +1,23 @@
+{
+  "name": "Crown of the Beyond",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_helmet",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A crown after death",
+      "text": "“A crown does not always mean power over the living. Sometimes it only proves its owner survived the impossible.”$(br2)The Crown of the Beyond is the headpiece of a special Ghost armor set."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "A name in the soul",
+      "text": "When the Crown is equipped and $(l:abilities/spirit_sense)Spirit Sense$(/l) is active, you can see the name engraved in a creature’s soul and its condition.",
+      "item": "spirit_form:spirit_helmet"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:helmet_recipe"
+    }
+  ]
+}

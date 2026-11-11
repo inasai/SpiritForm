@@ -1,0 +1,28 @@
+{
+  "name": "Zlydeny",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:ocelot_spawn_egg",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:zlydeny",
+      "name": "Zlydeny",
+      "text": "Almost like a Hukha, but it waits for the right moment to strike.",
+      "rotate": true,
+      "scale": 0.65
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "Lives among hukhas. It shadows you from five to ten blocks away. When you come closer it $(thing)freezes for a second$(), then bites and runs, only to return later."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to fight back",
+      "text": "$(li)$(#2E7D4F)A tamed Hukha$() attacks the Zlydeny; it flees.$(li)$(#7952A6)Mavkas$() attack it too.$(li)$(#7952A6)The freeze$() is your window: strike first."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/zlydeny",
+  "secret": true
+}

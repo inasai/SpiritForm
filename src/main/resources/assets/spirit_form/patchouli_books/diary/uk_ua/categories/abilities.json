@@ -1,6 +1,6 @@
 {
   "name": "Здібності",
-  "description": "Усі здібності Привида: вимоги, керування, дія.",
-  "icon": "minecraft:ender_eye",
-  "sortnum": 1
+  "description": "«Те, що для живих неможливе, для мертвих може стати звичкою»$(br2)Вивчай сили Привида, їхні можливості, обмеження та ціну використання.",
+  "icon": "spirit_form:textures/gui/ability/instinct.png",
+  "sortnum": 2
 }

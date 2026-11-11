@@ -1,0 +1,23 @@
+{
+  "name": "The Pursuit",
+  "category": "spirit_form:beyond",
+  "icon": "minecraft:ominous_trial_key",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "The Pursuit meter",
+      "text": "“The $(l:beyond/heralds)Heralds$(/l) do not come by chance. Every return brings the next trial closer.”$(br2)Each trip into the Beyond increases Pursuit by a growing amount: +1, then +2, +3, and so on. When the meter reaches 100, a Herald appears the next time you return to the Overworld."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "When does a Herald appear?",
+      "text": "After 13 trips, the total is 91. The fourteenth adds 14, bringing the meter to 105. A $(l:beyond/heralds)Herald$(/l) appears, and after subtracting 100, 5 Pursuit points remain.$(br2)The number of trips needed for later Heralds is therefore not fixed: the remainder carries into the next cycle."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Herald Hearts",
+      "text": "You can reduce Pursuit using the $(l:beyond/storm_heart)Heart of Storm$(/l), $(l:beyond/hunger_heart)Heart of Hunger$(/l), or $(l:beyond/cold_heart)Heart of Cold$(/l). Hold a heart and right-click the Beyond Echo block to reduce the meter by 100.$(br2)The meter can become negative. This does not cancel the cycle; you will need to build Pursuit back up before the next $(l:beyond/heralds)Herald$(/l) appears."
+    }
+  ]
+}

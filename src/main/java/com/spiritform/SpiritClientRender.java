@@ -18,6 +18,9 @@ public final class SpiritClientRender {
     @SubscribeEvent
     public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(NecklaceModel.LAYER_LOCATION, NecklaceModel::createBodyLayer);
+        event.registerLayerDefinition(AccessoryModels.MIRROR, AccessoryModels::mirrorLayer);
+        event.registerLayerDefinition(AccessoryModels.SHACKLES, AccessoryModels::shacklesLayer);
+        event.registerLayerDefinition(AccessoryModels.BRACELET, AccessoryModels::braceletLayer);
     }
 
     @SubscribeEvent
@@ -25,7 +28,10 @@ public final class SpiritClientRender {
         for (PlayerSkin.Model skin : event.getSkins()) {
             if (event.getSkin(skin) instanceof PlayerRenderer renderer) {
                 renderer.addLayer(new NecklaceLayer(renderer, event.getEntityModels()));
-                renderer.addLayer(new BraceletLayer(renderer));
+                renderer.addLayer(new SoulMirrorLayer(renderer, event.getEntityModels()));
+                renderer.addLayer(new ShacklesLayer(renderer, event.getEntityModels()));
+                renderer.addLayer(new BraceletLayer(renderer, event.getEntityModels()));
+                renderer.addLayer(new SpiritArmorLayer(renderer));
             }
         }
     }

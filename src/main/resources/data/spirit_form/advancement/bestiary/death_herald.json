@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "trigger": {
+      "trigger": "minecraft:impossible"
+    },
+    "item0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:proof_of_strength"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "trigger",
+      "item0"
+    ]
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Mavka Tree",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:oak_log",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Under guard",
+      "text": "A great tree some fifty blocks tall, guarded by $(thing)three mavkas$() who attack every hostile creature.$(br2)It is more than a home to them: they are bound to it and will not let just anyone approach unpunished."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Advice",
+      "text": "$(li)$(#7952A6)Size up the situation.$() Not every fight is worth the effort.$(li)$(#7952A6)A Chuhaister weakens$() near this tree, so the mavkas overcome it more easily."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/mavka_tree",
+  "secret": true
+}

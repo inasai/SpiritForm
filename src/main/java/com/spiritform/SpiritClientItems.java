@@ -17,6 +17,10 @@ public final class SpiritClientItems {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> Station.setSource(() -> {
+            net.minecraft.client.player.LocalPlayer player = net.minecraft.client.Minecraft.getInstance().player;
+            return player == null ? java.util.List.of() : SpiritStations.get(player).blocks();
+        }));
         event.enqueueWork(() -> ItemProperties.register(
                 SpiritItems.SOUL_CATCHER.get(),
                 ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "filled"),

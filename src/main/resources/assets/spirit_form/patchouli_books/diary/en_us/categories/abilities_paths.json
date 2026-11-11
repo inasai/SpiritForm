@@ -1,0 +1,7 @@
+{
+  "name": "Shared Abilities",
+  "description": "$(#AA82C6)Shared Abilities$()$(br2)Powers unlocked by developing all three Paths.",
+  "icon": "spirit_form:textures/gui/ability/gaze.png",
+  "sortnum": 4,
+  "parent": "spirit_form:abilities"
+}

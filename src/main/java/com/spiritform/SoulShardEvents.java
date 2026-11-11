@@ -72,7 +72,7 @@ public final class SoulShardEvents {
 
         // Лишається не більше уламків, ніж дозволяє конфіг: найстаріші зникають
         List<UUID> removed = SoulShardIndex.get(level.getServer())
-                .register(player.getUUID(), shard.getUUID(), data.shards());
+                .register(player.getUUID(), shard.getUUID(), data.effectiveShards());
         for (UUID id : removed) {
             for (ServerLevel other : level.getServer().getAllLevels()) {
                 Entity old = other.getEntity(id);
@@ -81,6 +81,10 @@ public final class SoulShardEvents {
                 }
             }
         }
+
+        SoulShardIndex.get(level.getServer()).touch(shard.getUUID(), new SoulShardIndex.Position(
+                level.dimension().location().toString(), shard.getX(), shard.getY(), shard.getZ()), items);
+        SoulShardTools.pushMarks(level.getServer(), player.getUUID());
 
         player.sendSystemMessage(Component.translatable("message.spirit_form.shard.created",
                 String.valueOf(Math.round(shard.getX())), String.valueOf(Math.round(shard.getY())),

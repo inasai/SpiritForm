@@ -1,0 +1,19 @@
+{
+  "name": "Heart of Death",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:death_heart",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A vessel of power",
+      "text": "After defeating the Herald of Death a Heart of Death remains: a vessel of the Beyond’s power.$(br2)Absorbing it grants the ability “$(l:beginning/energy_beyond)Energy of the Beyond$(/l)”. It is more than a trophy; it completes a special trial."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:death_heart",
+      "title": "Heart of Death",
+      "text": "In $(l:beginning/spirit_form)Spirit Form$(/l), click with the heart in hand to absorb it. The ability is permanent."
+    }
+  ]
+}

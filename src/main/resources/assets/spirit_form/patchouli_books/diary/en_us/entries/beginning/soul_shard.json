@@ -1,0 +1,23 @@
+{
+  "name": "Soul Shards",
+  "category": "spirit_form:beginning",
+  "icon": "minecraft:echo_shard",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What remains",
+      "text": "“Some things are too important to leave at the place of your death.”$(br2)Soul Shards let you preserve your items after dying. Purchase them in the progression menu. You start with no shards.$(br2)Each new slot costs experience equal to the number of shards you will own after buying it. The maximum is controlled by $(thing)soulShardMax$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "A death cache",
+      "text": "To create a cache, you need:$(li)$(l:beginning/spirit_instinct)Ghost Instincts$(/l) enabled;$(li)at least one Soul Shard;$(li)a player death.$(br2)Black smoke appears at the place of death. Right-click it to recover your items. Only the owner can open the cache.$(br2)The number of simultaneous caches is limited by your Soul Shards. If you exceed the limit, the oldest cache disappears."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "If the Shard is gone",
+      "text": "The Soul Shard keeps your things in a backup. If it did not appear or has vanished, run $(bold)/spirit_shard$(): the shard returns beside you with all your things. If the old shard still exists, the command tells you where it is and creates nothing."
+    }
+  ]
+}

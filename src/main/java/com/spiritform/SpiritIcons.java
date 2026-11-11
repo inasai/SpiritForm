@@ -55,6 +55,11 @@ public final class SpiritIcons {
 
     /** Малює іконку здібності 16x16 у точці (x, y). */
     public static void draw(GuiGraphics graphics, String id, int x, int y) {
+        Station station = Station.byLoadoutId(id);
+        if (station != null) {
+            graphics.renderItem(station.stack(), x, y);
+            return;
+        }
         ResourceLocation location = location(id);
         Size size = size(location);
         RenderSystem.enableBlend();

@@ -1,0 +1,22 @@
+{
+  "name": "Skarbnyk",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:gold_nugget",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:skarbnyk",
+      "name": "Skarbnyk",
+      "text": "A small rogue that keeps close to bisyks.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "A skarbnyk picks up items lying on the ground and then flees quickly.$(br2)$(#7952A6)Mind your things:$() never leave valuables unattended, especially near $(l:forest/bisyk)bisyks$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/skarbnyk",
+  "secret": true
+}

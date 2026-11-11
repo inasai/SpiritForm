@@ -59,11 +59,7 @@ public record AbilityPayload(int ability, boolean pressed) implements CustomPack
                         SpiritPossession.toggle(player);
                     }
                 }
-                case DELIRIUM -> {
-                    if (payload.pressed()) {
-                        SpiritDelirium.activate(player);
-                    }
-                }
+                case DELIRIUM -> SpiritDisguise.onDelirium(player, payload.pressed());
                 case IMMUNITY -> {
                     if (payload.pressed()) {
                         SpiritImmunity.activate(player);

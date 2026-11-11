@@ -1,0 +1,24 @@
+{
+  "name": "Жарокрай",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:magma_block",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_heatland.png"
+      ],
+      "title": "Випалена земля",
+      "text": "Базальт, чорнокамінь і обсидіанові поля, лавові озера, темно-мідне небо й постійний попіл у повітрі.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Що тут є",
+      "text": "$(li)$(l:heatland/volcano)Титанічний вулкан$(/l): серце краю;$(li)$(l:heatland/klunnyk)Клунник$(/l): дід біля лавових озер;$(li)$(l:heatland/bahatko)Багатько$(/l): вогняні кульки;$(li)$(l:heatland/phoenix)Жар-птиця$(/l): володарка неба.$(br2)Вогонь тут не ворог і не друг. Це господар, і до нього треба придивлятися."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_heatland",
+  "secret": true
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Серце Голоду",
+  "category": "spirit_form:beyond",
+  "icon": "spirit_form:hunger_heart",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Сила Голоду",
+      "text": "Трофей, що залишається після перемоги над Вісником Голоду. Доказ того, що ти витримав випробування виснаженням.$(br2)Серце уособлює $(l:beginning/paths)$(#B03030)Шлях Голоду$()$(/l)."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:hunger_heart",
+      "title": "Серце Голоду",
+      "text": "ПКМ по Відлунню Потойбіччя із серцем у руці зменшує шкалу $(l:beyond/pursuit)Переслідування$(/l) на 100."
+    }
+  ]
+}

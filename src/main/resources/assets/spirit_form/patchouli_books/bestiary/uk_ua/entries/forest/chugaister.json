@@ -1,0 +1,28 @@
+{
+  "name": "Чугайстер",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:iron_golem_spawn_egg",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:chuhaister",
+      "name": "Чугайстер",
+      "text": "Велетень лісу. Міцна шкура, потужні удари й ненависть до мавок.",
+      "rotate": true,
+      "scale": 0.85
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поведінка",
+      "text": "$(li)Не нападає першим: доки ти його не зачепиш.$(li)Нападає на мавок.$(li)$(#2E7D4F)Слабшає біля Дерева Мавок і Титанічного Дерева.$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Як діяти",
+      "text": "Не провокуй велетня без потреби. Не кожного ворога треба перемагати.$(br2)Але якщо вбити його на очах у мавок, ти здобудеш їхню прихильність: $(l:general/affection)докладніше$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/chuhaister",
+  "secret": true
+}

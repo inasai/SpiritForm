@@ -1,0 +1,38 @@
+{
+  "name": "Vault",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:fentons_bracelet",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A place for relics",
+      "text": "“What is hidden well is not lost, not even to death.”$(br2)The progression window (key $(thing)H$()) has a $(thing)Vault$() section after “Placement”. Items in its cells work as if you were wearing them and $(#1C7FA8)are not lost on death$(). All of this mod's artifacts live here: a cell replaces separate accessory slots."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Cells",
+      "text": "You start with no cells. Unlock them with experience levels: $(thing)the N-th cell costs N levels$().$(br2)$(#1C7FA8)Artifacts:$() one cell for every equippable artifact (7 for now).$(br)$(#1C7FA8)Gear:$() up to 6 cells: helmet, chestplate, leggings, boots, main hand and off hand.$(br2)When a new artifact appears, one more cell is added for it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Controls",
+      "text": "Click an inventory item, then a cell. $(thing)Shift + click$() puts it in the first free cell. Clicking a filled cell returns the item. Right click clears the selection.$(br2)Each cell has two icons: the $(#1C7FA8)eye$() (show the item on your character) and the $(#1C7FA8)power$() icon (turns the item's effect on and off).$(br2)Swapping is blocked for $(thing)10 seconds$() after combat (the $(thing)vaultCombatSeconds$() option; 0 disables the lock)."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Artifacts",
+      "text": "An artifact works while it sits in a cell. One artifact takes one cell, so duplicates do not stack and the effect is never doubled.$(br2)All of this mod's artifacts work from the hands, armor slots or vault cells, including $(l:resources/beyond/soul_memory)Soul Memory$(/l) and Fenton's Bracelet."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Gear",
+      "text": "Armor in cells is $(thing)shown on your character$() and drawn over worn armor. The $(#1C7FA8)eye$() icon next to a cell hides it.$(br2)Armor stats are added when the matching slot on your character is $(thing)empty$() (vanilla protection enchantments do not count). $(#1C7FA8)Effects of this mod's items$(), such as the Armor of the Beyond, always work, even if you wear other armor."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Hands",
+      "text": "Hand cells draw nothing. Their items work only while your real main hand is $(thing)empty$().$(br2)$(#1C7FA8)Main hand, Scythe of the Beyond:$() its charge grows from any kill, and souls $(thing)never appear$() while it is on, even when the charge is full. To get souls, $(thing)turn the Scythe's power off$(). To activate its effects $(thing)hold right click for 3 seconds$(). You can still be a Ghost.$(br2)$(#1C7FA8)Off hand, Soul Catcher:$() $(thing)Shift + right click$() on a mob catches it, $(thing)Shift + holding right click$() (5 seconds) absorbs the soul. A soul cannot be released from the vault.$(br2)The power icon turns all these effects off."
+    }
+  ]
+}

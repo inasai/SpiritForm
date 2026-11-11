@@ -1,0 +1,32 @@
+{
+  "name": "Potercha",
+  "category": "spirit_form:mist",
+  "icon": "minecraft:allay_spawn_egg",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:potercha",
+      "name": "Potercha",
+      "text": "A ghostly girl you can hardly shake off. She never falls behind.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "Appears near a $(l:mist/fern)Fern$(). Once she notices you (within 50 blocks), she follows, never straying beyond $(thing)10 blocks$(). Come closer and she backs away.$(br2)With no Fern around she simply accompanies you. Once she finds one, she leads you to it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "She leads to the Fern",
+      "text": "When you approach, she runs to the Fern. As soon as you are $(thing)5 blocks$() from the plant, she vanishes in white smoke.$(br2)If the Fern is gone, she leads you to the nearest one (up to 50 blocks).$(br2)$(#8A6A1A)The Potercha never leaves the Mist Forest.$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Do not strike her",
+      "text": "$(#A33B3B)If you strike the Potercha she flees and vanishes.$() You will not find the Fern she was leading you to.$(br2)Follow her and do not interfere."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/potercha",
+  "secret": true
+}

@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "item0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:glow_fern"
+          }
+        ]
+      }
+    },
+    "item1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_form:fern_pearl"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "item0",
+      "item1"
+    ]
+  ]
+}

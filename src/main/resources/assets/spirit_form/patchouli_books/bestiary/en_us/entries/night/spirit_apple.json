@@ -1,0 +1,27 @@
+{
+  "name": "Spirit Apple",
+  "category": "spirit_form:night",
+  "icon": "minecraft:enchanted_golden_apple",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:spirit_leaves",
+      "title": "Spirit Leaves",
+      "text": "Trees of the Night Forest bear a special kind of leaves. They can be broken even with a bare hand, and a $(item)Spirit Apple$() drops."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:spirit_apple",
+      "title": "Spirit Apple",
+      "text": "The effect depends on the form you are in when you finish eating.$(br2)$(#A33B3B)Human:$() Wither and Hunger for 5 min, Nausea for 10 s.$(br)$(#2E7D4F)Spirit:$() Absorption and Strength for 3 min."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Advice",
+      "text": "$(#7952A6)Eat in Spirit Form.$() If you start in one form and finish in another, the effects of the form you end in apply.$(br2)Absorption and Strength make good preparation for a fight with a $(l:heralds/heralds)Herald$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/spirit_apple",
+  "secret": true
+}

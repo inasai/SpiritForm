@@ -17,6 +17,9 @@ import net.minecraft.world.entity.Mob;
 public final class SpiritClientHighlight {
 
     private static boolean enabled = false;
+    private static int cachedTick = -1;
+    private static boolean cachedSense;
+    private static double cachedRadiusSqr;
 
     private SpiritClientHighlight() {
     }
@@ -61,12 +64,13 @@ public final class SpiritClientHighlight {
             return false;
         }
 
-        SpiritData data = SpiritFormState.get(player);
-        if (!data.hasAbility(SpiritAbility.SENSE)) {
-            return false;
+        // Це питається щокадру для кожної сутності, тож радіус рахуємо раз на тік
+        if (player.tickCount != cachedTick) {
+            cachedTick = player.tickCount;
+            cachedSense = SpiritFormState.get(player).hasAbility(SpiritAbility.SENSE);
+            double radius = Config.HIGHLIGHT_RADIUS.get() * SpiritRange.mul(player);
+            cachedRadiusSqr = radius * radius;
         }
-
-        double radius = Config.HIGHLIGHT_RADIUS.get();
-        return entity.distanceToSqr(player) <= radius * radius;
+        return cachedSense && entity.distanceToSqr(player) <= cachedRadiusSqr;
     }
 }

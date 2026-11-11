@@ -1,0 +1,32 @@
+{
+  "name": "The Beyond",
+  "category": "spirit_form:general",
+  "icon": "minecraft:warped_fungus",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "The world beyond",
+      "text": "The Beyond is a separate dimension where the usual laws of life and death take on a new meaning.$(br2)It has forests, rivers and creatures that resemble those of the Overworld. Yet the cutest of them may hide danger, and the strangest may become an ally."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How to get there",
+      "text": "The door to the Beyond is the $(item)Echo of the Beyond$() block. There are two ways:$(br)$(li)hold a $(item)Crystallized Soul$(), switch on $(item)Echo of the Beyond$() and right-click the block (the soul is consumed);$(li)have the “King of the Beyond” advancement: the same, but free."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_forest.png"
+      ],
+      "title": "Forest of the Beyond",
+      "text": "The main biome of the dimension. Mavka Trees and Titan Trees rise among the dense woods.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Five regions",
+      "text": "$(li)$(l:forest/forest)Forest of the Beyond$(/l): mavkas, hukhas and giant trees;$(li)$(l:river/river)The River$(/l): the Vodianyk and vodianytsias;$(li)$(l:night/night_forest)Night Forest$(/l): Povitrulia, Nichnytsia and Perelisnyk;$(li)$(l:mist/misty_forest)Mist Forest$(/l): the Potercha and peaceful dwellers;$(li)$(l:plains/plains)The Plains$(/l): Poludnytsia, the Polovyk, Vovkulaky and the Chort.$(br2)The Night and Mist Forests are varieties of forest, decided by humidity. New regions only appear in parts of the world not yet visited."
+    }
+  ]
+}

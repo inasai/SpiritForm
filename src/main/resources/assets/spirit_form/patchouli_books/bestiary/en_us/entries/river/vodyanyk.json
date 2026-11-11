@@ -1,0 +1,28 @@
+{
+  "name": "Vodianyk",
+  "category": "spirit_form:river",
+  "icon": "minecraft:trident",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:vodianyk",
+      "name": "Vodianyk",
+      "text": "King of the river. Only one lives on any river.",
+      "rotate": true,
+      "scale": 0.75
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "$(li)$(#A33B3B)His blows drain the air from your lungs$() (the Suffocation effect): frightening on land, deadly in water.$(li)He does not attack without reason until you cross his borders.$(li)$(#A33B3B)Within 5 blocks:$() Spirit Form switches off for 10 seconds."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What to do",
+      "text": "$(#7952A6)Do not rush into the water.$() Keep a way out first.$(br2)You can cross his borders without meaning to: $(l:river/vodyanytsia)vodianytsias$(/l) may help with that.$(br2)Spirit Form will not save you near the Vodianyk: stay beyond five blocks or prepare to fight in human form."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/vodianyk",
+  "secret": true
+}

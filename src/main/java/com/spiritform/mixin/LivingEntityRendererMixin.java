@@ -34,6 +34,8 @@ public abstract class LivingEntityRendererMixin {
         if (entity instanceof Player player) {
             SpiritData data = SpiritFormState.get(player);
             spirit = data.active() || data.invisible();
+        } else {
+            spirit = com.spiritform.SpiritDisguiseClient.ghostly(entity);
         }
 
         SpiritTransparency.RENDERING_SPIRIT_PLAYER = spirit;

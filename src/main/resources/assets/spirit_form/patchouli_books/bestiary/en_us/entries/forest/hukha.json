@@ -1,0 +1,28 @@
+{
+  "name": "Hukha",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:cat_spawn_egg",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:hukha",
+      "name": "Hukha",
+      "text": "A large, timid creature that resembles a cat.",
+      "rotate": true,
+      "scale": 0.65
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Taming",
+      "text": "Hukhas are slow to trust strangers. Offer $(item)raw fish$(), as with cats, and give it time.$(br2)A tamed Hukha follows you; she can be told to sit."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Protector",
+      "text": "A tamed Hukha that is not sitting attacks a $(l:forest/zlyden)Zlydeny$(/l) nearby. A Zlydeny she has struck runs away for about six seconds.$(br2)Mavkas leave hukhas alone."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/hukha",
+  "secret": true
+}

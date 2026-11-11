@@ -134,6 +134,12 @@ public final class SpiritPossession {
         return !BY_MOB.isEmpty() && BY_MOB.containsKey(entity.getUUID());
     }
 
+    /** Моб, у якому зараз сидить гравець, або null. */
+    public static Mob possessedMob(ServerPlayer player) {
+        Control control = BY_PLAYER.get(player.getUUID());
+        return control == null ? null : control.mob;
+    }
+
     public static boolean isPossessing(ServerPlayer player) {
         return BY_PLAYER.containsKey(player.getUUID());
     }
@@ -146,9 +152,11 @@ public final class SpiritPossession {
 
     public static void toggle(ServerPlayer player) {
         if (isPossessing(player)) {
+            Mob left = possessedMob(player);
             release(player);
             player.displayClientMessage(Component.translatable("message.spirit_form.possess.off"), true);
             playSound(player, 0.8F);
+            SpiritExistence.onPossessionEnded(player, left);
             return;
         }
 
@@ -164,7 +172,8 @@ public final class SpiritPossession {
 
         Mob target = findTarget(player);
         if (target == null) {
-            player.displayClientMessage(Component.translatable("message.spirit_form.possess.failed"), true);
+            player.displayClientMessage(Component.translatable(
+                    herald_blocked ? "message.spirit_form.possess.herald" : "message.spirit_form.possess.failed"), true);
             return;
         }
 
@@ -287,6 +296,7 @@ public final class SpiritPossession {
 
         SpiritForm.deactivate(player);
         SpiritForm.startCooldown(player);
+        SpiritExistence.onPossessionEnded(player, mob);
 
         // З Інстинктом Привида після поглинання одразу вмикається Зникнення
         SpiritData after = SpiritFormState.get(player);
@@ -507,8 +517,12 @@ public final class SpiritPossession {
         return Math.max(-limit, Math.min(limit, value));
     }
 
+    /** Останній пошук цілі натрапив на Вісника Потойбіччя (його вселенню заборонено). */
+    private static boolean herald_blocked;
+
     private static Mob findTarget(ServerPlayer player) {
-        double range = Config.POSSESS_RANGE.get();
+        herald_blocked = false;
+        double range = Config.POSSESS_RANGE.get() * SpiritRange.mul(player);
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
         Vec3 end = eye.add(look.scale(range));
@@ -527,6 +541,10 @@ public final class SpiritPossession {
         }
 
         Entity entity = hit.getEntity();
+        if (entity instanceof HeraldBase) {
+            herald_blocked = true;
+            return null;
+        }
         if (!(entity instanceof Mob mob) || !isSupported(mob) || BY_MOB.containsKey(mob.getUUID())
                 || SpiritTouch.isGrabbed(mob)) {
             return null;
@@ -536,7 +554,7 @@ public final class SpiritPossession {
 
     /** Літаючих і особливих мобів керувати таким способом не вдається. */
     private static boolean isSupported(Mob mob) {
-        if (mob instanceof EnderDragon || mob instanceof WitherBoss) {
+        if (mob instanceof EnderDragon || mob instanceof WitherBoss || mob instanceof HeraldBase) {
             return false;
         }
         return isFlier(mob) || !mob.isNoGravity();
@@ -627,6 +645,7 @@ public final class SpiritPossession {
                 if (!player.hasDisconnected() && mobGone) {
                     player.displayClientMessage(Component.translatable("message.spirit_form.possess.off"), true);
                 }
+                SpiritExistence.onPossessionEnded(player, mob);
                 continue;
             }
 

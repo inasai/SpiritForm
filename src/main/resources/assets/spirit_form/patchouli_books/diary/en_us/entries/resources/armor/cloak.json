@@ -1,0 +1,23 @@
+{
+  "name": "Cloak of the Beyond",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_chestplate",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A mantle from another world",
+      "text": "“Once, clothes protected me from cold, rain, and danger. Now I wear gear made for one who no longer belongs to the ordinary world.”$(br2)The Cloak of the Beyond is the chest piece of the set."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Between life and death",
+      "text": "After returning to your normal state, the first hit you take is ignored completely. In $(l:beginning/spirit_form)Spirit Form$(/l), your first hit deals ten times as much damage. Afterwards, Spirit Form cannot be activated for $(thing)10 seconds$().",
+      "item": "spirit_form:spirit_chestplate"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:chestplate_recipe"
+    }
+  ]
+}

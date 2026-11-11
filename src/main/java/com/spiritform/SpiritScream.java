@@ -62,7 +62,7 @@ public final class SpiritScream {
             return;
         }
 
-        double radius = Config.SCREAM_RADIUS.get();
+        double radius = Config.SCREAM_RADIUS.get() * SpiritRange.mul(player);
         List<Mob> mobs = level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(radius),
                 mob -> mob.isAlive() && mob.distanceToSqr(player) <= radius * radius
                         && !(mob instanceof EnderDragon) && !(mob instanceof WitherBoss)
@@ -79,7 +79,9 @@ public final class SpiritScream {
             return;
         }
         player.getFoodData().setFoodLevel(food - cost);
-        COOLDOWN_UNTIL.put(id, now + FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L));
+        long abilityCooldown = FentonBracelet.cooldown(player, Config.ABILITY_COOLDOWN_SECONDS.get() * 20L);
+        COOLDOWN_UNTIL.put(id, now + abilityCooldown);
+        SpiritCooldowns.start(player, "scream", abilityCooldown);
 
         long expiry = now + Config.SCREAM_DURATION_SECONDS.get() * 20L;
         Map<UUID, Long> allies = ALLIES.computeIfAbsent(id, key -> new HashMap<>());

@@ -1,0 +1,28 @@
+{
+  "name": "Povitrulia",
+  "category": "spirit_form:night",
+  "icon": "minecraft:phantom_spawn_egg",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:povitrulia",
+      "name": "Povitrulia",
+      "text": "A flying serpent with no arms or legs, but with wings.",
+      "rotate": true,
+      "scale": 0.35
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "It flies the sky and, once it sees you, begins to $(thing)spit fire$(). It has no venom and keeps its distance, circling you.$(br2)Hating snakes will not help here: this one flies."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What to do",
+      "text": "$(li)$(#7952A6)Ranged weapons$() reach it while it circles.$(li)$(#7952A6)Put out fire$() and do not stand in the open.$(li)Cover from the fire helps while it circles."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/povitrulia",
+  "secret": true
+}

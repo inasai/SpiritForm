@@ -12,24 +12,45 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * Колесо пасивних здібностей (клавіша T). Показується, поки утримується клавіша.
- * Клацання мишею по здібності вмикає або вимикає її.
+ * Колесо здібностей (клавіша T). Показується, поки утримується клавіша. Має кілька сторінок (їх додають у вікні прокачки).
+ * ЛКМ по здібності вмикає чи вимикає її (активну запускає), ПКМ поза центром закриває колесо.
+ * Центр - кнопка сторінок: ЛКМ перегортає на наступну, ПКМ повертає на попередню (також колесо миші та стрілки).
+ * Вигляд спільний з колесами Армії (SpiritWheelUi).
  */
 public class SpiritWheelScreen extends Screen {
 
-    private static final int OUTER = 84;
-    private static final int INNER = 28;
-    private static final int ICON_RADIUS = 56;
+    /** Остання відкрита сторінка запам'ятовується до наступного відкриття колеса. */
+    private static int lastPage;
 
-    private record Entry(Component name, String icon, boolean on, int action) {
+    /** state: true/false для перемикачів, null для разової дії. */
+    private record Entry(String id, Component name, String icon, Boolean state) {
     }
+
+    private int page;
 
     public SpiritWheelScreen() {
         super(Component.translatable("screen.spirit_form.wheel"));
+        page = lastPage;
+    }
+
+    private int pages() {
+        return SpiritLoadout.passivePages();
+    }
+
+    private void clampPage() {
+        page = Math.floorMod(page, pages());
+        lastPage = page;
+    }
+
+    private void turn(int delta) {
+        page = Math.floorMod(page + delta, pages());
+        lastPage = page;
+        if (minecraft != null) {
+            minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.4F));
+        }
     }
 
     private List<Entry> entries() {
@@ -38,39 +59,22 @@ public class SpiritWheelScreen extends Screen {
         if (player == null) {
             return list;
         }
+        clampPage();
 
         SpiritData data = SpiritFormState.get(player);
         for (int i = 0; i < SpiritLoadout.Bar.PASSIVE.size; i++) {
-            String id = SpiritLoadout.get(SpiritLoadout.Bar.PASSIVE, i);
-            if (id.isEmpty()) {
+            String id = SpiritLoadout.get(SpiritLoadout.Bar.PASSIVE, page, i);
+            if (id.isEmpty() || !SpiritAbilityUse.owned(data, id)) {
                 continue;
             }
-
-            Component name = SpiritLoadout.name(id);
-            String icon = id;
-            if (SpiritLoadout.INSTINCT.equals(id)) {
-                if (data.unlocked()) {
-                    list.add(new Entry(name, icon, data.instinct(), UpgradeSpiritPayload.TOGGLE_INSTINCT));
-                }
-            } else if (SpiritAbility.ICY_TOUCH.id.equals(id)) {
-                if (data.hasAbility(SpiritAbility.ICY_TOUCH)) {
-                    list.add(new Entry(name, icon, data.icy(), UpgradeSpiritPayload.TOGGLE_ICY));
-                }
-            } else if (SpiritAbility.PRESENCE.id.equals(id)) {
-                if (data.hasAbility(SpiritAbility.PRESENCE)) {
-                    list.add(new Entry(name, icon, data.presence(), UpgradeSpiritPayload.TOGGLE_PRESENCE));
-                }
-            } else if (SpiritAbility.ECHO.id.equals(id)) {
-                if (data.hasAbility(SpiritAbility.ECHO)) {
-                    list.add(new Entry(name, icon, data.echo(), UpgradeSpiritPayload.TOGGLE_ECHO));
-                }
-            } else if (SpiritAbility.GAZE.id.equals(id)) {
-                if (data.hasAbility(SpiritAbility.GAZE)) {
-                    list.add(new Entry(name, icon, data.gaze(), UpgradeSpiritPayload.TOGGLE_GAZE));
-                }
-            }
+            list.add(new Entry(id, SpiritLoadout.name(id), id, SpiritAbilityUse.state(minecraft, data, id)));
         }
         return list;
+    }
+
+    @Override
+    public void removed() {
+        SpiritWheelUi.release();
     }
 
     @Override
@@ -102,83 +106,108 @@ public class SpiritWheelScreen extends Screen {
         return InputConstants.isKeyDown(window, bound.getValue());
     }
 
-    /** Номер сектора під курсором або -1. */
-    private int hovered(int count, double mouseX, double mouseY) {
-        if (count <= 0) {
-            return -1;
-        }
-        double dx = mouseX - width / 2.0;
-        double dy = mouseY - height / 2.0;
-        double distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < INNER || distance > OUTER + 30) {
-            return -1;
-        }
-
-        double angle = Math.toDegrees(Math.atan2(dy, dx)) + 90.0;
-        double sector = 360.0 / count;
-        angle = ((angle + sector / 2.0) % 360.0 + 360.0) % 360.0;
-        return Math.min(count - 1, (int) (angle / sector));
+    private SpiritWheelUi.Geo geo() {
+        return SpiritWheelUi.Geo.of(height);
     }
 
-    private static void disk(GuiGraphics graphics, int cx, int cy, int radius, int color) {
-        for (int dy = -radius; dy <= radius; dy++) {
-            int dx = (int) Math.sqrt((double) radius * radius - (double) dy * dy);
-            graphics.fill(cx - dx, cy + dy, cx + dx + 1, cy + dy + 1, color);
-        }
+    private int hovered(int count, double mouseX, double mouseY) {
+        return SpiritWheelUi.hit(geo(), count, mouseX - width / 2.0, mouseY - height / 2.0);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         List<Entry> entries = entries();
-        int cx = width / 2;
-        int cy = height / 2;
-
-        disk(graphics, cx, cy, OUTER, 0x90101018);
-        disk(graphics, cx, cy, INNER, 0xC0000000);
-
-        if (entries.isEmpty()) {
-            graphics.drawCenteredString(font, Component.translatable("screen.spirit_form.wheel.empty"),
-                    cx, cy - 4, 0xAAAAAA);
-            return;
-        }
-
-        int hover = hovered(entries.size(), mouseX, mouseY);
-        double sector = 360.0 / entries.size();
-
-        for (int i = 0; i < entries.size(); i++) {
-            Entry entry = entries.get(i);
-            double angle = Math.toRadians(-90.0 + i * sector);
-            int x = cx + (int) Math.round(Math.cos(angle) * ICON_RADIUS);
-            int y = cy + (int) Math.round(Math.sin(angle) * ICON_RADIUS);
-
-            if (i == hover) {
-                disk(graphics, x, y, 24, 0x80FFFFFF);
+        List<SpiritWheelUi.Slice> slices = new ArrayList<>();
+        int toggles = 0;
+        int active = 0;
+        for (Entry entry : entries) {
+            Component info = entry.state() == null
+                    ? Component.translatable("screen.spirit_form.wheel.use")
+                    : Component.translatable(entry.state() ? "screen.spirit_form.wheel.on" : "screen.spirit_form.wheel.off");
+            slices.add(SpiritWheelUi.Slice.of(entry.name(), info, entry.icon(), Boolean.TRUE.equals(entry.state())));
+            if (entry.state() != null) {
+                toggles++;
+                if (entry.state()) {
+                    active++;
+                }
             }
-            disk(graphics, x, y, 19, entry.on() ? 0xA040C040 : 0xA0404040);
-            SpiritIcons.draw(graphics, entry.icon(), x - 8, y - 8);
         }
 
-        if (hover >= 0) {
-            Entry entry = entries.get(hover);
-            graphics.drawCenteredString(font, entry.name(), cx, cy - 9, 0xFFFFFF);
-            graphics.drawCenteredString(
-                    font,
-                    Component.translatable(entry.on() ? "screen.spirit_form.wheel.on" : "screen.spirit_form.wheel.off"),
-                    cx, cy + 2, entry.on() ? 0x80FF80 : 0xFF8080);
+        int raw = hovered(entries.size(), mouseX, mouseY);
+        boolean multi = pages() > 1;
+        boolean centerHot = raw == -2 && multi;
+        int hover = raw < 0 ? -1 : raw;
+
+        Component hint = Component.translatable("screen.spirit_form.wheel.hint");
+        Component count = multi
+                ? Component.translatable("screen.spirit_form.wheel.page", page + 1, pages())
+                        .append(" · ").append(Component.translatable("screen.spirit_form.wheel.count", active, toggles))
+                : Component.translatable("screen.spirit_form.wheel.count", active, toggles);
+
+        SpiritWheelUi.Tip tip;
+        if (centerHot) {
+            tip = new SpiritWheelUi.Tip(
+                    Component.translatable("screen.spirit_form.wheel.page", page + 1, pages()), null,
+                    null, Component.translatable("screen.spirit_form.wheel.page_hint"));
+        } else if (entries.isEmpty()) {
+            tip = new SpiritWheelUi.Tip(title, multi ? Component.translatable("screen.spirit_form.wheel.page", page + 1, pages()) : null,
+                    Component.translatable("screen.spirit_form.wheel.empty"),
+                    multi ? Component.translatable("screen.spirit_form.wheel.page_hint") : null);
+        } else if (hover >= 0) {
+            tip = new SpiritWheelUi.Tip(slices.get(hover).name(), slices.get(hover).info(), null, hint);
+        } else {
+            tip = new SpiritWheelUi.Tip(title, count, null, hint);
         }
+        SpiritWheelUi.Center center = multi
+                ? new SpiritWheelUi.Center("form", null, Component.literal((page + 1) + "/" + pages()))
+                : new SpiritWheelUi.Center("form", null, Component.literal(active + "/" + toggles));
+        SpiritWheelUi.draw(graphics, font, width, height, geo(), slices, hover, center, centerHot, tip);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         List<Entry> entries = entries();
         int hover = hovered(entries.size(), mouseX, mouseY);
+
+        // Центр: ЛКМ далі, ПКМ назад
+        if (hover == -2 && pages() > 1 && (button == 0 || button == 1)) {
+            turn(button == 0 ? 1 : -1);
+            return true;
+        }
+        if (button == 1) {
+            onClose();
+            return true;
+        }
         if (button == 0 && hover >= 0) {
-            PacketDistributor.sendToServer(new UpgradeSpiritPayload(entries.get(hover).action()));
+            Entry entry = entries.get(hover);
             if (minecraft != null) {
                 minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             }
+            if (entry.state() == null) {
+                // Разова дія: колесо закривається першим, бо дія може відкрити власне вікно (Армія)
+                onClose();
+            }
+            SpiritAbilityUse.use(entry.id());
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (pages() > 1 && scrollY != 0.0) {
+            turn(scrollY < 0 ? 1 : -1);
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (pages() > 1 && (keyCode == GLFW.GLFW_KEY_RIGHT || keyCode == GLFW.GLFW_KEY_LEFT)) {
+            turn(keyCode == GLFW.GLFW_KEY_RIGHT ? 1 : -1);
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }

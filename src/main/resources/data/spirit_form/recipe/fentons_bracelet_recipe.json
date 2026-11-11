@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    "SIS",
-    "ICI",
-    "SIS"
+    "SCS",
+    "CHC",
+    "SCS"
   ],
   "key": {
     "S": {
       "item": "minecraft:soul_soil"
     },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
     "C": {
-      "item": "spirit_form:soul_catcher"
+      "item": "spirit_form:crystal_soul"
+    },
+    "H": {
+      "item": "spirit_form:storm_heart"
     }
   },
   "result": {

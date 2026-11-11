@@ -1,0 +1,7 @@
+{
+  "name": "Обладунки Потойбіччя",
+  "description": "Комплект обладунків, що посилює Привида та відкриває додаткові властивості.",
+  "icon": "spirit_form:spirit_helmet",
+  "sortnum": 6,
+  "parent": "spirit_form:resources"
+}

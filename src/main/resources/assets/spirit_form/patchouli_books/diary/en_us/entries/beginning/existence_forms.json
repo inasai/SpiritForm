@@ -1,0 +1,28 @@
+{
+  "name": "Forms of Existence",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=29]",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Three Worlds",
+      "text": "“The Spirit Form lives by the laws of the world that carries it.”$(br2)The mod settings have an $(thing)Existence Form$() option. It decides how the form works. Abilities and progression are the same in every mode; only the rules of the form change.$(br2)Modes: $(thing)Overworld$(), $(thing)Nether$() and $(thing)Beyond$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Overworld",
+      "text": "The default mode. Everything works as described in the rest of the Diary: the form is switched on and off at will, the spirit takes no damage, and abilities have no extra limits."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Nether",
+      "text": "You cannot become a spirit at will: neither by key nor by Instinct. The form comes with death: the player respawns as a spirit.$(br2)The human shape returns only one way: $(thing)possess a mob and leave it$() in any manner. The mob dies and the form vanishes until your next death.$(br2)The spirit cannot attack or mine, but takes no damage. The maximum form level comes from the rule $(thing)/gamerule spiritFormOverworldMode$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Beyond",
+      "text": "The spirit takes damage like an ordinary player: from mobs, fire, falls and everything else.$(br2)Outside the Beyond dimension the form lasts only $(thing)one minute$(): a warning appears ten seconds before it ends. If a possession is still going, the mob gives up its health as in a normal exit.$(br2)Inside the Beyond itself the form has no time limit."
+    }
+  ]
+}

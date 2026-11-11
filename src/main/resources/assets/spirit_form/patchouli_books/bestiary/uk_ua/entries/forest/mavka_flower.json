@@ -1,0 +1,21 @@
+{
+  "name": "Квітка Мавки",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:flowering_azalea",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:mavka_flower",
+      "title": "Квітка на верхівці",
+      "text": "Росте в горщику в будинку на верхівці $(l:forest/titan_tree)Титанічного Дерева$(/l). Більше ніде вона не трапляється."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Прискорення росту",
+      "text": "Посаджена на землю, квітка прискорює ріст усіх рослин у радіусі $(thing)20 блоків$(): грядок, саджанців, стебел, ягідних кущів.$(br2)Якщо зламати її, вона випаде як предмет. Залишати її там, де знайшов, не обов’язково."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/mavka_flower",
+  "secret": true
+}

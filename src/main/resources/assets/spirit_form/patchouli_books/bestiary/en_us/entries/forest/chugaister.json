@@ -1,0 +1,28 @@
+{
+  "name": "Chuhaister",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:iron_golem_spawn_egg",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:chuhaister",
+      "name": "Chuhaister",
+      "text": "A giant of the forest. Tough hide, mighty blows and hatred for mavkas.",
+      "rotate": true,
+      "scale": 0.85
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "$(li)Does not strike first: not until you provoke it.$(li)Attacks mavkas.$(li)$(#2E7D4F)Grows weaker near a Mavka Tree and a Titan Tree.$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What to do",
+      "text": "Do not provoke the giant without need. Not every foe must be defeated.$(br2)But if you slay it before the mavkas’ eyes, you win their favour: $(l:general/affection)more here$(/l)."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/chuhaister",
+  "secret": true
+}

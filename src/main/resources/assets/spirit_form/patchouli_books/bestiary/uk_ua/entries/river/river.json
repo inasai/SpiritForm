@@ -1,0 +1,24 @@
+{
+  "name": "Річка Потойбіччя",
+  "category": "spirit_form:river",
+  "icon": "minecraft:water_bucket",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "spirit_form:textures/gui/bestiary/biome_river.png"
+      ],
+      "title": "Річка з господарем",
+      "text": "Дерева тут ростуть просто у воді.",
+      "border": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Що тут є",
+      "text": "$(li)$(l:river/richnytsia)Річниця$(/l): рослина, що дає Силу Морів;$(li)$(l:river/vodyanyk)Водяник$(/l): король річки;$(li)$(l:river/vodyanytsia)Водяниці$(/l): співучі мешканки води.$(br2)Не все, що живе у воді, прагне втопити тебе. Але деякі істоти можуть зробити це навіть без злого наміру."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/biome_river",
+  "secret": true
+}

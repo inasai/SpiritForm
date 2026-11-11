@@ -1,0 +1,23 @@
+{
+  "name": "Дзеркало Душ",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:soul_plunder",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Досвід життя",
+      "text": "«Кожна істота прожила власне життя й має свій досвід»$(br2)Дзеркало Душ вловлює відлуння досвіду твоїх жертв. Кожне вбивство приносить удвічі більше досвіду."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Останнє відображення",
+      "text": "Дзеркало можна тримати в руці або носити на поясі — сила реліквії не зміниться. Коли шлях попереду здається довгим, додатковий досвід допоможе пройти його швидше.",
+      "item": "spirit_form:soul_plunder"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:mirror_recipe"
+    }
+  ]
+}

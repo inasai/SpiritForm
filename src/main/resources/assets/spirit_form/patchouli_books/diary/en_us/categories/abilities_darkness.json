@@ -1,0 +1,7 @@
+{
+  "name": "Path of Darkness",
+  "description": "$(#7A3DB8)Path of Darkness$()$(br2)Powers of life and death, health, and influence over the essence of other beings.",
+  "icon": "spirit_form:textures/gui/ability/echo.png",
+  "sortnum": 1,
+  "parent": "spirit_form:abilities"
+}

@@ -1,9 +1,22 @@
 {
-  "name": "spirit_form.curios.book.tittle",
-  "landing_text": "spirit_form.curios.book.desc",
+  "name": "spirit_form.diary.tittle",
+  "landing_text": "spirit_form.diary.desc",
   "version": 1,
   "creative_tab": "spirit_form:spirit_form",
   "use_resource_pack": true,
   "show_progress": false,
-  "subtitle": "Spirit Form"
+  "subtitle": "Spirit Form",
+
+  "model": "spirit_form:diary/book_cyan",
+  "book_texture": "spirit_form:textures/gui/diary/page/book_cyan.png",
+  "filler_texture": "spirit_form:textures/gui/diary/page_filler.png",
+  "crafting_texture": "spirit_form:textures/gui/diary/crafting.png",
+
+  "text_color": "29252F",
+  "header_color": "5A426B",
+  "nameplate_color": "A66CFF",
+  "link_color": "7952A6",
+  "link_hover_color": "B58AFF",
+  "progress_bar_color": "98FFE0",
+  "progress_bar_background": "29252F"
 }

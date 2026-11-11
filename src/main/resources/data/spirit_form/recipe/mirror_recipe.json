@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SGS",
+    "GCG",
+    "SGS"
+  ],
+  "key": {
+    "S": {
+      "item": "spirit_form:soul_catcher"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "spirit_form:crystal_soul"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "spirit_form:soul_plunder"
+  }
+}

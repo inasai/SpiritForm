@@ -1,0 +1,18 @@
+{
+  "name": "Paths of Progression",
+  "category": "spirit_form:beginning",
+  "icon": "minecraft:experience_bottle",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Three Paths",
+      "text": "“Power does not come from nothing. Even after death, it must be developed.”$(br2)Your essence has three Paths, each revealing a different side of the Ghost:$(br2)$(#7A3DB8)Path of Darkness$() — life, death, and influence over other beings.$(br)$(#B03030)Path of Hunger$() — survival, concealment, and control over enemy attention.$(br)$(#1C7FA8)Path of Movement$() — movement, distance, and interaction with the world."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "The price of growth",
+      "text": "Each Path has a maximum level of 15. The next level costs experience equal to its level number.$(br2)Level 1 is the shared foundation and unlocks $(l:beginning/spirit_form)Spirit Form$(/l). Further levels unlock abilities and improve your options.$(br2)Choose carefully: the strongest powers require substantial investment, and some require high levels in all three Paths."
+    }
+  ]
+}

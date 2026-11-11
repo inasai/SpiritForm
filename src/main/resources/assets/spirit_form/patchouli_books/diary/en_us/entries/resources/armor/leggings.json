@@ -1,0 +1,23 @@
+{
+  "name": "Leggings of the Beyond",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_leggings",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Traces of intangibility",
+      "text": "“Even one who no longer feels the ground beneath their feet may need armor.”$(br2)The Leggings of the Beyond are the lower piece of the Ghost’s special armor set."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Speed of the dead",
+      "text": "Each kill increases your movement speed for $(thing)3 seconds$(). Use this brief burst to escape or move on to your next target.",
+      "item": "spirit_form:spirit_leggings"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:leggings_recipe"
+    }
+  ]
+}

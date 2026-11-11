@@ -1,0 +1,31 @@
+{
+  "parent": "spirit_form:king",
+  "display": {
+    "icon": {
+      "id": "spirit_form:advancement_icon",
+      "components": {
+        "minecraft:custom_model_data": 22
+      }
+    },
+    "title": {
+      "translate": "advancement.spirit_form.overlord.title"
+    },
+    "description": {
+      "translate": "advancement.spirit_form.overlord.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "trigger"
+    ]
+  ]
+}

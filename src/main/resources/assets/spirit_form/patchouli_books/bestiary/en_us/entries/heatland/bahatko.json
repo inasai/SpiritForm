@@ -1,0 +1,27 @@
+{
+  "name": "Bahatko",
+  "category": "spirit_form:heatland",
+  "icon": "minecraft:magma_cream",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:bahatko",
+      "name": "Bahatko",
+      "text": "A fireball that guards the Heatland from outsiders.",
+      "rotate": true
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Behaviour",
+      "text": "Bahatkos float over the land and attack everything that does not live here; a wounded one calls its kin. They strike, set you alight, fly off and return.$(br2)Water quenches them: they leave an $(item)ember$(), a fuel that burns three times as long as coal."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Fire draws attention",
+      "text": "When you take the result from a furnace, smoker, blast furnace or brewing stand in the Heatland, a Bahatko may be lured to the fire. It hangs in sparks for a few seconds, giving you time to prepare.$(br2)A Klunnyk protects you from their burning."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/bahatko",
+  "secret": true
+}

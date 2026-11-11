@@ -1,0 +1,13 @@
+{
+  "name": "Енергія Потойбіччя",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=47]",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Сила за межею",
+      "text": "Енергія Потойбіччя — сила, яку можна отримати, поглинувши $(l:beyond/death_heart)Серце Смерті$(/l).$(br2)Вона посилює твою сутність: подвоює здоров’я, а також збільшує міць душ у твоїй $(l:beginning/army_beyond)Армії Потойбіччя$(/l).$(br2)Це не просто нове джерело сили. Це нагадування, що навіть смерть може бути лише черговим порогом."
+    }
+  ]
+}

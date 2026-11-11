@@ -1,0 +1,23 @@
+{
+  "name": "Рукавички Живих",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:gloves_of_the_living",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A captured essence",
+      "text": "“Живі створені для того, щоб торкатися світу. Навіть коли їхні ноги більше не торкаються землі, руки не повинні втрачати своєї сили.”$(br2)Рукавички Живих повертають привидам здатність взаємодіяти з матеріальним світом під час польоту."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Сила Живих",
+      "text": "Рукавички дають змогу добувати блоки зі звичайною швидкістю, навіть перебуваючи в польоті. Достатньо тримати рукавички в основній або допоміжній руці або покласти їх у комірку Сховища.",
+      "item": "spirit_form:gloves_of_the_living"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:gloves_recipe"
+    }
+  ]
+}

@@ -56,7 +56,7 @@ public class IconButton extends Button {
 
     @Override
     public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.renderWidget(graphics, mouseX, mouseY, partialTick);
+        SpiritButton.paint(graphics, this, false);
 
         int color = active ? 0xFFFFFFFF : 0xFF808080;
         int originX = getX() + (getWidth() - 9) / 2;
@@ -68,6 +68,7 @@ public class IconButton extends Button {
                 if (line.charAt(column) == '#') {
                     int x = originX + column;
                     int y = originY + row;
+                    graphics.fill(x + 1, y + 1, x + 2, y + 2, active ? 0xFF3F3F3F : 0xFF303030);
                     graphics.fill(x, y, x + 1, y + 1, color);
                 }
             }

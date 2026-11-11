@@ -1,0 +1,23 @@
+{
+  "name": "Накидка Потойбіччя",
+  "category": "spirit_form:resources_armor",
+  "icon": "spirit_form:spirit_chestplate",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Покров іншого світу",
+      "text": "«Колись одяг захищав мене від холоду, дощу й небезпек. Тепер я ношу речі для того, хто вже не належить звичайному світу»$(br2)Накидка Потойбіччя — нагрудна частина комплекту."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Між живим і мертвим",
+      "text": "Після повернення до звичайного стану перший отриманий удар повністю ігнорується. У $(l:beginning/spirit_form)Формі Привида$(/l) перший удар стає вдесятеро сильнішим. Після цього Форма Привида не може активуватися протягом $(thing)10 секунд$().",
+      "item": "spirit_form:spirit_chestplate"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:chestplate_recipe"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Vanishing",
+  "category": "spirit_form:abilities_hunger",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=32]",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Makes you translucent and causes mobs to stop detecting you in the usual way.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 5."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Use Vanishing to pass dangerous creatures or buy time to escape. It costs hunger when switched on and has a cooldown. It has no time limit: switch it on and off yourself whenever you need."
+    }
+  ]
+}

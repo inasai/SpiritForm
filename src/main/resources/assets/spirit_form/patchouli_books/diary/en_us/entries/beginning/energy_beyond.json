@@ -1,0 +1,13 @@
+{
+  "name": "Energy of the Beyond",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=47]",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Power beyond the boundary",
+      "text": "Energy of the Beyond is gained by absorbing the $(l:beyond/death_heart)Heart of Death$(/l).$(br2)It strengthens your essence: your health is doubled, and the souls in your $(l:beginning/army_beyond)Army of the Beyond$(/l) become more powerful.$(br2)This is more than a new source of power. It is proof that even death may be only another threshold."
+    }
+  ]
+}

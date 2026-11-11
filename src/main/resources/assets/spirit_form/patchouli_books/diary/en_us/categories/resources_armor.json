@@ -1,0 +1,7 @@
+{
+  "name": "Beyond Armor",
+  "description": "An armor set that empowers the Ghost and unlocks additional properties.",
+  "icon": "spirit_form:spirit_helmet",
+  "sortnum": 6,
+  "parent": "spirit_form:resources"
+}

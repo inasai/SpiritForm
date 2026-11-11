@@ -2,7 +2,6 @@ package com.spiritform;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
@@ -12,7 +11,7 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
- * Основа всіх вікон прокачки: рамка, заголовок, рівні досвіду,
+ * Основа всіх вікон прокачки: ванільна панель, заголовок, рівні досвіду, анімація відкриття й закриття,
  * кнопка налаштувань зліва вгорі, кнопка закриття (X) справа вгорі та кнопка "Назад".
  */
 public abstract class SpiritScreenBase extends Screen {
@@ -22,8 +21,18 @@ public abstract class SpiritScreenBase extends Screen {
     protected static final int MARGIN = 14;
 
     protected final Screen parent;
+    protected final SpiritAnim anim = new SpiritAnim();
     protected int left;
     protected int top;
+
+    /** Розмір вікна. Підкласи можуть зробити його більшим. */
+    protected int panelWidth() {
+        return PANEL_W;
+    }
+
+    protected int panelHeight() {
+        return PANEL_H;
+    }
 
     protected SpiritScreenBase(Component title, Screen parent) {
         super(title);
@@ -43,18 +52,20 @@ public abstract class SpiritScreenBase extends Screen {
 
     @Override
     protected void init() {
-        left = (width - PANEL_W) / 2;
-        top = (height - PANEL_H) / 2;
+        SpiritUi.clearCache();
+        anim.reopen();
+        left = (width - panelWidth()) / 2;
+        top = (height - panelHeight()) / 2;
 
         addRenderableWidget(
-                Button.builder(Component.literal("X").withStyle(ChatFormatting.RED), b -> closeAll())
-                        .bounds(left + PANEL_W - 24, top + 4, 20, 20)
+                SpiritButton.of(Component.literal("X").withStyle(ChatFormatting.RED), b -> closeAll())
+                        .bounds(left + panelWidth() - 24, top + 3, 20, 20)
                         .build()
         );
 
         if (showSettings()) {
             addRenderableWidget(new IconButton(
-                    left + 4, top + 4, 20, 20,
+                    left + 4, top + 3, 20, 20,
                     IconButton.Icon.GEAR,
                     b -> openSettings(),
                     Component.translatable("button.spirit_form.settings")
@@ -63,8 +74,8 @@ public abstract class SpiritScreenBase extends Screen {
 
         if (parent != null) {
             addRenderableWidget(
-                    Button.builder(Component.translatable("button.spirit_form.back"), b -> onClose())
-                            .bounds(left + MARGIN, top + PANEL_H - 28, 70, 20)
+                    SpiritButton.of(Component.translatable("button.spirit_form.back"), b -> onClose())
+                            .bounds(left + MARGIN, top + panelHeight() - 28, 70, 20)
                             .build()
             );
         }
@@ -75,21 +86,41 @@ public abstract class SpiritScreenBase extends Screen {
 
     @Override
     public void tick() {
+        anim.tick();
         refresh();
     }
 
-    /** Назад до попереднього вікна (або закрити, якщо воно головне). */
+    /** Вікно відкривається чи закривається: клацання й клавіші тоді ігноруються. */
+    protected boolean busy() {
+        return anim.busy();
+    }
+
+    /** Назад до попереднього вікна (або закрити, якщо воно головне), з анімацією закриття. */
     @Override
     public void onClose() {
-        if (minecraft != null) {
-            minecraft.setScreen(parent);
-        }
+        anim.close(() -> {
+            if (minecraft != null) {
+                minecraft.setScreen(parent);
+            }
+        });
     }
 
     protected void closeAll() {
-        if (minecraft != null) {
-            minecraft.setScreen(null);
-        }
+        anim.close(() -> {
+            if (minecraft != null) {
+                minecraft.setScreen(null);
+            }
+        });
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return busy() || super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        return busy() || super.mouseReleased(mouseX, mouseY, button);
     }
 
     private void openSettings() {
@@ -106,36 +137,43 @@ public abstract class SpiritScreenBase extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (SpiritKeyMappings.OPEN_UPGRADES.matches(keyCode, scanCode)) {
+        if (anim.closing()) {
+            return true;
+        }
+        // Вікно закривається і клавішею відкриття меню (H), і клавішею інвентарю (E)
+        if (SpiritKeyMappings.OPEN_UPGRADES.matches(keyCode, scanCode)
+                || (minecraft != null && minecraft.options.keyInventory.matches(keyCode, scanCode))) {
             closeAll();
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
+    /** Затемнення малює render (з анімацією), тож тут лише панель. */
     @Override
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(graphics, mouseX, mouseY, partialTick);
-        graphics.fill(left, top, left + PANEL_W, top + PANEL_H, 0xD0101018);
-        graphics.renderOutline(left, top, PANEL_W, PANEL_H, 0xFF8888AA);
+        SpiritUi.panel(graphics, left, top, panelWidth(), panelHeight());
+        // Гравійована лінія під заголовком
+        SpiritUi.engraved(graphics, left + 6, top + 26, panelWidth() - 12);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        anim.begin(graphics, width, height, left + panelWidth() / 2, top + panelHeight() / 2);
+
         super.render(graphics, mouseX, mouseY, partialTick);
 
-        graphics.drawCenteredString(font, title, width / 2, top + 8, 0xFFFFFF);
+        int titleX = left + (showSettings() ? 30 : 10);
+        SpiritUi.text(graphics, font, title, titleX, top + 9, SpiritUi.TEXT);
 
         LocalPlayer player = minecraft == null ? null : minecraft.player;
         if (player != null) {
-            graphics.drawCenteredString(
-                    font,
-                    Component.translatable("screen.spirit_form.xp", player.experienceLevel),
-                    width / 2, top + 20, 0xA0FF70
-            );
+            Component xp = Component.translatable("screen.spirit_form.xp", player.experienceLevel);
+            SpiritUi.text(graphics, font, xp, left + panelWidth() - 30 - font.width(xp), top + 9, SpiritUi.TEXT_OK);
         }
 
         renderContent(graphics, mouseX, mouseY);
+        anim.end(graphics);
     }
 
     protected static void send(int action) {
@@ -144,6 +182,11 @@ public abstract class SpiritScreenBase extends Screen {
 
     protected static boolean canAfford(LocalPlayer player, int cost) {
         return player.getAbilities().instabuild || player.experienceLevel >= cost;
+    }
+
+    /** Шрифт для допоміжних класів вікна (поле font у Screen захищене). */
+    net.minecraft.client.gui.Font textFont() {
+        return font;
     }
 
     protected SpiritData data() {

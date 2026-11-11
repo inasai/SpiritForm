@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "spirit_form:block/richnytsia"
+    },
+    "waterlogged=true": {
+      "model": "spirit_form:block/richnytsia"
+    }
+  }
+}

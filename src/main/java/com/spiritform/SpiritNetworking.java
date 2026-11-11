@@ -74,10 +74,46 @@ public class SpiritNetworking {
                 ArmyActionPayload::handleData
         );
 
+        registrar.playToServer(
+                StationActionPayload.TYPE,
+                StationActionPayload.STREAM_CODEC,
+                StationActionPayload::handleData
+        );
+
+        registrar.playToServer(
+                ExternalStationPayload.TYPE,
+                ExternalStationPayload.STREAM_CODEC,
+                ExternalStationPayload::handleData
+        );
+
+        registrar.playToServer(
+                VaultActionPayload.TYPE,
+                VaultActionPayload.STREAM_CODEC,
+                VaultActionPayload::handleData
+        );
+
+        registrar.playToServer(
+                VaultHandPayload.TYPE,
+                VaultHandPayload.STREAM_CODEC,
+                VaultHandPayload::handleData
+        );
+
         registrar.playToClient(
                 ArmySyncPayload.TYPE,
                 ArmySyncPayload.STREAM_CODEC,
                 ArmySyncPayload::handleData
+        );
+
+        registrar.playToClient(
+                CooldownPayload.TYPE,
+                CooldownPayload.STREAM_CODEC,
+                CooldownPayload::handleData
+        );
+
+        registrar.playToClient(
+                HeraldSyncPayload.TYPE,
+                HeraldSyncPayload.STREAM_CODEC,
+                HeraldSyncPayload::handleData
         );
     }
 }

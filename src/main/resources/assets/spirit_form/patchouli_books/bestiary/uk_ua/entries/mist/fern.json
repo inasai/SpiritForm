@@ -1,0 +1,22 @@
+{
+  "name": "Папороть",
+  "category": "spirit_form:mist",
+  "icon": "minecraft:glow_berries",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:glow_fern",
+      "title": "Світна рослина",
+      "text": "Трапляється нечасто. Світиться, як Сяйні ягоди, тож її видно навіть крізь туман."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "spirit_form:fern_pearl",
+      "title": "Перлина папороті",
+      "text": "Зламана Папороть дає $(item)Перлину папороті$(). З’їдена, вона повністю відновлює здоров’я й голод.$(br2)$(#7952A6)Бережи її для битви з Вісником.$()"
+    }
+  ],
+  "advancement": "spirit_form:bestiary/fern",
+  "secret": true
+}

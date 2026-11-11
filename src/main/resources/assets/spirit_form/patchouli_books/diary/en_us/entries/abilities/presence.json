@@ -1,12 +1,18 @@
 {
   "name": "Presence",
-  "icon": "minecraft:campfire",
-  "category": "spirit_form:abilities",
-  "sortnum": 3,
+  "category": "spirit_form:abilities_paths",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=38]",
+  "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Requirement$(): all Paths 5.$(br)$(thing)Type$(): passive (wheel $(thing)T$()).$(br2)Peaceful and neutral mobs run from you, while aggressive mobs attack. Particles of campfire surround you."
+      "title": "What it does",
+      "text": "Frightens passive and neutral creatures, but makes hostile mobs even more aggressive.$(br2)$(bold)$(#7952A6)Requirement:$() all three Paths at level 5."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "Campfire-like particles appear around you. This ability may scare some creatures away while attracting the attention of others. $(bold)$(#7952A6)Requirement:$() all three Paths at level 5."
     }
   ]
 }

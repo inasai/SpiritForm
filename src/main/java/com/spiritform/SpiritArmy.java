@@ -14,6 +14,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.Unit;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -69,6 +73,19 @@ public final class SpiritArmy {
     public static final int ACT_RECALL = 3;
     /** Номер "наказу" відступу: це не стан, а дія. */
     public static final int ORDER_RETREAT = 4;
+    /** Вдосконалення душ : arg має вигляд "<id душі>:<параметр>". */
+    public static final int ACT_UPGRADE = 4;
+    /** Одягнути обладунок із слота інвентаря: "<id душі>:<слот інвентаря>". */
+    public static final int ACT_EQUIP = 5;
+    /** Зняти обладунок: "<id душі>:<номер слота броні 0..3>". */
+    public static final int ACT_UNEQUIP = 6;
+
+    private static final String ATK_KEY = "spirit_form_army_atk";
+    private static final ResourceLocation MOD_HEALTH = ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "army_health");
+    private static final ResourceLocation MOD_SPEED = ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "army_speed");
+    private static final ResourceLocation MOD_FLY = ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "army_fly");
+    private static final ResourceLocation MOD_ARMOR = ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "army_armor");
+    private static final ResourceLocation MOD_TOUGH = ResourceLocation.fromNamespaceAndPath(SpiritFormMod.MODID, "army_tough");
 
     private static final String OWNER_KEY = "spirit_form_army_owner";
     private static final String SOUL_KEY = "spirit_form_army_soul";
@@ -103,6 +120,11 @@ public final class SpiritArmy {
     private static UUID ownerOf(Entity entity) {
         CompoundTag data = entity.getPersistentData();
         return data.hasUUID(OWNER_KEY) ? data.getUUID(OWNER_KEY) : null;
+    }
+
+    /** Чи це викликана армією душа (будь-якого власника). */
+    public static boolean isMinion(Entity entity) {
+        return ownerOf(entity) != null;
     }
 
     public static boolean isAllyOf(UUID owner, Entity other) {
@@ -156,8 +178,12 @@ public final class SpiritArmy {
         UUID owner = player.getUUID();
         List<ArmySyncPayload.Entry> list = new ArrayList<>();
         for (SpiritArmyStore.Soul soul : SpiritArmyStore.get(server).list(owner)) {
+            int rank = soul.rank();
             list.add(new ArmySyncPayload.Entry(soul.id, soul.type, soul.name,
-                    Math.round(soul.maxHealth), isSummoned(server, owner, soul.id)));
+                    Math.round(soul.maxHealth * (float) ArmySoulStats.healthMult(rank, soul.healthLevel)),
+                    isSummoned(server, owner, soul.id), soul.kills, soul.healthLevel, soul.damageLevel,
+                    soul.speedLevel, Math.round(soul.maxHealth), soul.attack, soul.speed,
+                    new ArrayList<>(java.util.Arrays.asList(soul.armor))));
         }
         PacketDistributor.sendToPlayer(player, new ArmySyncPayload(list, order(owner).ordinal()));
     }
@@ -170,6 +196,7 @@ public final class SpiritArmy {
         if (!(victim.level() instanceof ServerLevel level)) {
             return;
         }
+        creditKill(event);
         if (victim instanceof ServerPlayer dying) {
             recallAll(dying, false);
             return;
@@ -191,8 +218,12 @@ public final class SpiritArmy {
         // Чи мала б з'явитися душа: бос завжди, повний комплект ("Жнець Потойбіччя") завжди, інакше за шансом
         boolean scytheKill = event.getSource().getDirectEntity() == player
                 && player.getMainHandItem().is(SpiritItems.SCYTHE.get());
-        boolean armyOwner = has(player);
-        if (!scytheKill && (!armyOwner || !victim.getType().canSerialize())) {
+        // Коса в комірці сховища з увімкненим "живленням": будь-яке вбивство (мечем, луком) дає лише заряд,
+        // а душі не з'являються, навіть коли заряд повний. Щоб отримувати душі, вимкни "живлення" Коси.
+        boolean vaultCharge = !scytheKill && !SpiritReaper.vaultScythe(player).isEmpty();
+        // Армія Душ: коли випадіння душ вимкнено в меню розвитку, душі не з'являються (заряд Коси лишається)
+        boolean armyOwner = has(player) && SpiritFormState.get(player).soulDrops();
+        if (!scytheKill && !vaultCharge && (!armyOwner || !victim.getType().canSerialize())) {
             return;
         }
         boolean soul = isBoss(victim) || SpiritReaper.fullSet(player)
@@ -200,7 +231,7 @@ public final class SpiritArmy {
         if (!soul) {
             return;
         }
-        if (scytheKill) {
+        if (scytheKill || vaultCharge) {
             // Замість душі Коса отримує заряд
             SpiritReaper.addCharge(player);
             return;
@@ -232,6 +263,10 @@ public final class SpiritArmy {
         soul.putString("name", victim.hasCustomName() && victim.getCustomName() != null
                 ? victim.getCustomName().getString() : "");
         soul.putFloat("hp", victim.getMaxHealth());
+        soul.putFloat("atk", victim.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE)
+                ? (float) victim.getAttributeValue(Attributes.ATTACK_DAMAGE) : 0.0F);
+        soul.putFloat("spd", victim.getAttributes().hasAttribute(Attributes.MOVEMENT_SPEED)
+                ? (float) victim.getAttributeValue(Attributes.MOVEMENT_SPEED) : 0.0F);
         soul.put("nbt", nbt);
         return soul;
     }
@@ -245,11 +280,11 @@ public final class SpiritArmy {
         }
         SpiritArmyStore store = SpiritArmyStore.get(server);
         List<SpiritArmyStore.Soul> list = store.list(player.getUUID());
-        if (list.size() >= SpiritFormState.get(player).armySlots()) {
+        if (list.size() >= SpiritFormState.get(player).effectiveArmySlots()) {
             player.displayClientMessage(Component.translatable("message.spirit_form.army.full"), true);
             return false;
         }
-        list.add(SpiritArmyStore.Soul.fromTag(UUID.randomUUID(), soulTag));
+        list.add(SpiritArmyStore.Soul.fromTag(UUID.randomUUID(), soulTag, server.registryAccess()));
         store.setDirty();
         sync(player);
         player.displayClientMessage(Component.translatable("message.spirit_form.army.saved"), true);
@@ -269,6 +304,9 @@ public final class SpiritArmy {
             case ACT_ORDER -> orderAction(player, arg);
             case ACT_DELETE -> deleteAction(player, arg);
             case ACT_RECALL -> recallAll(player, true);
+            case ACT_UPGRADE -> upgradeAction(player, arg);
+            case ACT_EQUIP -> equipAction(player, arg);
+            case ACT_UNEQUIP -> unequipAction(player, arg);
             default -> {
             }
         }
@@ -372,12 +410,214 @@ public final class SpiritArmy {
                     minion.discard();
                 }
             }
+            for (ItemStack worn : soul.armor) {
+                give(player, worn);
+            }
             it.remove();
             store.setDirty();
             player.displayClientMessage(Component.translatable("message.spirit_form.army.deleted"), true);
             break;
         }
         sync(player);
+    }
+
+    // ---------- розвиток душ ----------
+
+    private static void give(ServerPlayer player, ItemStack stack) {
+        if (!stack.isEmpty() && !player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
+    }
+
+    /** Накладає на викликаного моба бонуси рангу, рівнів і обладунків. */
+    private static void applyStats(Mob mob, SpiritArmyStore.Soul soul, boolean fullHeal) {
+        int rank = soul.rank();
+        float oldMax = mob.getMaxHealth();
+        float oldHealth = mob.getHealth();
+
+        setModifier(mob.getAttribute(Attributes.MAX_HEALTH), MOD_HEALTH,
+                ArmySoulStats.healthMult(rank, soul.healthLevel) - 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+        double speed = ArmySoulStats.speedMult(rank, soul.speedLevel) - 1.0;
+        setModifier(mob.getAttribute(Attributes.MOVEMENT_SPEED), MOD_SPEED, speed, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+        setModifier(mob.getAttribute(Attributes.FLYING_SPEED), MOD_FLY, speed, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+        double[] armor = ArmySoulStats.armorTotals(java.util.Arrays.asList(soul.armor));
+        setModifier(mob.getAttribute(Attributes.ARMOR), MOD_ARMOR, armor[0], AttributeModifier.Operation.ADD_VALUE);
+        setModifier(mob.getAttribute(Attributes.ARMOR_TOUGHNESS), MOD_TOUGH, armor[1], AttributeModifier.Operation.ADD_VALUE);
+
+        mob.getPersistentData().putFloat(ATK_KEY, (float) ArmySoulStats.damageMult(rank, soul.damageLevel));
+        float max = mob.getMaxHealth();
+        if (fullHeal) {
+            mob.setHealth(max);
+        } else if (max > oldMax) {
+            mob.setHealth(Math.min(max, oldHealth + (max - oldMax)));
+        } else if (oldHealth > max) {
+            mob.setHealth(max);
+        }
+    }
+
+    private static void setModifier(AttributeInstance attribute, ResourceLocation id, double amount,
+                                    AttributeModifier.Operation operation) {
+        if (attribute == null) {
+            return;
+        }
+        attribute.removeModifier(id);
+        if (Math.abs(amount) > 1.0E-6) {
+            attribute.addTransientModifier(new AttributeModifier(id, amount, operation));
+        }
+    }
+
+    /** Оновлює викликаного моба цієї душі (якщо він зараз у світі). */
+    private static void refreshLive(MinecraftServer server, UUID owner, SpiritArmyStore.Soul soul) {
+        Map<UUID, UUID> map = SUMMONED.get(owner);
+        UUID id = map == null ? null : map.get(soul.id);
+        if (id != null && entity(server, id) instanceof Mob mob && mob.isAlive()) {
+            applyStats(mob, soul, false);
+        }
+    }
+
+    /** Вбивство, зроблене викликаною душею, записується на її рахунок; ранг може зрости. */
+    private static void creditKill(LivingDeathEvent event) {
+        if (!(event.getSource().getEntity() instanceof Mob minion) || minion == event.getEntity()) {
+            return;
+        }
+        UUID owner = ownerOf(minion);
+        CompoundTag data = minion.getPersistentData();
+        MinecraftServer server = minion.getServer();
+        if (owner == null || server == null || !data.hasUUID(SOUL_KEY) || isAllyOf(owner, event.getEntity())) {
+            return;
+        }
+        SpiritArmyStore store = SpiritArmyStore.get(server);
+        for (SpiritArmyStore.Soul soul : store.list(owner)) {
+            if (!soul.id.equals(data.getUUID(SOUL_KEY))) {
+                continue;
+            }
+            int before = soul.rank();
+            soul.kills++;
+            store.setDirty();
+            ServerPlayer player = server.getPlayerList().getPlayer(owner);
+            if (soul.rank() > before) {
+                applyStats(minion, soul, false);
+                if (minion.level() instanceof ServerLevel level) {
+                    puff(level, minion, 20);
+                }
+                if (player != null) {
+                    Component name = soul.name.isEmpty() ? typeName(soul.type) : Component.literal(soul.name);
+                    player.displayClientMessage(Component.translatable("message.spirit_form.army.rank_up", name,
+                            Component.translatable("rank.spirit_form.army." + soul.rank())), false);
+                }
+            }
+            if (player != null) {
+                sync(player);
+            }
+            return;
+        }
+    }
+
+    private static SpiritArmyStore.Soul findSoul(ServerPlayer player, String id) {
+        MinecraftServer server = player.getServer();
+        if (server == null) {
+            return null;
+        }
+        for (SpiritArmyStore.Soul soul : SpiritArmyStore.get(server).list(player.getUUID())) {
+            if (soul.id.toString().equals(id)) {
+                return soul;
+            }
+        }
+        return null;
+    }
+
+    /** Розбирає "<id>:<число>": повертає душу, а число кладе в out[0] (або повертає null). */
+    private static SpiritArmyStore.Soul parse(ServerPlayer player, String arg, int[] out) {
+        int colon = arg.lastIndexOf(':');
+        if (colon < 0) {
+            return null;
+        }
+        try {
+            out[0] = Integer.parseInt(arg.substring(colon + 1));
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        return findSoul(player, arg.substring(0, colon));
+    }
+
+    private static void finishChange(ServerPlayer player, SpiritArmyStore.Soul soul) {
+        MinecraftServer server = player.getServer();
+        if (server == null) {
+            return;
+        }
+        SpiritArmyStore.get(server).setDirty();
+        refreshLive(server, player.getUUID(), soul);
+        sync(player);
+    }
+
+    private static void upgradeAction(ServerPlayer player, String arg) {
+        int[] stat = new int[1];
+        SpiritArmyStore.Soul soul = parse(player, arg, stat);
+        if (soul == null || stat[0] < 0 || stat[0] > ArmySoulStats.STAT_SPEED) {
+            return;
+        }
+        int level = soul.level(stat[0]);
+        if (level >= ArmySoulStats.MAX_LEVEL) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.army.maxed"), true);
+            return;
+        }
+        int cost = ArmySoulStats.cost(level);
+        if (!player.getAbilities().instabuild) {
+            int have = 0;
+            var inventory = player.getInventory();
+            for (int i = 0; i < inventory.items.size(); i++) {
+                ItemStack stack = inventory.items.get(i);
+                if (stack.is(SpiritItems.CRYSTAL_SOUL.get())) {
+                    have += stack.getCount();
+                }
+            }
+            if (have < cost) {
+                player.displayClientMessage(Component.translatable("message.spirit_form.army.no_crystals", cost), true);
+                return;
+            }
+            int left = cost;
+            for (int i = 0; i < inventory.items.size() && left > 0; i++) {
+                ItemStack stack = inventory.items.get(i);
+                if (stack.is(SpiritItems.CRYSTAL_SOUL.get())) {
+                    int take = Math.min(left, stack.getCount());
+                    stack.shrink(take);
+                    left -= take;
+                }
+            }
+        }
+        soul.setLevel(stat[0], level + 1);
+        player.level().playSound(null, player.blockPosition(), net.minecraft.sounds.SoundEvents.PLAYER_LEVELUP,
+                net.minecraft.sounds.SoundSource.PLAYERS, 0.5F, 1.5F);
+        finishChange(player, soul);
+    }
+
+    private static void equipAction(ServerPlayer player, String arg) {
+        int[] slot = new int[1];
+        SpiritArmyStore.Soul soul = parse(player, arg, slot);
+        if (soul == null || slot[0] < 0 || slot[0] >= player.getInventory().items.size()) {
+            return;
+        }
+        ItemStack stack = player.getInventory().items.get(slot[0]);
+        int index = ArmySoulStats.armorIndex(stack);
+        if (index < 0) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.army.not_armor"), true);
+            return;
+        }
+        ItemStack one = stack.split(1);
+        give(player, soul.armor[index]);
+        soul.armor[index] = one;
+        finishChange(player, soul);
+    }
+
+    private static void unequipAction(ServerPlayer player, String arg) {
+        int[] index = new int[1];
+        SpiritArmyStore.Soul soul = parse(player, arg, index);
+        if (soul == null || index[0] < 0 || index[0] >= soul.armor.length || soul.armor[index[0]].isEmpty()) {
+            return;
+        }
+        give(player, soul.armor[index[0]]);
+        soul.armor[index[0]] = ItemStack.EMPTY;
+        finishChange(player, soul);
     }
 
     // ---------- виклик і відступ ----------
@@ -409,6 +649,7 @@ public final class SpiritArmy {
             }
             mob.getPersistentData().putUUID(OWNER_KEY, player.getUUID());
             mob.getPersistentData().putUUID(SOUL_KEY, soul.id);
+            applyStats(mob, soul, true);
             mob.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, MobEffectInstance.INFINITE_DURATION,
                     0, true, false));
             if (!level.addFreshEntity(mob)) {
@@ -744,6 +985,11 @@ public final class SpiritArmy {
     /** Власник і викликані ним моби не завдають шкоди одне одному. */
     @SubscribeEvent
     public static void onIncomingDamage(LivingIncomingDamageEvent event) {
+        // Енергія Потойбіччя: Армія вдвічі міцніша (шкода по ній вдвічі менша)
+        UUID victimOwner = ownerOf(event.getEntity());
+        if (victimOwner != null && SpiritLord.energyOn(event.getEntity().getServer(), victimOwner)) {
+            event.setAmount(event.getAmount() * 0.5F);
+        }
         Entity attacker = event.getSource().getEntity();
         if (attacker == null) {
             return;
@@ -752,6 +998,14 @@ public final class SpiritArmy {
         if (attackerOwner != null && isAllyOf(attackerOwner, event.getEntity())) {
             event.setCanceled(true);
             return;
+        }
+        // Ранг і вдосконалення душі множать її шкоду (ближню, стрілами й вогняними кулями)
+        if (attackerOwner != null && attacker.getPersistentData().contains(ATK_KEY)) {
+            event.setAmount(event.getAmount() * attacker.getPersistentData().getFloat(ATK_KEY));
+        }
+        // ...і завдає вдвічі більше шкоди
+        if (attackerOwner != null && SpiritLord.energyOn(attacker.getServer(), attackerOwner)) {
+            event.setAmount(event.getAmount() * 2.0F);
         }
         UUID targetOwner = ownerOf(event.getEntity());
         if (targetOwner != null && attacker.getUUID().equals(targetOwner)) {

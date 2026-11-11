@@ -2,16 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    "EEE",
-    "ENE",
-    "EEE"
+    "ECE",
+    "CHC",
+    "ECE"
   ],
   "key": {
     "E": {
       "item": "minecraft:echo_shard"
     },
-    "N": {
-      "item": "minecraft:netherite_ingot"
+    "C": {
+      "item": "spirit_form:crystal_soul"
+    },
+    "H": {
+      "item": "spirit_form:hunger_heart"
     }
   },
   "result": {

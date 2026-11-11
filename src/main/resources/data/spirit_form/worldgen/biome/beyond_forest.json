@@ -1,0 +1,115 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.6,
+  "downfall": 0.8,
+  "creature_spawn_probability": 0.2,
+  "effects": {
+    "sky_color": 3877486,
+    "fog_color": 5990508,
+    "water_color": 4690056,
+    "water_fog_color": 1928021,
+    "grass_color": 4826446,
+    "foliage_color": 3893826,
+    "particle": {
+      "probability": 0.0025,
+      "options": {
+        "type": "minecraft:glow"
+      }
+    }
+  },
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [
+      "spirit_form:heatland_terrain"
+    ],
+    [],
+    [],
+    [],
+    [
+      "minecraft:ore_dirt",
+      "minecraft:ore_gravel",
+      "minecraft:ore_coal_upper",
+      "minecraft:ore_coal_lower",
+      "minecraft:ore_iron_upper",
+      "minecraft:ore_iron_middle",
+      "minecraft:ore_gold",
+      "minecraft:ore_redstone",
+      "minecraft:ore_diamond",
+      "minecraft:ore_lapis",
+      "minecraft:ore_copper"
+    ],
+    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
+    ],
+    [
+      "spirit_form:titan_tree",
+      "spirit_form:mavka_tree",
+      "spirit_form:forest_big_trees",
+      "spirit_form:forest_mid_trees",
+      "spirit_form:forest_grass",
+      "spirit_form:forest_ferns",
+      "spirit_form:titan_roots"
+    ],
+    []
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "spirit_form:chuhaister",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "spirit_form:template_creature",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "spirit_form:zlydeny",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "creature": [
+      {
+        "type": "spirit_form:hukha",
+        "weight": 8,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "spirit_form:lisovyk",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "ambient": [
+      {
+        "type": "spirit_form:bisyk",
+        "weight": 12,
+        "minCount": 3,
+        "maxCount": 6
+      }
+    ],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {}
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Ghost Step",
+  "category": "spirit_form:abilities_movement",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=33]",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "What it does",
+      "text": "Instantly moves you in the direction you are looking.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 5."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Use and limits",
+      "text": "A wall stops the teleport before it. If you are airborne, the available range is halved. The ability consumes hunger, and its range is controlled by the configuration."
+    }
+  ]
+}

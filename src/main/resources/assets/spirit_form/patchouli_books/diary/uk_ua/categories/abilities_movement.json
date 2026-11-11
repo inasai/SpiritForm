@@ -1,0 +1,7 @@
+{
+  "name": "Шлях Руху",
+  "description": "$(#1C7FA8)Шлях Руху$()$(br2)Керуй переміщенням, відстанню та взаємодією з навколишнім світом.",
+  "icon": "spirit_form:textures/gui/ability/step.png",
+  "sortnum": 3,
+  "parent": "spirit_form:abilities"
+}

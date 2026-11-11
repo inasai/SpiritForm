@@ -1,0 +1,7 @@
+{
+  "name": "Path of Movement",
+  "description": "$(#1C7FA8)Path of Movement$()$(br2)Control movement, distance, and your interaction with the world.",
+  "icon": "spirit_form:textures/gui/ability/step.png",
+  "sortnum": 3,
+  "parent": "spirit_form:abilities"
+}

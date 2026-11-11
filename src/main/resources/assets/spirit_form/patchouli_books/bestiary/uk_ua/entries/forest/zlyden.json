@@ -1,0 +1,28 @@
+{
+  "name": "Злидень",
+  "category": "spirit_form:forest",
+  "icon": "minecraft:ocelot_spawn_egg",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:entity",
+      "entity": "spirit_form:zlydeny",
+      "name": "Злидень",
+      "text": "Майже як Хуха, але вичікує слушної нагоди для нападу.",
+      "rotate": true,
+      "scale": 0.65
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Поведінка",
+      "text": "Живе серед Хух. Стежить за тобою, тримаючись на відстані п’яти-десяти блоків. Коли підійдеш ближче, $(thing)завмирає на секунду$(), тоді кусає й тікає, а згодом повертається."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Як дати відсіч",
+      "text": "$(li)$(#2E7D4F)Приручена Хуха$() нападає на Злидня; той тікає.$(li)$(#7952A6)Мавки$() теж на нього нападають.$(li)$(#7952A6)Завмирання$() — твоє вікно для удару: вдар першим."
+    }
+  ],
+  "advancement": "spirit_form:bestiary/zlydeny",
+  "secret": true
+}

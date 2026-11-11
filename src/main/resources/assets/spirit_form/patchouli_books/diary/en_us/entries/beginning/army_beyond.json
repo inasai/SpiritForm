@@ -1,0 +1,33 @@
+{
+  "name": "Army of the Beyond",
+  "category": "spirit_form:beginning",
+  "icon": "spirit_form:advancement_icon[minecraft:custom_model_data=46]",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Gathering souls",
+      "text": "“Every death leaves something behind. What if a soul could continue beside the one who defeated it?”$(br2)When a creature dies, mint-coloured smoke may appear for about $(thing)20 seconds$(). It always appears after a boss dies. Right-click the smoke to store the soul. If your storage is full, the new soul will not be kept."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Unlocking and slots",
+      "text": "The Army of the Beyond unlocks when you earn the “King of the Beyond” advancement. Storage starts with one slot. Buy additional slots in the ability window; the maximum is controlled by $(thing)armyMaxSlots$() (10 by default)."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Commanding the army",
+      "text": "Activate Army of the Beyond in Ability Mode to open the soul wheel:$(br)centre — summon all souls or, if any is already summoned, recall them to storage;$(br)Summon — choose a soul to summon;$(br)Orders — choose an order;$(br)Delete — release a soul;$(br)Improvement — ranks, upgrades and armor for souls ($(l:beginning/army_improvement)details$(/l)).$(br)Right click returns to the previous wheel."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Soul Wheel",
+      "text": "Choose a slot to summon its soul. Press the same slot again to recall it to storage. The centre slot lets you summon or recall all souls at once."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Orders",
+      "text": "$(#1C7FA8)Guard$() — souls stay near you and attack creatures that hurt you.$(br2)$(#1C7FA8)Attack$() — souls attack creatures you have hit.$(br2)$(#1C7FA8)Hold Position$() — souls stay put and attack creatures that approach.$(br2)$(#1C7FA8)Fury$() — souls defend you and keep attacking their chosen target until it dies.$(br2)The right order can matter more than the size of your army."
+    }
+  ]
+}

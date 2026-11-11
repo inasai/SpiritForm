@@ -1,0 +1,23 @@
+{
+  "name": "Soul Memory",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:soul_memory",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "A captured essence",
+      "text": "“The body may perish, armor may break, and weapons may lose their edge. Yet the memory of the soul has the power to restore what has worn away.”$(br2)The Soul’s Memory gradually restores the durability of equipment, preserving it from destruction."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "Memoirs",
+      "text": "Memory restores the durability of armor and items held in the main hand and off-hand. Items in the gear cells of the $(l:beginning/vault)Vault$() are repaired too. Hold the artifact in either hand or place it in a vault cell.$(br2)$(#1C7FA8)Restoration:$() Using an artifact consumes its own durability. To restore it, combine a Soul Memory with a $(thing)Crystallized Soul$().",
+      "item": "spirit_form:soul_memory"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:memory_recipe"
+    }
+  ]
+}

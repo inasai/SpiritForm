@@ -1,0 +1,19 @@
+{
+  "name": "Crystallized Soul",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:crystal_soul",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Soul state",
+      "text": "“Living energy glows inside the $(l:resources/beyond/soul_catcher)Soul Catcher$(/l), but is that its only form?”$(br2)A soul can be alive, become light, and be drawn to a crystal. Capture a creature with the Soul Catcher, then combine it with amethyst to create a Crystallized Soul."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "A soul in crystal",
+      "text": "Combining a soul with amethyst opens new possibilities. A Crystallized Soul lets you enter the Beyond if you have not yet earned the “King of the Beyond” advancement. It can also restore the durability of a damaged item when combined with it.$(br2)Combining a Crystallized Soul with a damaged item restores that item’s durability.",
+      "item": "spirit_form:crystal_soul"
+    }
+  ]
+}

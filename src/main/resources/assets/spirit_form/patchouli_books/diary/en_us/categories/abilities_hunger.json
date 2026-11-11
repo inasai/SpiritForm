@@ -1,0 +1,7 @@
+{
+  "name": "Path of Hunger",
+  "description": "$(#B03030)Path of Hunger$()$(br2)Conceal your presence, survive, and manipulate enemy attention.",
+  "icon": "spirit_form:textures/gui/ability/scream.png",
+  "sortnum": 2,
+  "parent": "spirit_form:abilities"
+}

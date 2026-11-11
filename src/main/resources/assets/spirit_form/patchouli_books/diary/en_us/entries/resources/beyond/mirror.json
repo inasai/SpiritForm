@@ -1,0 +1,23 @@
+{
+  "name": "Soul Mirror",
+  "category": "spirit_form:resources_beyond",
+  "icon": "spirit_form:soul_plunder",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Experience of life",
+      "text": "“Every creature has lived its own life and gained its own experience.”$(br2)The Soul Mirror catches echoes of the experience left by your victims. Each kill grants twice as much experience."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "title": "The final reflection",
+      "text": "You can hold the mirror or wear it on your belt without changing its power. When the road ahead seems long, the extra experience will help you travel it faster.",
+      "item": "spirit_form:soul_plunder"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "spirit_form:mirror_recipe"
+    }
+  ]
+}
