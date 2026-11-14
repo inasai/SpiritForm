@@ -1,9 +1,9 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritFormState;
-import com.spiritform.DisguiseData;
-import com.spiritform.SpiritAttachments;
-import com.spiritform.SpiritDisguise;
+import com.spiritform.ability.SpiritDisguise;
+import com.spiritform.data.DisguiseData;
+import com.spiritform.data.SpiritAttachments;
+import com.spiritform.form.SpiritFormState;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;

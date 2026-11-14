@@ -1,6 +1,6 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritFormState;
+import com.spiritform.form.SpiritFormState;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;

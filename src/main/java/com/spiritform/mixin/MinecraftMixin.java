@@ -1,6 +1,6 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritClientHighlight;
+import com.spiritform.client.SpiritClientHighlight;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

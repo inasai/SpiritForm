@@ -1,6 +1,6 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritPossession;
+import com.spiritform.ability.SpiritPossession;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;

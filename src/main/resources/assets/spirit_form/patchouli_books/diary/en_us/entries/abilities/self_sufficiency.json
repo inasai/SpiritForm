@@ -18,6 +18,10 @@
       "type": "patchouli:text",
       "title": "Furnaces and the stand",
       "text": "The furnace, smoker, blast furnace and brewing stand keep their items, fuel and progress and keep working in the background with the window closed. Each has its own queue. A marker glows by the slot when finished items wait inside; reopen the station to take them. Enchanting here is always at maximum level (10, 20 and 30). Other stations, as in vanilla, return items when the window closes."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "External stations. In the progression menu (H), Vault section, the External Stations item lets you add a station block from another mod: it appears on the wheel like a normal one. An Akashic Chronicles book can be added the same way (needs the Akashic Records mod): the station opens its window and you do not need to hold the book. Clicking an occupied cell returns the item."
     }
   ]
 }

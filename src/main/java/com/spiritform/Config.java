@@ -1,5 +1,6 @@
 package com.spiritform;
 
+import com.spiritform.form.ExistenceMode;
 import java.util.List;
 
 import net.neoforged.neoforge.common.ModConfigSpec;

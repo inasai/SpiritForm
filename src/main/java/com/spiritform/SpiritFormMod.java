@@ -1,5 +1,16 @@
 package com.spiritform;
 
+import com.spiritform.data.SpiritAttachments;
+import com.spiritform.registry.SpiritArmorMaterials;
+import com.spiritform.registry.SpiritBlocks;
+import com.spiritform.registry.SpiritCreatures;
+import com.spiritform.registry.SpiritEffects;
+import com.spiritform.registry.SpiritEntities;
+import com.spiritform.registry.SpiritGameRules;
+import com.spiritform.registry.SpiritHeraldEntities;
+import com.spiritform.registry.SpiritItems;
+import com.spiritform.registry.SpiritRecipes;
+import com.spiritform.worldgen.SpiritWorldgen;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;

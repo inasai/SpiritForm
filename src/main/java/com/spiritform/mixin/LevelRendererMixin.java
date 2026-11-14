@@ -1,7 +1,7 @@
 package com.spiritform.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.spiritform.SpiritHeraldClient;
+import com.spiritform.client.SpiritHeraldClient;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import org.spongepowered.asm.mixin.Mixin;

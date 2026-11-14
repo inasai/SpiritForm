@@ -1,7 +1,7 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritData;
-import com.spiritform.SpiritFormState;
+import com.spiritform.data.SpiritData;
+import com.spiritform.form.SpiritFormState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;

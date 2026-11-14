@@ -1,7 +1,8 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritFormState;
-import com.spiritform.SpiritTransparency;
+import com.spiritform.client.SpiritTransparency;
+import com.spiritform.data.SpiritData;
+import com.spiritform.form.SpiritFormState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -13,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import com.spiritform.SpiritData;
-
 /**
  * Напівпрозорий вигляд привида.
  *
@@ -35,7 +34,7 @@ public abstract class LivingEntityRendererMixin {
             SpiritData data = SpiritFormState.get(player);
             spirit = data.active() || data.invisible();
         } else {
-            spirit = com.spiritform.SpiritDisguiseClient.ghostly(entity);
+            spirit = com.spiritform.client.SpiritDisguiseClient.ghostly(entity);
         }
 
         SpiritTransparency.RENDERING_SPIRIT_PLAYER = spirit;

@@ -1,6 +1,6 @@
 package com.spiritform.mixin;
 
-import com.spiritform.SpiritHeraldWorld;
+import com.spiritform.herald.SpiritHeraldWorld;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;

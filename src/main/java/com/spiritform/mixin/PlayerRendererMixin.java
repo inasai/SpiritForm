@@ -1,7 +1,7 @@
 package com.spiritform.mixin;
 
-import com.spiritform.FentonBracelet;
-import com.spiritform.FentonSkin;
+import com.spiritform.client.FentonSkin;
+import com.spiritform.item.FentonBracelet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -32,7 +32,7 @@ public abstract class PlayerRendererMixin {
                                      com.mojang.blaze3d.vertex.PoseStack poseStack,
                                      net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight,
                                      org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
-        net.minecraft.world.entity.LivingEntity dummy = com.spiritform.SpiritDisguiseClient.prepare(player, partialTick);
+        net.minecraft.world.entity.LivingEntity dummy = com.spiritform.client.SpiritDisguiseClient.prepare(player, partialTick);
         if (dummy == null) {
             return;
         }
@@ -44,7 +44,7 @@ public abstract class PlayerRendererMixin {
             renderer.render(dummy, entityYaw, partialTick, poseStack, buffer, packedLight);
             ci.cancel();
         } catch (RuntimeException e) {
-            com.spiritform.SpiritDisguiseClient.fail(player);
+            com.spiritform.client.SpiritDisguiseClient.fail(player);
         }
     }
 
