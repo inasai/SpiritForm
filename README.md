@@ -2,7 +2,26 @@
 
 # Spirit Form
 
-[![CurseForge](https://img.shields.io/badge/CurseForge-Download-orange?logo=curseforge&logoColor=white)](https://www.curseforge.com/minecraft/mc-mods/spirit-form) [![Modrinth](https://img.shields.io/badge/Modrinth-Download-5da545?logo=modrinth&logoColor=white)](https://modrinth.com/mod/spirit-form) [![1.21.1](https://img.shields.io/badge/Minecraft-1.21.1-52A535?style=flat)](https://github.com/inasai/SpiritForm/tree/1.21.1) [![1.20.1](https://img.shields.io/badge/Minecraft-1.20.1-3B8526?style=flat)](https://github.com/inasai/SpiritForm/tree/1.20.1)
+<table width="100%">
+  <tr>
+    <td align="left">
+      <a href="https://www.curseforge.com/minecraft/mc-mods/spirit-form">
+        <img src="https://img.shields.io/badge/CurseForge-Download-orange?logo=curseforge&logoColor=white" alt="CurseForge">
+      </a>
+      <a href="https://modrinth.com/mod/spirit-form">
+        <img src="https://img.shields.io/badge/Modrinth-Download-5da545?logo=modrinth&logoColor=white" alt="Modrinth">
+      </a>
+    </td>
+    <td align="right">
+      <a href="https://github.com/inasai/SpiritForm/tree/1.21.1">
+        <img src="https://img.shields.io/badge/NeoForge-1.21.1-E04E14?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAPFBMVEUAAACqsLN1dYDXdC+LjpS9x8ekTje/YTRmU0359PTV4N/n2dPmjDfH0dGNcWgTFRrm8vHHo7mgpakmKjPdwWHwAAAAAXRSTlMAQObYZgAAAINJREFUGNNVygsKhTAMRNGmsZOk0Vc/+9/rG6oIDjRwDy1l+Yzd+767987HLWXZZfOfb42nSSM0djrgSZnQ4AfMcDgeYOm6Kq3JBFMl8NgEdqSyM9QIlT/iUu4K26QSoDnUTEcqJgj0HvsBsxgjzPCAAJEZgEyQKiTcOeGUdyeh1M/KH17rBX/wS4n/AAAAAElFTkSuQmCC" alt="1.21.1">
+      </a>
+      <a href="https://github.com/inasai/SpiritForm/tree/1.20.1">
+        <img src="https://img.shields.io/badge/Forge-1.20.1-242B3A?logo=curseforge&logoColor=white" alt="1.20.1">
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## 📚 Документація
 
