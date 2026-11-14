@@ -1,27 +1,6 @@
-# ![banner.png](images/banner.png)
+[![CurseForge](https://img.shields.io/badge/CurseForge-Download-orange?logo=curseforge&logoColor=white)](https://www.curseforge.com/minecraft/mc-mods/spirit-form) [![Modrinth](https://img.shields.io/badge/Modrinth-Download-5da545?logo=modrinth&logoColor=white)](https://modrinth.com/mod/spirit-form) [![1.21.1](https://img.shields.io/badge/NeoForge-1.21.1-E04E14?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAPFBMVEUAAACqsLN1dYDXdC+LjpS9x8ekTje/YTRmU0359PTV4N/n2dPmjDfH0dGNcWgTFRrm8vHHo7mgpakmKjPdwWHwAAAAAXRSTlMAQObYZgAAAINJREFUGNNVygsKhTAMRNGmsZOk0Vc/+9/rG6oIDjRwDy1l+Yzd+767987HLWXZZfOfb42nSSM0djrgSZnQ4AfMcDgeYOm6Kq3JBFMl8NgEdqSyM9QIlT/iUu4K26QSoDnUTEcqJgj0HvsBsxgjzPCAAJEZgEyQKiTcOeGUdyeh1M/KH17rBX/wS4n/AAAAAElFTkSuQmCC)](https://github.com/inasai/SpiritForm/tree/1.21.1) [![1.20.1](https://img.shields.io/badge/Forge-1.20.1-242B3A?logo=curseforge&logoColor=white)](https://github.com/inasai/SpiritForm/tree/1.20.1)
 
-# Spirit Form
-
-<table width="100%">
-  <tr>
-    <td align="left">
-      <a href="https://www.curseforge.com/minecraft/mc-mods/spirit-form">
-        <img src="https://img.shields.io/badge/CurseForge-Download-orange?logo=curseforge&logoColor=white" alt="CurseForge">
-      </a>
-      <a href="https://modrinth.com/mod/spirit-form">
-        <img src="https://img.shields.io/badge/Modrinth-Download-5da545?logo=modrinth&logoColor=white" alt="Modrinth">
-      </a>
-    </td>
-    <td align="right">
-      <a href="https://github.com/inasai/SpiritForm/tree/1.21.1">
-        <img src="https://img.shields.io/badge/NeoForge-1.21.1-E04E14?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAPFBMVEUAAACqsLN1dYDXdC+LjpS9x8ekTje/YTRmU0359PTV4N/n2dPmjDfH0dGNcWgTFRrm8vHHo7mgpakmKjPdwWHwAAAAAXRSTlMAQObYZgAAAINJREFUGNNVygsKhTAMRNGmsZOk0Vc/+9/rG6oIDjRwDy1l+Yzd+767987HLWXZZfOfb42nSSM0djrgSZnQ4AfMcDgeYOm6Kq3JBFMl8NgEdqSyM9QIlT/iUu4K26QSoDnUTEcqJgj0HvsBsxgjzPCAAJEZgEyQKiTcOeGUdyeh1M/KH17rBX/wS4n/AAAAAElFTkSuQmCC" alt="1.21.1">
-      </a>
-      <a href="https://github.com/inasai/SpiritForm/tree/1.20.1">
-        <img src="https://img.shields.io/badge/Forge-1.20.1-242B3A?logo=curseforge&logoColor=white" alt="1.20.1">
-      </a>
-    </td>
-  </tr>
-</table>
+# Форма Привида
 
 ## 📚 Документація
 
@@ -36,7 +15,7 @@
 
 > **Межа між життям і смертю — не кінець. Це початок іншого шляху.**
 
-**Spirit Form** — мод для Minecraft 1.21.1 на NeoForge, який додає систему надприродних здібностей, розвиток душі та окремий вимір — **Потойбіччя**. Опануй Форму Привида, відкривай нові сили, збирай душі переможених істот і досліджуй світ, де смерть має власні закони.
+**Spirit Form** — мод для Minecraft, який додає систему надприродних здібностей, розвиток душі та окремий вимір — **Потойбіччя**. Опануй Форму Привида, відкривай нові сили, збирай душі переможених істот і досліджуй світ, де смерть має власні закони.
 
 ---
 
@@ -180,15 +159,7 @@ Spirit Form поєднує кілька взаємопов'язаних сист
 
 > Конкретні клавіші залежать від призначень у налаштуваннях керування. Перевір їх перед грою, щоб уникнути конфліктів з іншими модами.
 
-## Встановлення
-
-1. Переконайся, що встановлено **Minecraft 1.21.1**.
-2. Встанови відповідну версію **NeoForge**.
-3. Завантаж файл мода `Spirit Form` для потрібної версії гри.
-4. Перемісти файл `.jar` до папки `mods` у директорії Minecraft.
-5. Запусти гру через профіль NeoForge.
-
-Для перегляду внутрішньоігрових посібників потрібен **Patchouli**. Переконайся, що встановлена сумісна з Minecraft 1.21.1 версія.
+Для перегляду внутрішньоігрових посібників потрібен **Patchouli**. Переконайся, що встановлена сумісна версія.
 
 ## Внутрішньоігрові посібники
 
