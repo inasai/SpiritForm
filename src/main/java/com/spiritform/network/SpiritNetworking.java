@@ -6,10 +6,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-@EventBusSubscriber(
-        modid = SpiritFormMod.MODID,
-        bus = EventBusSubscriber.Bus.MOD
-)
+@EventBusSubscriber(modid = SpiritFormMod.MODID)
 public class SpiritNetworking {
 
     @SubscribeEvent
@@ -91,6 +88,12 @@ public class SpiritNetworking {
                 VaultActionPayload.TYPE,
                 VaultActionPayload.STREAM_CODEC,
                 VaultActionPayload::handleData
+        );
+
+        registrar.playToServer(
+                EchoTravelPayload.TYPE,
+                EchoTravelPayload.STREAM_CODEC,
+                EchoTravelPayload::handleData
         );
 
         registrar.playToServer(

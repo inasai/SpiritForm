@@ -10,9 +10,7 @@
     "PlayerMixin"
   ],
   "client": [
-    "GameRendererMixin",
     "LevelRendererMixin",
-    "LightTextureMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",
     "PlayerRendererMixin"

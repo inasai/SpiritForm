@@ -1,8 +1,13 @@
 package com.spiritform.data;
 
+import com.mojang.serialization.Codec;
 import com.spiritform.SpiritFormMod;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -67,6 +72,28 @@ public final class SpiritAttachments {
             () -> AttachmentType.builder(() -> ShardMarks.EMPTY)
                     .serialize(ShardMarks.CODEC)
                     .sync(ShardMarks.STREAM_CODEC)
+                    .copyOnDeath()
+                    .build()
+    );
+
+    /**
+     * Виміри, де гравець уже бував (ідентифікатори): з них складається колесо Відлуння Смерті.
+     * Їде на клієнт власнику; копіюється при смерті.
+     */
+    public static final Supplier<AttachmentType<List<String>>> VISITED_DIMENSIONS = ATTACHMENT_TYPES.register(
+            "visited_dimensions",
+            () -> AttachmentType.<List<String>>builder(() -> List.of())
+                    .serialize(Codec.STRING.listOf())
+                    .sync(ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list(256)))
+                    .copyOnDeath()
+                    .build()
+    );
+
+    /** Остання безпечна позиція гравця в кожному вимірі (лише на сервері): сюди Відлуння повертає гравця. */
+    public static final Supplier<AttachmentType<Map<String, BlockPos>>> DIMENSION_SPOTS = ATTACHMENT_TYPES.register(
+            "dimension_spots",
+            () -> AttachmentType.<Map<String, BlockPos>>builder(() -> Map.of())
+                    .serialize(Codec.unboundedMap(Codec.STRING, BlockPos.CODEC))
                     .copyOnDeath()
                     .build()
     );

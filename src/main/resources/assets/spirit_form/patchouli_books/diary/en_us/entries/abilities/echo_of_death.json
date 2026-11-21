@@ -13,6 +13,10 @@
       "type": "patchouli:text",
       "title": "Use and limits",
       "text": "When you disable the ability, you return to your previous location and the block disappears. There must be enough space to place it. To enter the Beyond, interact with the block while carrying a $(l:resources/beyond/crystal_soul)Crystallized Soul$(/l) or after earning the “King of the Beyond” advancement."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dimension wheel. In the passive ability wheel (T), right-click Echo of Death: a wheel opens with the dimensions you have already visited (Overworld, Nether, End, the Beyond or a dimension from another mod). Choosing one takes you to where you last stood in that dimension, or to a safe spot nearby if there is none. The ability uses the shared ability cooldown."
     }
   ]
 }

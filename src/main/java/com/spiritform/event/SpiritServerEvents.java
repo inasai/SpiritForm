@@ -30,7 +30,6 @@ import java.util.UUID;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -94,6 +93,8 @@ public class SpiritServerEvents {
 
         if (!data.active()) {
             LAST_POSITIONS.remove(player.getUUID());
+            // Лишок прихованого ефекту форми (після смерті чи виходу інакше) прибираємо
+            SpiritForm.clearNightVision(player);
             return;
         }
 
@@ -114,12 +115,8 @@ public class SpiritServerEvents {
             player.setAirSupply(player.getMaxAirSupply());
         }
 
-        // Нічне бачення не зілля: його дає клієнтський міксин LightTextureMixin, тож іконки немає.
-        // Лишок старого ефекту (з попередніх версій) прибираємо
-        MobEffectInstance nightVision = player.getEffect(MobEffects.NIGHT_VISION);
-        if (nightVision != null && !nightVision.isVisible() && !nightVision.showIcon()) {
-            player.removeEffect(MobEffects.NIGHT_VISION);
-        }
+        // Нічне бачення форми: прихований ефект зілля, поновлюємо щотіку (молоко його знімає)
+        SpiritForm.ensureNightVision(player);
 
         // Голод залежить від пройденої відстані
         Vec3 now = player.position();

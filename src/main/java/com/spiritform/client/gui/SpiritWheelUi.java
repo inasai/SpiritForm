@@ -62,6 +62,11 @@ public final class SpiritWheelUi {
     private SpiritWheelUi() {
     }
 
+    /** Чи це клавіша закриття інвентарю (за замовчуванням E): нею закриваються всі колеса. */
+    public static boolean isInventoryKey(int keyCode, int scanCode) {
+        return net.minecraft.client.Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode);
+    }
+
     /** Розміри кільця: зовнішній радіус залежить від висоти екрана, щоб колесо й підказка вміщалися. */
     public record Geo(int outer, int inner) {
         public static Geo of(int screenHeight) {

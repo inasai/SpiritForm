@@ -266,6 +266,16 @@ public class ArmyWheelScreen extends Screen {
 
     // ---------- керування ----------
 
+    /** Колесо закривається й клавішею інвентарю (за замовчуванням E). */
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (SpiritWheelUi.isInventoryKey(keyCode, scanCode)) {
+            onClose();
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         List<Entry> entries = entries();

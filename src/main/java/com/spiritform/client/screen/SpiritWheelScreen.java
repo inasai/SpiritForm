@@ -31,6 +31,9 @@ public class SpiritWheelScreen extends Screen {
     /** Остання відкрита сторінка запам'ятовується до наступного відкриття колеса. */
     private static int lastPage;
 
+    /** Ідентифікатор здібності Відлуння Смерті: ПКМ по ній відкриває колесо виміру. */
+    private static final String ECHO_ID = "echo";
+
     /** state: true/false для перемикачів, null для разової дії. */
     private record Entry(String id, Component name, String icon, Boolean state) {
     }
@@ -160,7 +163,9 @@ public class SpiritWheelScreen extends Screen {
                     Component.translatable("screen.spirit_form.wheel.empty"),
                     multi ? Component.translatable("screen.spirit_form.wheel.page_hint") : null);
         } else if (hover >= 0) {
-            tip = new SpiritWheelUi.Tip(slices.get(hover).name(), slices.get(hover).info(), null, hint);
+            Component hoverHint = ECHO_ID.equals(entries.get(hover).id())
+                    ? Component.translatable("screen.spirit_form.wheel.echo_hint") : hint;
+            tip = new SpiritWheelUi.Tip(slices.get(hover).name(), slices.get(hover).info(), null, hoverHint);
         } else {
             tip = new SpiritWheelUi.Tip(title, count, null, hint);
         }
@@ -178,6 +183,11 @@ public class SpiritWheelScreen extends Screen {
         // Центр: ЛКМ далі, ПКМ назад
         if (hover == -2 && pages() > 1 && (button == 0 || button == 1)) {
             turn(button == 0 ? 1 : -1);
+            return true;
+        }
+        // ПКМ по Відлунню Смерті відкриває колесо вибору виміру
+        if (button == 1 && hover >= 0 && ECHO_ID.equals(entries.get(hover).id()) && minecraft != null) {
+            minecraft.setScreen(new EchoDimensionScreen());
             return true;
         }
         if (button == 1) {
@@ -210,6 +220,10 @@ public class SpiritWheelScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (SpiritWheelUi.isInventoryKey(keyCode, scanCode)) {
+            onClose();
+            return true;
+        }
         if (pages() > 1 && (keyCode == GLFW.GLFW_KEY_RIGHT || keyCode == GLFW.GLFW_KEY_LEFT)) {
             turn(keyCode == GLFW.GLFW_KEY_RIGHT ? 1 : -1);
             return true;

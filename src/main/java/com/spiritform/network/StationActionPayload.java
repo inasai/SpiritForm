@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /** Дія колеса станцій: відкрити станцію, купити станцію чи купити сторінку (index = номер станції). */
-public record StationActionPayload(int action, int index) implements CustomPacketPayload {
+public record StationActionPayload(int action, int index, int page) implements CustomPacketPayload {
 
     public static final int OPEN = 0;
     public static final int BUY_STATION = 1;
@@ -24,6 +24,7 @@ public record StationActionPayload(int action, int index) implements CustomPacke
             StreamCodec.composite(
                     ByteBufCodecs.VAR_INT, StationActionPayload::action,
                     ByteBufCodecs.VAR_INT, StationActionPayload::index,
+                    ByteBufCodecs.VAR_INT, StationActionPayload::page,
                     StationActionPayload::new
             );
 
@@ -35,7 +36,7 @@ public record StationActionPayload(int action, int index) implements CustomPacke
     public static void handleData(StationActionPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (context.player() instanceof ServerPlayer player) {
-                SpiritStations.handle(player, payload.action(), payload.index());
+                SpiritStations.handle(player, payload.action(), payload.index(), payload.page());
             }
         });
     }

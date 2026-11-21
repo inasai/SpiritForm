@@ -119,6 +119,7 @@ public final class SpiritForm {
         }
 
         SpiritFormState.setActive(player, true);
+        ensureNightVision(player);
 
         applyFlight(player, data);
         // Політ вмикається сам лише якщо Інстинкти Привида увімкнені й гравець у повітрі;
@@ -227,8 +228,30 @@ public final class SpiritForm {
         player.onUpdateAbilities();
     }
 
-    public static MobEffectInstance nightVision(int ticks) {
-        return new MobEffectInstance(MobEffects.NIGHT_VISION, ticks, 0, false, false, false);
+    /**
+     * Нічне бачення форми: справжній ефект зілля, але прихований (без іконки й частинок) і нескінченний,
+     * тому не мигає наприкінці. Відрізняємо його від чужих ефектів саме цією комбінацією.
+     */
+    public static MobEffectInstance nightVision() {
+        return new MobEffectInstance(MobEffects.NIGHT_VISION, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+    }
+
+    private static boolean isFormNightVision(MobEffectInstance effect) {
+        return effect != null && effect.isInfiniteDuration() && !effect.isVisible() && !effect.showIcon();
+    }
+
+    /** Дає прихований ефект нічного бачення, якщо гравець ще не має нічного бачення. Справжнє зілля не чіпає. */
+    public static void ensureNightVision(ServerPlayer player) {
+        if (player.getEffect(MobEffects.NIGHT_VISION) == null) {
+            player.addEffect(nightVision());
+        }
+    }
+
+    /** Прибирає лише ефект форми (чуже й справжнє зілля лишається). */
+    public static void clearNightVision(ServerPlayer player) {
+        if (isFormNightVision(player.getEffect(MobEffects.NIGHT_VISION))) {
+            player.removeEffect(MobEffects.NIGHT_VISION);
+        }
     }
 
     public static MobEffectInstance darkness(int ticks) {
@@ -237,7 +260,7 @@ public final class SpiritForm {
 
     private static void leaveForm(ServerPlayer player) {
         SpiritPossession.release(player);
-        player.removeEffect(MobEffects.NIGHT_VISION);
+        clearNightVision(player);
 
         SpiritFormState.setActive(player, false);
         SpiritFormState.set(player, SpiritFormState.get(player).withPhasing(false));

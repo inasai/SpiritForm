@@ -818,5 +818,21 @@
   "spirit_form.configuration.section.scythe": "Scythe of the Beyond",
   "spirit_form.configuration.section.scythe.button": "Scythe of the Beyond",
   "spirit_form.configuration.section.herald": "Death Herald",
-  "spirit_form.configuration.section.herald.button": "Death Herald"
+  "spirit_form.configuration.section.herald.button": "Death Herald",
+  "dimension.minecraft.overworld": "Overworld",
+  "dimension.minecraft.the_nether": "The Nether",
+  "dimension.minecraft.the_end": "The End",
+  "dimension.spirit_form.beyond": "The Beyond",
+  "screen.spirit_form.echo.title": "Echo of the Beyond: Dimension",
+  "screen.spirit_form.echo.go": "Travel here",
+  "screen.spirit_form.echo.here": "You are here",
+  "screen.spirit_form.echo.hint": "LMB - travel · RMB - close",
+  "screen.spirit_form.echo.empty": "You have not been anywhere yet",
+  "screen.spirit_form.wheel.echo_hint": "LMB - toggle · RMB - choose a dimension",
+  "message.spirit_form.echo.travel": "The Echo carries you to %s.",
+  "message.spirit_form.echo.here": "You are already in this dimension.",
+  "message.spirit_form.echo.not_visited": "You have not been to this dimension yet.",
+  "message.spirit_form.echo.missing": "This dimension is not available.",
+  "message.spirit_form.echo.possessing": "Leave the mob first.",
+  "message.spirit_form.echo.no_safe": "No safe place was found in this dimension."
 }

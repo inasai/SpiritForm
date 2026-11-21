@@ -26,7 +26,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -187,11 +186,6 @@ public final class SpiritStations {
 
     private static boolean owns(Player player) {
         return SpiritFormState.get(player).hasAbility(SpiritAbility.SELF_SUFFICIENCY);
-    }
-
-    /** Скільки комірок станцій дають відкриті сторінки. */
-    public static int capacity(StationData data) {
-        return Math.max(1, Math.min(Station.pages(data.blocks()), data.pages())) * Station.PER_PAGE;
     }
 
     public static int pageCost(int pageIndex) {
@@ -366,7 +360,7 @@ public final class SpiritStations {
 
     // ---------- дії ----------
 
-    public static void handle(ServerPlayer player, int action, int index) {
+    public static void handle(ServerPlayer player, int action, int index, int page) {
         if (!owns(player)) {
             return;
         }
@@ -382,7 +376,7 @@ public final class SpiritStations {
             }
             case StationActionPayload.BUY_STATION -> {
                 if (station != null) {
-                    buyStation(player, station);
+                    buyStation(player, station, page);
                 }
             }
             case StationActionPayload.BUY_PAGE -> buyPage(player);
@@ -390,12 +384,18 @@ public final class SpiritStations {
         }
     }
 
-    private static void buyStation(ServerPlayer player, Station station) {
+    /**
+     * page - сторінка колеса, на якій гравець натиснув станцію. Розташування станцій зберігає клієнт (файл
+     * розташування), тому сервер не знає, де що лежить; відкрити станцію можна, якщо її сторінка відкрита.
+     * Раніше тут рахували всі відкриті станції проти кількості комірок, і станції, прибрані з колеса або
+     * перенесені, забирали місце, а нова станція на відкритій сторінці не відкривалася.
+     */
+    private static void buyStation(ServerPlayer player, Station station, int page) {
         StationData data = get(player);
         if (data.has(station)) {
             return;
         }
-        if (data.unlockedCount() >= capacity(data)) {
+        if (page < 0 || page >= data.pages()) {
             player.displayClientMessage(Component.translatable("message.spirit_form.station.need_page"), true);
             return;
         }

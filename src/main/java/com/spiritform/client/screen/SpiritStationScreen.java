@@ -10,14 +10,12 @@ import com.spiritform.vault.Station;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
@@ -101,9 +99,7 @@ public class SpiritStationScreen extends Screen {
             return Component.translatable("screen.spirit_form.station.page_locked");
         }
         if (!entry.unlocked()) {
-            return data.unlockedCount() >= SpiritStations.capacity(data)
-                    ? Component.translatable("screen.spirit_form.station.need_page")
-                    : Component.translatable("screen.spirit_form.station.buy", data.nextStationCost());
+            return Component.translatable("screen.spirit_form.station.buy", data.nextStationCost());
         }
         return Component.translatable(entry.ready() ? "screen.spirit_form.station.ready" : "screen.spirit_form.station.open");
     }
@@ -176,7 +172,7 @@ public class SpiritStationScreen extends Screen {
 
         if (hover == -2 && (button == 0 || button == 1)) {
             if (button == 0 && shift) {
-                PacketDistributor.sendToServer(new StationActionPayload(StationActionPayload.BUY_PAGE, 0));
+                PacketDistributor.sendToServer(new StationActionPayload(StationActionPayload.BUY_PAGE, 0, page));
                 click();
             } else {
                 turn(button == 0 ? 1 : -1);
@@ -195,12 +191,12 @@ public class SpiritStationScreen extends Screen {
             if (!entry.unlocked()) {
                 if (shift) {
                     PacketDistributor.sendToServer(
-                            new StationActionPayload(StationActionPayload.BUY_STATION, entry.station().ordinal()));
+                            new StationActionPayload(StationActionPayload.BUY_STATION, entry.station().ordinal(), page));
                     click();
                 }
                 return true;
             }
-            PacketDistributor.sendToServer(new StationActionPayload(StationActionPayload.OPEN, entry.station().ordinal()));
+            PacketDistributor.sendToServer(new StationActionPayload(StationActionPayload.OPEN, entry.station().ordinal(), page));
             click();
             // Колесо закривається, а сервер відкриває вікно станції
             if (minecraft != null) {
@@ -222,6 +218,10 @@ public class SpiritStationScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (SpiritWheelUi.isInventoryKey(keyCode, scanCode)) {
+            onClose();
+            return true;
+        }
         if (keyCode == GLFW.GLFW_KEY_RIGHT || keyCode == GLFW.GLFW_KEY_LEFT) {
             turn(keyCode == GLFW.GLFW_KEY_RIGHT ? 1 : -1);
             return true;
