@@ -7,6 +7,7 @@ import com.spiritform.client.gui.IconButton;
 import com.spiritform.client.gui.SpiritButton;
 import com.spiritform.client.gui.SpiritIcons;
 import com.spiritform.client.gui.SpiritUi;
+import com.spiritform.data.SpiritAttachments;
 import com.spiritform.data.SpiritData;
 import com.spiritform.form.SpiritBalance;
 import com.spiritform.form.SpiritBranch;
@@ -55,7 +56,7 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
     private static final ResourceLocation BUTTON = ResourceLocation.withDefaultNamespace("widget/button");
     private static final ResourceLocation BUTTON_HIGHLIGHTED = ResourceLocation.withDefaultNamespace("widget/button_highlighted");
 
-    private enum Kind { FORM, FORMLEVEL, PATH, PLACEMENT, LEVEL, ABILITY, SHARDS, ARMY, INSTINCT, SOULS, STORAGE, VAULT_ART, VAULT_GEAR, EXTERNAL, BAR, HEADER, DIVIDER }
+    private enum Kind { FORM, FORMLEVEL, PATH, PLACEMENT, LEVEL, ABILITY, SHARDS, ECHOES, ARMY, INSTINCT, SOULS, STORAGE, VAULT_ART, VAULT_GEAR, EXTERNAL, BAR, HEADER, DIVIDER }
 
     private record Row(Kind kind, SpiritBranch branch, SpiritAbility ability, SpiritLoadout.Bar bar, Component label, int color) {
         boolean selectable() {
@@ -158,6 +159,18 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
         return new Row(Kind.ABILITY, ability.branch, ability, null, ability.displayName(), color);
     }
 
+    /** Рівень, кількість або місця розвинено до максимуму: текст рядка стає м'ятним. */
+    private boolean maxed(Row row, SpiritData data) {
+        return switch (row.kind) {
+            case FORM, FORMLEVEL -> data.unlocked() && (data.fullForm() || data.formLevel() >= SpiritData.FORM_MAX);
+            case LEVEL, PATH -> row.branch != null && data.level(row.branch) >= SpiritBalance.MAX_LEVEL;
+            case SHARDS -> data.shards() >= Config.SOUL_SHARD_LIMIT.get();
+            case ECHOES -> data.hasAbility(SpiritAbility.ECHO) && echoLimit() >= Config.ECHO_LIMIT.get();
+            case ARMY -> data.hasAbility(SpiritAbility.ARMY) && data.armySlots() >= Config.ARMY_MAX_SLOTS.get();
+            default -> false;
+        };
+    }
+
     private static boolean isOpen(String key) {
         return OPEN.contains(key);
     }
@@ -213,6 +226,8 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
             }
             list.add(new Row(Kind.SHARDS, null, null, null,
                     Component.translatable("screen.spirit_form.shards.name"), COLOR_COMMON));
+            list.add(new Row(Kind.ECHOES, null, null, null,
+                    Component.translatable("screen.spirit_form.echoes.name"), COLOR_COMMON));
             list.add(new Row(Kind.ARMY, null, null, null,
                     Component.translatable("screen.spirit_form.army_slots.name"), COLOR_COMMON));
         }
@@ -467,6 +482,7 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
                 }
             }
             case SHARDS -> send(UpgradeSpiritPayload.BUY_SHARD);
+            case ECHOES -> send(UpgradeSpiritPayload.BUY_ECHO);
             case ARMY -> send(UpgradeSpiritPayload.BUY_ARMY_SLOT);
             default -> { }
         }
@@ -612,6 +628,19 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
                     primary.active = false;
                 } else {
                     primary.setMessage(Component.translatable("button.spirit_form.shard_buy", owned + 1));
+                    primary.active = canAfford(player, owned + 1);
+                }
+            }
+            case ECHOES -> {
+                int owned = echoLimit();
+                if (!data.hasAbility(SpiritAbility.ECHO)) {
+                    primary.setMessage(Component.translatable("button.spirit_form.locked"));
+                    primary.active = false;
+                } else if (owned >= Config.ECHO_LIMIT.get()) {
+                    primary.setMessage(Component.translatable("button.spirit_form.echo_max"));
+                    primary.active = false;
+                } else {
+                    primary.setMessage(Component.translatable("button.spirit_form.echo_buy", owned + 1));
                     primary.active = canAfford(player, owned + 1);
                 }
             }
@@ -873,6 +902,9 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
                 textColor = data.hasAbility(row.ability) ? 0xFF6FE09A
                         : row.ability.isAvailable(data) ? 0xFFFFFFFF : 0xFF8A8A96;
             }
+            if (!isSelected && maxed(row, data)) {
+                textColor = COLOR_COMMON;
+            }
             graphics.drawString(font, row.label, rx + 10, y + 3, textColor, true);
 
             if (section) {
@@ -928,6 +960,7 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
             case LEVEL -> renderPath(graphics, data, row.branch, row.color, x, y, w);
             case ABILITY -> renderAbility(graphics, data, row.ability, row.color, x, y, w);
             case SHARDS -> renderShards(graphics, data, x, y, w);
+            case ECHOES -> renderEchoes(graphics, data, x, y, w);
             case ARMY -> renderArmy(graphics, data, x, y, w);
             case BAR -> {
                 heading(graphics, row.label, row.color, null, x, y);
@@ -1141,6 +1174,36 @@ public class SpiritUpgradeScreen extends SpiritScreenBase {
                     x, cy, w, SpiritUi.TEXT_OK);
         } else {
             int cost = data.shards() + 1;
+            SpiritUi.paragraph(graphics, font, Component.translatable("screen.spirit_form.ability.cost", cost),
+                    x, cy, w, player != null && canAfford(player, cost) ? SpiritUi.TEXT_OK : SpiritUi.TEXT_BAD);
+        }
+    }
+
+    /** Скільки Відлунь гравець може лишити (куплене, але не більше за межу з конфігу). */
+    private int echoLimit() {
+        LocalPlayer player = minecraft == null ? null : minecraft.player;
+        return player == null ? 1 : Math.min(player.getData(SpiritAttachments.ECHO_LIMIT.get()), Config.ECHO_LIMIT.get());
+    }
+
+    private void renderEchoes(GuiGraphics graphics, SpiritData data, int x, int y, int w) {
+        heading(graphics, Component.translatable("screen.spirit_form.echoes.name"), COLOR_COMMON, "echo", x, y);
+        SpiritUi.text(graphics, font,
+                Component.translatable("screen.spirit_form.echoes", echoLimit(), Config.ECHO_LIMIT.get()),
+                x, y + 22, SpiritUi.TEXT_OK);
+        int next = SpiritUi.paragraph(graphics, font, Component.translatable("screen.spirit_form.echoes.desc"),
+                x, y + 38, w, SpiritUi.TEXT);
+
+        int cy = next + 6;
+        cy += 3;
+        LocalPlayer player = minecraft == null ? null : minecraft.player;
+        if (!data.hasAbility(SpiritAbility.ECHO)) {
+            SpiritUi.paragraph(graphics, font, Component.translatable("screen.spirit_form.echoes.locked"),
+                    x, cy, w, SpiritUi.TEXT_BAD);
+        } else if (echoLimit() >= Config.ECHO_LIMIT.get()) {
+            SpiritUi.paragraph(graphics, font, Component.translatable("screen.spirit_form.branch.max"),
+                    x, cy, w, SpiritUi.TEXT_OK);
+        } else {
+            int cost = echoLimit() + 1;
             SpiritUi.paragraph(graphics, font, Component.translatable("screen.spirit_form.ability.cost", cost),
                     x, cy, w, player != null && canAfford(player, cost) ? SpiritUi.TEXT_OK : SpiritUi.TEXT_BAD);
         }

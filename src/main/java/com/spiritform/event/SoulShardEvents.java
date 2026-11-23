@@ -34,6 +34,16 @@ public final class SoulShardEvents {
     private SoulShardEvents() {
     }
 
+    /** Усі очки досвіду гравця (за рівнем і прогресом: totalExperience розходиться з ними після команд). */
+    private static int experiencePoints(ServerPlayer player) {
+        int level = player.experienceLevel;
+        long points = level <= 16 ? (long) level * level + 6L * level
+                : level <= 31 ? Math.round(2.5 * level * level - 40.5 * level + 360)
+                : Math.round(4.5 * level * level - 162.5 * level + 2220);
+        points += Math.round(player.experienceProgress * player.getXpNeededForNextLevel());
+        return (int) Math.min(Integer.MAX_VALUE, Math.max(0L, points));
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onDeath(LivingDeathEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || !(player.level() instanceof ServerLevel level)) {
@@ -64,6 +74,10 @@ public final class SoulShardEvents {
             tag.putInt("Slot", slot);
             items.add(tag);
         }
+        int experience = experiencePoints(player);
+        if (experience > 0) {
+            items.add(SoulShardEntity.xpEntry(experience));
+        }
         if (items.isEmpty()) {
             return;
         }
@@ -76,6 +90,12 @@ public final class SoulShardEvents {
             return; // не вийшло створити: речі випадуть як зазвичай
         }
         inventory.clearContent();
+        // Досвід тепер у уламку: ванільні кульки досвіду з гравця не випадуть
+        if (experience > 0) {
+            player.setExperienceLevels(0);
+            player.setExperiencePoints(0);
+            player.totalExperience = 0;
+        }
 
         // Лишається не більше уламків, ніж дозволяє конфіг: найстаріші зникають
         List<UUID> removed = SoulShardIndex.get(level.getServer())

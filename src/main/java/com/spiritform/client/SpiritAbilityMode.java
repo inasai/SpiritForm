@@ -4,6 +4,8 @@ import com.spiritform.SpiritFormMod;
 import com.spiritform.ability.SpiritAbility;
 import com.spiritform.client.gui.SpiritIcons;
 import com.spiritform.client.screen.ArmyWheelScreen;
+import com.spiritform.client.screen.EchoSpotScreen;
+import com.spiritform.data.SpiritAttachments;
 import com.spiritform.client.screen.SpiritStationScreen;
 import com.spiritform.client.screen.SpiritWheelScreen;
 import com.spiritform.data.SpiritData;
@@ -99,6 +101,16 @@ public final class SpiritAbilityMode {
 
     static void trigger(SpiritAbility ability) {
         int toggle = SpiritAbilityUse.toggleAction(ability);
+        if (ability == SpiritAbility.ECHO) {
+            // Із кількома місцями Відлуння вибирають на колесі, з одним працює звичайне перемикання
+            LocalPlayer self = Minecraft.getInstance().player;
+            if (self != null && SpiritFormState.get(self).hasAbility(ability)
+                    && self.getData(SpiritAttachments.ECHO_LIMIT.get()) > 1
+                    && !self.getData(SpiritAttachments.ECHO_SPOTS.get()).spots().isEmpty()) {
+                Minecraft.getInstance().setScreen(new EchoSpotScreen());
+                return;
+            }
+        }
         if (toggle >= 0) {
             LocalPlayer self = Minecraft.getInstance().player;
             if (self != null && SpiritFormState.get(self).hasAbility(ability)) {

@@ -4,6 +4,7 @@ import com.spiritform.client.SpiritAbilityUse;
 import com.spiritform.client.SpiritKeyMappings;
 import com.spiritform.client.gui.SpiritWheelUi;
 import com.spiritform.data.SpiritData;
+import com.spiritform.network.ShardRecallPayload;
 import com.spiritform.form.SpiritFormState;
 import com.spiritform.vault.SpiritLoadout;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -33,6 +35,9 @@ public class SpiritWheelScreen extends Screen {
 
     /** Ідентифікатор здібності Відлуння Смерті: ПКМ по ній відкриває колесо виміру. */
     private static final String ECHO_ID = "echo";
+
+    /** Ідентифікатор Чуття Привида: ПКМ по ньому відкриває налаштування підсвічувань. */
+    private static final String SENSE_ID = "sense";
 
     /** state: true/false для перемикачів, null для разової дії. */
     private record Entry(String id, Component name, String icon, Boolean state) {
@@ -163,8 +168,13 @@ public class SpiritWheelScreen extends Screen {
                     Component.translatable("screen.spirit_form.wheel.empty"),
                     multi ? Component.translatable("screen.spirit_form.wheel.page_hint") : null);
         } else if (hover >= 0) {
-            Component hoverHint = ECHO_ID.equals(entries.get(hover).id())
-                    ? Component.translatable("screen.spirit_form.wheel.echo_hint") : hint;
+            String hoverId = entries.get(hover).id();
+            Component hoverHint = ECHO_ID.equals(hoverId)
+                    ? Component.translatable("screen.spirit_form.wheel.echo_hint")
+                    : SpiritLoadout.INSTINCT.equals(hoverId)
+                    ? Component.translatable("screen.spirit_form.wheel.instinct_hint")
+                    : SENSE_ID.equals(hoverId)
+                    ? Component.translatable("screen.spirit_form.wheel.sense_hint") : hint;
             tip = new SpiritWheelUi.Tip(slices.get(hover).name(), slices.get(hover).info(), null, hoverHint);
         } else {
             tip = new SpiritWheelUi.Tip(title, count, null, hint);
@@ -188,6 +198,17 @@ public class SpiritWheelScreen extends Screen {
         // ПКМ по Відлунню Смерті відкриває колесо вибору виміру
         if (button == 1 && hover >= 0 && ECHO_ID.equals(entries.get(hover).id()) && minecraft != null) {
             minecraft.setScreen(new EchoDimensionScreen());
+            return true;
+        }
+        // ПКМ по Чуттю відкриває вибір підсвічувань
+        if (button == 1 && hover >= 0 && SENSE_ID.equals(entries.get(hover).id()) && minecraft != null) {
+            minecraft.setScreen(new SenseOptionsScreen());
+            return true;
+        }
+        // ПКМ по Інстинктах Привида повертає Уламок Душі (як команда /spirit_shard)
+        if (button == 1 && hover >= 0 && SpiritLoadout.INSTINCT.equals(entries.get(hover).id())) {
+            PacketDistributor.sendToServer(new ShardRecallPayload());
+            onClose();
             return true;
         }
         if (button == 1) {

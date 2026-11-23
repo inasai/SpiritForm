@@ -20,5 +20,6 @@ public final class SpiritClientEntities {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(SpiritEntities.SOUL_SHARD.get(), NoopRenderer::new);
         event.registerEntityRenderer(SpiritEntities.SOUL_WISP.get(), NoopRenderer::new);
+        event.registerEntityRenderer(SpiritEntities.ECHO_SMOKE.get(), NoopRenderer::new);
     }
 }

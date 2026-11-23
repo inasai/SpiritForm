@@ -289,6 +289,11 @@ public final class Config {
             .translation("spirit_form.configuration.soulShardLimit")
             .defineInRange("soulShardMax", 5, 1, 10);
 
+    public static final ModConfigSpec.IntValue ECHO_LIMIT = COMMON_BUILDER
+            .comment("Maximum number of Echoes of Death a player can leave at once (the N-th costs N levels; the first is free).")
+            .translation("spirit_form.configuration.echoLimit")
+            .defineInRange("echoLimit", 3, 1, 10);
+
     public static final ModConfigSpec.IntValue ARMY_MAX_SLOTS = COMMON_BUILDER
             .comment("Maximum number of souls the Army of the Beyond can store (the N-th extra slot costs N levels; the first slot is free).")
             .translation("spirit_form.configuration.armyMaxSlots")
@@ -413,6 +418,21 @@ public final class Config {
             .comment("Radius (in blocks) in which mobs are highlighted at Darkness level 15.")
             .translation("spirit_form.configuration.highlightRadius")
             .defineInRange("highlightRadius", 30.0, 1.0, 128.0);
+
+    public static final ModConfigSpec.BooleanValue SENSE_OUTLINES = CLIENT_BUILDER
+            .comment("Sense of the Spirit: mint outlines of objects and the muted screen.")
+            .translation("spirit_form.configuration.senseOutlines")
+            .define("senseOutlines", true);
+
+    public static final ModConfigSpec.BooleanValue SENSE_CHESTS = CLIENT_BUILDER
+            .comment("Sense of the Spirit: highlight containers (chests, barrels, ...) through walls.")
+            .translation("spirit_form.configuration.senseChests")
+            .define("senseChests", true);
+
+    public static final ModConfigSpec.BooleanValue SENSE_MOBS = CLIENT_BUILDER
+            .comment("Sense of the Spirit: highlight mobs through walls.")
+            .translation("spirit_form.configuration.senseMobs")
+            .define("senseMobs", true);
 
     public static final ModConfigSpec COMMON_SPEC = COMMON_BUILDER.build();
     public static final ModConfigSpec CLIENT_SPEC = CLIENT_BUILDER.build();

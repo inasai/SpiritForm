@@ -4,6 +4,7 @@ import com.spiritform.Config;
 import com.spiritform.ability.SpiritAbility;
 import com.spiritform.ability.SpiritEcho;
 import com.spiritform.ability.SpiritPossession;
+import com.spiritform.data.SpiritAttachments;
 import com.spiritform.data.SpiritData;
 import com.spiritform.event.SpiritAdvancements;
 import com.spiritform.item.SpiritGuide;
@@ -62,6 +63,11 @@ public final class SpiritUpgrades {
 
         if (action == UpgradeSpiritPayload.BUY_SHARD) {
             buyShard(player);
+            return;
+        }
+
+        if (action == UpgradeSpiritPayload.BUY_ECHO) {
+            buyEcho(player);
             return;
         }
 
@@ -180,7 +186,7 @@ public final class SpiritUpgrades {
 
         // Пасивну здібність спершу вимикаємо (Відлуння ще й повертає гравця до блока)
         if (ability == SpiritAbility.ECHO && data.echo()) {
-            SpiritEcho.toggle(player);
+            SpiritEcho.releaseAll(player);
             data = SpiritFormState.get(player);
         }
         SpiritData updated = data.withAbility(ability, false);
@@ -219,6 +225,25 @@ public final class SpiritUpgrades {
         }
         SpiritFormState.set(player, data.withShards(owned + 1));
         player.displayClientMessage(Component.translatable("message.spirit_form.shard.bought", owned + 1), true);
+    }
+
+    /** Збільшує кількість Відлунь Смерті на одне: N-те коштує N рівнів досвіду (перше безкоштовне). */
+    private static void buyEcho(ServerPlayer player) {
+        SpiritData data = SpiritFormState.get(player);
+        if (!data.hasAbility(SpiritAbility.ECHO)) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.echo.locked"), true);
+            return;
+        }
+        int owned = SpiritEcho.limit(player);
+        if (owned >= Config.ECHO_LIMIT.get()) {
+            player.displayClientMessage(Component.translatable("message.spirit_form.echo.max"), true);
+            return;
+        }
+        if (!pay(player, owned + 1)) {
+            return;
+        }
+        player.setData(SpiritAttachments.ECHO_LIMIT.get(), owned + 1);
+        player.displayClientMessage(Component.translatable("message.spirit_form.echo.bought", owned + 1), true);
     }
 
     /** Збільшує сховище Армії Потойбіччя на одне місце: вартість у рівнях дорівнює кількості місць, що вже є. */

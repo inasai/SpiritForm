@@ -46,6 +46,15 @@ public class SoulShardEntity extends Entity {
         setNoGravity(true);
     }
 
+    /** Ключ службового запису про досвід у списку вмісту (так він потрапляє й у резервну копію без зміни формату). */
+    public static final String XP_KEY = "SpiritXp";
+
+    public static CompoundTag xpEntry(int points) {
+        CompoundTag tag = new CompoundTag();
+        tag.putInt(XP_KEY, points);
+        return tag;
+    }
+
     public void setContents(UUID owner, List<CompoundTag> contents) {
         this.owner = owner;
         this.items.clear();
@@ -126,7 +135,12 @@ public class SoulShardEntity extends Entity {
         HolderLookup.Provider access = level().registryAccess();
         Inventory inventory = player.getInventory();
 
+        int experience = 0;
         for (CompoundTag tag : items) {
+            if (tag.contains(XP_KEY)) {
+                experience += Math.max(0, tag.getInt(XP_KEY));
+                continue;
+            }
             ItemStack stack = ItemStack.parseOptional(access, tag);
             if (stack.isEmpty()) {
                 continue;
@@ -150,7 +164,11 @@ public class SoulShardEntity extends Entity {
                 SoulShardTools.pushMarks(server.getServer(), owner);
             }
         }
-        player.displayClientMessage(Component.translatable("message.spirit_form.shard.restored"), true);
+        if (experience > 0) {
+            player.giveExperiencePoints(experience);
+        }
+        player.displayClientMessage(Component.translatable(experience > 0
+                ? "message.spirit_form.shard.restored_xp" : "message.spirit_form.shard.restored"), true);
         SpiritAdvancements.grant(player, "shard");
         discard();
     }

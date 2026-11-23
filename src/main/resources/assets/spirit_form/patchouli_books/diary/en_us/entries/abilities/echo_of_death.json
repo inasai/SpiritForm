@@ -7,16 +7,21 @@
     {
       "type": "patchouli:text",
       "title": "What it does",
-      "text": "Creates a Beyond Echo block — a return point and a gateway between dimensions.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 3."
+      "text": "Leaves an Echo — a return point — and for 5 seconds a mint smoke hangs over it, a gateway between dimensions.$(br2)$(bold)$(#7952A6)Requirement:$() Path level 3."
     },
     {
       "type": "patchouli:text",
       "title": "Use and limits",
-      "text": "When you disable the ability, you return to your previous location and the block disappears. There must be enough space to place it. To enter the Beyond, interact with the block while carrying a $(l:resources/beyond/crystal_soul)Crystallized Soul$(/l) or after earning the “King of the Beyond” advancement."
+      "text": "When you disable the ability, you return to your previous location and the smoke disappears. While the smoke is there you can use a Proof of Strength on it (Herald of Death). To enter the Beyond, right-click the smoke while carrying a $(l:resources/beyond/crystal_soul)Crystallized Soul$(/l) or after earning the “King of the Beyond” advancement."
     },
     {
       "type": "patchouli:text",
       "text": "Dimension wheel. In the passive ability wheel (T), right-click Echo of Death: a wheel opens with the dimensions you have already visited (Overworld, Nether, End, the Beyond or a dimension from another mod). Choosing one takes you to where you last stood in that dimension, or to a safe spot nearby if there is none. The ability uses the shared ability cooldown."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Several Echoes",
+      "text": "In the upgrade window (the Spirit Form section) you can buy extra Echo slots: the N-th costs N levels, the first is free. With several Echoes, activating the ability opens a wheel: LMB on an Echo returns to it, the \"New Echo\" sector leaves another, and Shift+RMB renames one. The tooltip shows coordinates and dimension."
     }
   ]
 }

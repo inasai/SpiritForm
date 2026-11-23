@@ -52,7 +52,7 @@ public final class SpiritSenseVision {
 
     private static boolean wanted(Minecraft mc) {
         LocalPlayer player = mc.player;
-        return player != null && mc.level != null && SpiritClientHighlight.isEnabled()
+        return player != null && mc.level != null && SpiritClientHighlight.isEnabled() && SpiritClientHighlight.outlines()
                 && SpiritFormState.get(player).hasAbility(SpiritAbility.SENSE);
     }
 
@@ -69,10 +69,13 @@ public final class SpiritSenseVision {
         strength = wanted(mc) ? Math.min(1.0F, strength + STEP) : Math.max(0.0F, strength - STEP);
     }
 
-    /** Раніше за рамки сховищ (вони малюються на цьому ж етапі), щоб рамки не приглушувалися. */
+    /**
+     * Після хмар і погоди: останній прохід ланцюжка очищає глибину головного буфера, тож усе, що малюється
+     * після нього, не бачило б стін (хмари просвічували б). Раніше за рамки сховищ, щоб рамки не приглушувалися.
+     */
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER) {
             return;
         }
         Minecraft mc = Minecraft.getInstance();

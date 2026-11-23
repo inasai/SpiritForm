@@ -1,6 +1,8 @@
 package com.spiritform.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -21,7 +23,12 @@ public class SpiritEchoIndex extends SavedData {
     public static final SavedData.Factory<SpiritEchoIndex> FACTORY =
             new SavedData.Factory<>(SpiritEchoIndex::new, SpiritEchoIndex::load, null);
 
-    private final Map<UUID, Entry> echoes = new HashMap<>();
+    /** Одне Відлуння Смерті: вимір, позиція й назва (порожня = стандартна). */
+    public record Echo(String dimension, BlockPos pos, String name) {
+    }
+
+    /** Відлуння кожного гравця (їх може бути кілька), у порядку створення. */
+    private final Map<UUID, List<Echo>> echoes = new HashMap<>();
 
     /** Звідки гравець зайшов у Потойбіччя: туди він повертається. */
     private final Map<UUID, Entry> returns = new HashMap<>();
@@ -33,17 +40,36 @@ public class SpiritEchoIndex extends SavedData {
         return server.overworld().getDataStorage().computeIfAbsent(FACTORY, "spirit_form_echoes");
     }
 
-    public Entry get(UUID owner) {
-        return echoes.get(owner);
+    /** Відлуння гравця (копія списку). */
+    public List<Echo> echoesOf(UUID owner) {
+        List<Echo> list = echoes.get(owner);
+        return list == null ? List.of() : List.copyOf(list);
     }
 
-    public void put(UUID owner, Entry entry) {
-        echoes.put(owner, entry);
+    public void add(UUID owner, Echo echo) {
+        echoes.computeIfAbsent(owner, key -> new ArrayList<>()).add(echo);
         setDirty();
     }
 
-    public void remove(UUID owner) {
-        if (echoes.remove(owner) != null) {
+    /** Забирає Відлуння з обліку й повертає його (null, якщо такого номера немає). */
+    public Echo removeAt(UUID owner, int index) {
+        List<Echo> list = echoes.get(owner);
+        if (list == null || index < 0 || index >= list.size()) {
+            return null;
+        }
+        Echo removed = list.remove(index);
+        if (list.isEmpty()) {
+            echoes.remove(owner);
+        }
+        setDirty();
+        return removed;
+    }
+
+    public void rename(UUID owner, int index, String name) {
+        List<Echo> list = echoes.get(owner);
+        if (list != null && index >= 0 && index < list.size()) {
+            Echo old = list.get(index);
+            list.set(index, new Echo(old.dimension(), old.pos(), name));
             setDirty();
         }
     }
@@ -82,8 +108,8 @@ public class SpiritEchoIndex extends SavedData {
             if (!entry.hasUUID("Owner")) {
                 continue;
             }
-            index.echoes.put(entry.getUUID("Owner"),
-                    new Entry(entry.getString("Dim"), BlockPos.of(entry.getLong("Pos"))));
+            index.echoes.computeIfAbsent(entry.getUUID("Owner"), key -> new ArrayList<>())
+                    .add(new Echo(entry.getString("Dim"), BlockPos.of(entry.getLong("Pos")), entry.getString("Name")));
         }
         ListTag back = tag.getList("Returns", Tag.TAG_COMPOUND);
         for (int i = 0; i < back.size(); i++) {
@@ -107,12 +133,15 @@ public class SpiritEchoIndex extends SavedData {
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         ListTag list = new ListTag();
-        for (Map.Entry<UUID, Entry> entry : echoes.entrySet()) {
-            CompoundTag item = new CompoundTag();
-            item.putUUID("Owner", entry.getKey());
-            item.putString("Dim", entry.getValue().dimension());
-            item.putLong("Pos", entry.getValue().pos().asLong());
-            list.add(item);
+        for (Map.Entry<UUID, List<Echo>> entry : echoes.entrySet()) {
+            for (Echo echo : entry.getValue()) {
+                CompoundTag item = new CompoundTag();
+                item.putUUID("Owner", entry.getKey());
+                item.putString("Dim", echo.dimension());
+                item.putLong("Pos", echo.pos().asLong());
+                item.putString("Name", echo.name());
+                list.add(item);
+            }
         }
         tag.put("Echoes", list);
         ListTag back = new ListTag();

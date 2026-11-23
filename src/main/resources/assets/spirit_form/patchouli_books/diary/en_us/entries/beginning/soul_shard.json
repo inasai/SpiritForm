@@ -12,7 +12,7 @@
     {
       "type": "patchouli:text",
       "title": "A death cache",
-      "text": "To create a cache, you need:$(li)$(l:beginning/spirit_instinct)Ghost Instincts$(/l) enabled;$(li)at least one Soul Shard;$(li)a player death.$(br2)Black smoke appears at the place of death. Right-click it to recover your items. Only the owner can open the cache.$(br2)The number of simultaneous caches is limited by your Soul Shards. If you exceed the limit, the oldest cache disappears."
+      "text": "To create a cache, you need:$(li)$(l:beginning/spirit_instinct)Ghost Instincts$(/l) enabled;$(li)at least one Soul Shard;$(li)a player death.$(br2)Black smoke appears at the place of death. Right-click it to recover your items and all your experience (no experience orbs drop from you). Only the owner can open the cache.$(br2)The number of simultaneous caches is limited by your Soul Shards. If you exceed the limit, the oldest cache disappears."
     },
     {
       "type": "patchouli:text",

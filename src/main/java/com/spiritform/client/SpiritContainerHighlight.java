@@ -73,7 +73,7 @@ public final class SpiritContainerHighlight {
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player == null || mc.level == null || !SpiritClientHighlight.isEnabled()
+        if (player == null || mc.level == null || !SpiritClientHighlight.isEnabled() || !SpiritClientHighlight.chests()
                 || !SpiritFormState.get(player).hasAbility(SpiritAbility.SENSE)) {
             BOXES.clear();
             return;
@@ -119,7 +119,7 @@ public final class SpiritContainerHighlight {
 
     @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES || BOXES.isEmpty()) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_WEATHER || BOXES.isEmpty()) {
             return;
         }
         PoseStack pose = event.getPoseStack();

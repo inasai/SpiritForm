@@ -270,23 +270,8 @@ public final class SpiritHeralds {
 
     // ---------- Вісник Смерті ----------
 
-    @SubscribeEvent
-    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getLevel().isClientSide() || !(event.getEntity() instanceof ServerPlayer player)) {
-            return;
-        }
-        ItemStack stack = event.getItemStack();
-        if (!stack.is(SpiritItems.PROOF_OF_STRENGTH.get())) {
-            return;
-        }
-        ServerLevel level = (ServerLevel) event.getLevel();
-        // Лише блок Відлуння Потойбіччя; на будь-якому іншому серце просто лежить у руці
-        if (!level.getBlockState(event.getPos()).is(SpiritBlocks.ECHO_BLOCK.get())) {
-            return;
-        }
-        event.setCanceled(true);
-        event.setCancellationResult(InteractionResult.SUCCESS);
-
+    /** Доказ сили на Відлунні (м'ятному димі Відлуння): кличе Вісника Смерті, якщо виконано умови. */
+    public static void useProofOnEcho(ServerPlayer player, ServerLevel level, ItemStack stack, Vec3 center) {
         MinecraftServer server = level.getServer();
         HeraldStore store = HeraldStore.get(server);
         if (!SpiritFormState.isActive(player)) {
@@ -301,7 +286,7 @@ public final class SpiritHeralds {
             player.displayClientMessage(Component.translatable("message.spirit_form.herald.death_exists"), true);
             return;
         }
-        if (!startDeath(player, level, event.getPos().getCenter())) {
+        if (!startDeath(player, level, center)) {
             player.displayClientMessage(Component.translatable("message.spirit_form.herald.death_failed"), true);
             return;
         }

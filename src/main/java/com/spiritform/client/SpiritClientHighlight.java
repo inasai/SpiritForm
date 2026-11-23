@@ -33,6 +33,32 @@ public final class SpiritClientHighlight {
         return enabled;
     }
 
+    /** М'ятні контури предметів і приглушений екран. */
+    public static boolean outlines() {
+        return Config.SENSE_OUTLINES.get();
+    }
+
+    /** Рамки сховищ крізь стіни. */
+    public static boolean chests() {
+        return Config.SENSE_CHESTS.get();
+    }
+
+    /** Підсвічування мобів крізь стіни. */
+    public static boolean mobs() {
+        return Config.SENSE_MOBS.get();
+    }
+
+    /** Перемикає одне з підсвічувань (0 контури, 1 сховища, 2 моби) і зберігає вибір у клієнтському конфігу. */
+    public static void toggleOption(int option) {
+        net.neoforged.neoforge.common.ModConfigSpec.BooleanValue value = switch (option) {
+            case 0 -> Config.SENSE_OUTLINES;
+            case 1 -> Config.SENSE_CHESTS;
+            default -> Config.SENSE_MOBS;
+        };
+        value.set(!value.get());
+        Config.CLIENT_SPEC.save();
+    }
+
     /** Викликається клавішею перемикання підсвічування. */
     public static void toggle() {
         LocalPlayer player = Minecraft.getInstance().player;
@@ -60,7 +86,7 @@ public final class SpiritClientHighlight {
     }
 
     public static boolean shouldHighlight(Entity entity) {
-        if (!enabled) {
+        if (!enabled || !mobs()) {
             return false;
         }
 

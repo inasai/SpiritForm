@@ -91,6 +91,18 @@ public class SpiritNetworking {
         );
 
         registrar.playToServer(
+                ShardRecallPayload.TYPE,
+                ShardRecallPayload.STREAM_CODEC,
+                ShardRecallPayload::handleData
+        );
+
+        registrar.playToServer(
+                EchoSpotPayload.TYPE,
+                EchoSpotPayload.STREAM_CODEC,
+                EchoSpotPayload::handleData
+        );
+
+        registrar.playToServer(
                 EchoTravelPayload.TYPE,
                 EchoTravelPayload.STREAM_CODEC,
                 EchoTravelPayload::handleData

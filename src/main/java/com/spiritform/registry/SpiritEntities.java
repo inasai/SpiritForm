@@ -1,6 +1,7 @@
 package com.spiritform.registry;
 
 import com.spiritform.SpiritFormMod;
+import com.spiritform.entity.EchoSmokeEntity;
 import com.spiritform.entity.SoulShardEntity;
 import com.spiritform.entity.SoulWispEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,6 +25,17 @@ public final class SpiritEntities {
                     .clientTrackingRange(10)
                     .updateInterval(20)
                     .build("soul_shard"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<EchoSmokeEntity>> ECHO_SMOKE =
+            ENTITY_TYPES.register("echo_smoke", () -> EntityType.Builder
+                    .<EchoSmokeEntity>of(EchoSmokeEntity::new, MobCategory.MISC)
+                    .sized(0.9F, 1.4F)
+                    .fireImmune()
+                    .noSummon()
+                    .noSave()
+                    .clientTrackingRange(10)
+                    .updateInterval(20)
+                    .build("echo_smoke"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<SoulWispEntity>> SOUL_WISP =
             ENTITY_TYPES.register("soul_wisp", () -> EntityType.Builder

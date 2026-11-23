@@ -98,6 +98,26 @@ public final class SpiritAttachments {
                     .build()
     );
 
+    /** Скільки Відлунь Смерті гравець може лишити одночасно (спершу одне; решта купується у вікні прокачки). */
+    public static final Supplier<AttachmentType<Integer>> ECHO_LIMIT = ATTACHMENT_TYPES.register(
+            "echo_limit",
+            () -> AttachmentType.<Integer>builder(() -> 1)
+                    .serialize(Codec.INT)
+                    .sync(ByteBufCodecs.VAR_INT)
+                    .copyOnDeath()
+                    .build()
+    );
+
+    /** Відлуння, які гравець зараз лишив у світі (дзеркало світового обліку для клієнта). */
+    public static final Supplier<AttachmentType<EchoSpots>> ECHO_SPOTS = ATTACHMENT_TYPES.register(
+            "echo_spots",
+            () -> AttachmentType.builder(() -> EchoSpots.EMPTY)
+                    .serialize(EchoSpots.CODEC)
+                    .sync(EchoSpots.STREAM_CODEC)
+                    .copyOnDeath()
+                    .build()
+    );
+
     private SpiritAttachments() {
     }
 }

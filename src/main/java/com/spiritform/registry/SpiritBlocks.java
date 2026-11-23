@@ -1,7 +1,6 @@
 package com.spiritform.registry;
 
 import com.spiritform.SpiritFormMod;
-import com.spiritform.block.EchoBlock;
 import com.spiritform.block.GlowFernBlock;
 import com.spiritform.block.HeraldHeadBlock;
 import com.spiritform.block.MavkaFlowerBlock;
@@ -42,19 +41,6 @@ public final class SpiritBlocks {
                     .noOcclusion()
                     .pushReaction(PushReaction.DESTROY)
                     .lightLevel(state -> state.getValue(SoulCatcherBlock.LIT) ? 10 : 0));
-
-    /** Відлуння Потойбіччя: лишається там, де ввімкнено Відлуння Смерті. Крізь нього можна проходити, зламати не можна. */
-    public static final DeferredBlock<EchoBlock> ECHO_BLOCK = BLOCKS.registerBlock(
-            "echo_of_the_beyond",
-            EchoBlock::new,
-            BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_PURPLE)
-                    .strength(-1.0F, 3600000.0F)
-                    .noCollission()
-                    .noOcclusion()
-                    .sound(SoundType.AMETHYST)
-                    .pushReaction(PushReaction.BLOCK)
-                    .lightLevel(state -> 10));
 
     /** Голови Вісників: трофеї. Створюються з відповідного серця й черепа скелета. */
     public static final DeferredBlock<HeraldHeadBlock> STORM_HEAD = BLOCKS.registerBlock(

@@ -31,6 +31,7 @@ public record UpgradeSpiritPayload(int action) implements CustomPacketPayload {
     public static final int TOGGLE_SOULS = 57;
     public static final int BUY_SHARD = 60;
     public static final int BUY_ARMY_SLOT = 61;
+    public static final int BUY_ECHO = 62;
     public static final int UPGRADE_FORM = 70;
     public static final int RESET_FORM = 71;
     public static final int RESET_ABILITY_BASE = 100;

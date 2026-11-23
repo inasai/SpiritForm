@@ -63,6 +63,49 @@ public final class SoulShardTools {
     }
 
     /**
+     * Притягує до гравця його найновіший Уламок Душі, що існує у завантаженому світі (навіть з іншого виміру).
+     * Якщо такого немає, діє як /spirit_shard: створює уламок із резервної копії біля гравця.
+     */
+    public static boolean summon(ServerPlayer player) {
+        MinecraftServer server = player.getServer();
+        if (server == null) {
+            return false;
+        }
+        SoulShardIndex index = SoulShardIndex.get(server);
+        List<UUID> ids = index.shardsOf(player.getUUID());
+        for (int i = ids.size() - 1; i >= 0; i--) {
+            for (ServerLevel other : server.getAllLevels()) {
+                Entity existing = other.getEntity(ids.get(i));
+                if (!(existing instanceof SoulShardEntity shard) || !shard.isAlive()) {
+                    continue;
+                }
+                ServerLevel here = player.serverLevel();
+                if (other == here) {
+                    shard.teleportTo(player.getX(), player.getY(), player.getZ());
+                } else {
+                    // Між вимірами: копія з тими самими даними (і тим самим UUID), старий уламок зникає
+                    CompoundTag tag = new CompoundTag();
+                    shard.saveWithoutId(tag);
+                    shard.discard();
+                    SoulShardEntity copy = new SoulShardEntity(SpiritEntities.SOUL_SHARD.get(), here);
+                    copy.load(tag);
+                    copy.moveTo(player.getX(), player.getY(), player.getZ(), 0.0F, 0.0F);
+                    if (!here.addFreshEntity(copy)) {
+                        player.sendSystemMessage(Component.translatable("command.spirit_form.shard.failed"));
+                        return false;
+                    }
+                }
+                index.touch(ids.get(i), new SoulShardIndex.Position(here.dimension().location().toString(),
+                        player.getX(), player.getY(), player.getZ()), java.util.Collections.emptyList());
+                pushMarks(server, player.getUUID());
+                player.sendSystemMessage(Component.translatable("command.spirit_form.shard.summoned"));
+                return true;
+            }
+        }
+        return recall(player);
+    }
+
+    /**
      * Повертає найновіший Уламок Душі з резервної копії біля гравця. Якщо такий уламок ще існує у завантаженому світі,
      * нового не створюється (щоб не подвоїти предмети), а гравцеві кажуть, де він.
      */
